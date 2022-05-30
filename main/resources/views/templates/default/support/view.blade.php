@@ -33,6 +33,7 @@
                                 <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordionExample">
                                     <form method="post" action="{{ route('ticket.reply', $my_ticket->id) }}" enctype="multipart/form-data">
                                         @csrf
+                                        @method('put')
                                         <input type="hidden" name="replayTicket" value="1">
                                         <div class="row justify-content-between">
                                             <div class="col-md-12">
