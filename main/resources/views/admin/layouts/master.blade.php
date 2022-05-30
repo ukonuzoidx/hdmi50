@@ -12,7 +12,7 @@
         content="bootstrap admin template, admin template ,admin panel template ,bootstrap 4 admin template ,bootstrap admin ,admin dashboard template ,bootstrap admin panel ,bitcoin dashboard ,crypto dashboard ,btc dashboard ,cryptocurrency dashboard ,bitcoin template ,cryptocurrency template ,crypto template ,cryptocurrency dashboard template ,cryptocurrency admin template ,crypto admin template ,btconline dashboard ,ryptocurrency dashboard template ,crypto admin template ,crypto trading dashboard ,cryptocurrency admin template " />
 
     <!-- Title -->
-    <title> Xino - Premium dashboard ui bootstrap rwd admin html5 template </title>
+    <title> HDMI50 App || @yield('title') </title>
 
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('assets/admin/img/brand/favicon.png') }}" type="image/x-icon" />

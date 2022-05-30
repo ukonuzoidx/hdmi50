@@ -20,12 +20,12 @@
                     <p class="text-primary mb-0 hover-cursor">&nbsp;/&nbsp;Dashboard</p>
                 </div>
             </div>
-            <a href="javascript:void(0)"
+            {{-- <a href="javascript:void(0)"
                 class="mb-4 btn @if (Carbon\Carbon::parse($general->last_cron)->diffInSeconds() < 600) btn--success @elseif(Carbon\Carbon::parse($general->last_cron)->diffInSeconds() < 1200) btn--warning @else
         btn--danger @endif ">
                 <i class="fa fa-fw fa-clock"></i>
                 @lang('Last Cron Run') : {{ Carbon\Carbon::parse($general->last_cron)->difFforHumans() }}
-            </a>
+            </a> --}}
         </div>
         <!-- /breadcrumb -->
 
@@ -329,65 +329,7 @@
                 </div>
             </div>
         </div>
-    {{-- <div class="row mt-50 mb-none-30">
-            <div class="col-xl-12 mb-30">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">@lang('Monthly  Deposit & Withdraw  Report')</h5>
-                        <div id="apex-bar-chart"></div>
-                    </div>
-                </div>
-            </div>  --}}
-    {{-- <div class="col-xl-6 mb-30">
-                <div class="row mb-none-30">
-                    <div class="col-lg-6 col-sm-6 mb-30">
-                        <div class="widget-three box--shadow2 b-radius--5 bg--white">
-                            <div class="widget-three__icon b-radius--rounded bg--success  box--shadow2">
-                                <i class="las la-money-bill "></i>
-                            </div>
-                            <div class="widget-three__content">
-                                {{-- <h2 class="numbers">{{getAmount($payment['total_deposit_amount'])}} {{$general->cur_text}}</h2> 
-                                <p class="text--small">@lang('Total Deposit')</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-6 mb-30">
-                        <div class="widget-three box--shadow2 b-radius--5 bg--white">
-                            <div class="widget-three__icon b-radius--rounded bg--teal box--shadow2">
-                                <i class="las la-money-check"></i>
-                            </div>
-                            <div class="widget-three__content">
-                                {{-- <h2 class="numbers">{{getAmount($payment['total_deposit_charge'])}} {{$general->cur_text}}</h2> 
-                                <p class="text--small">@lang('Total Deposit Charge')</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6 col-sm-6 mb-30">
-                        <div class="widget-three box--shadow2 b-radius--5 bg--white">
-                            <div class="widget-three__icon b-radius--rounded bg--warning  box--shadow2">
-                                <i class="las la-spinner"></i>
-                            </div>
-                            <div class="widget-three__content">
-                                {{-- <h2 class="numbers">{{$payment['total_deposit_pending']}}</h2> -
-                                <p class="text--small">@lang('Pending Deposit')</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-6 mb-30">
-                        <div class="widget-three box--shadow2 b-radius--5 bg--white">
-                            <div class="widget-three__icon b-radius--rounded bg--danger box--shadow2">
-                                <i class="las la-ban "></i>
-                            </div>
-                            <div class="widget-three__content">
-                                {{-- <h2 class="numbers">{{$payment['total_deposit_reject']}}</h2> --
-                                <p class="text--small">@lang('Reject Deposit')</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
-    {{-- </div><!-- row end --> --}}
+    
 
 
     <div class="row mt-50 mb-none-30">
@@ -540,7 +482,7 @@
         </div>
     </div>
     </div>
-    @include('admin.partials.matchingBonusModal')
+    {{-- @include('admin.partials.matchingBonusModal') --}}
 
 @endsection
 

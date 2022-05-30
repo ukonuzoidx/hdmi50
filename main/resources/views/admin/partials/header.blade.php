@@ -93,11 +93,11 @@
                   </button>
                   <div class="dropdown main-profile-menu nav nav-item nav-link">
                       <a class="profile-user" href=""><img alt=""
-                              src="{{ asset('assets/admin/images/admin.png') }}"></a>
+                              src="{{ getImage('assets/admin/images/profile/'. auth()->guard('admin')->user()->image) }}"></a>
                       <div class="dropdown-menu dropdown-menu-arrow animated fadeInUp">
                           <div class="main-header-profile header-img">
                               <div class="main-img-user"><img alt=""
-                                      src="{{ asset('assets/admin/images/admin.png') }}">
+                                      src="{{ getImage('assets/admin/images/profile/'. auth()->guard('admin')->user()->image) }}">
                               </div>
                               <h6>{{ auth()->guard('admin')->user()->name }}</h6><span>Adminstrator</span>
                           </div>
@@ -206,11 +206,11 @@
                   </div>
                   <div class="dropdown main-profile-menu nav nav-item nav-link">
                       <a class="profile-user" href=""><img alt=""
-                              src="{{ asset('assets/admin/images/admin.png') }}"></a>
+                              src="{{ getImage('assets/admin/images/profile/'. auth()->guard('admin')->user()->image) }}"></a>
                       <div class="dropdown-menu dropdown-menu-arrow animated fadeInUp">
                           <div class="main-header-profile header-img">
                               <div class="main-img-user"><img alt=""
-                                      src="{{ asset('assets/admin/images/admin.png') }}">
+                                      src="{{ getImage('assets/admin/images/profile/'. auth()->guard('admin')->user()->image) }}">
                               </div>
                               <h6>{{ auth()->guard('admin')->user()->name }}</h6><span>Adminstrator</span>
                           </div>

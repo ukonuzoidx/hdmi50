@@ -686,7 +686,7 @@ function showSingleUserInTree($user)
         } else {
             $hisTree = route('user.other.tree', $user->username);
         }
-        $sponsId = getUserById(auth()->user()->id)->sponsor_id ?? '';
+        $sponsId = getUserById($user->id)->sponsor_id ?? '';
         $placerId = getUserById($user->id)->placer_id ?? '';
 
         $reflinkLeft = route('user.register', ['ref' => $sponsId, 'placer' => $placerId, 'position' => 'left']);

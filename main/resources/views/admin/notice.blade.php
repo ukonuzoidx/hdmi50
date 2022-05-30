@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('panel')
+@section('content')
     <div class="col-lg-12">
         <div class="card">
             <form action="{{ route('admin.setting.notice.update') }}" method="POST" enctype="multipart/form-data">

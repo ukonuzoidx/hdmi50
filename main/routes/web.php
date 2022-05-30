@@ -6,9 +6,13 @@ use Illuminate\Support\Facades\Route;
 // clear artisan
 Route::get('/clear', function () {
     \Illuminate\Support\Facades\Artisan::call('optimize:clear');
+    // \Illuminate\Support\Facades\Artisan::call('optimize');
+    $notify[] = ['success', 'Cache has been cleared.'];
+    return redirect()->route('home')->withNotify($notify);
+    
 });
 
-Route::get('/cron', 'CronController@cron')->name('pv.matching.cron');
+// Route::get('/cron', 'CronController@cron')->name('pv.matching.cron');
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +50,10 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
     });
     Route::middleware('admin')->group(function () {
         Route::get('dashboard', 'AdminController@dashboard')->name('dashboard');
+        Route::get('profile', 'AdminController@profile')->name('profile');
+        Route::post('profile', 'AdminController@profileUpdate')->name('profile.update');
+        Route::get('password', 'AdminController@password')->name('password');
+        Route::post('password', 'AdminController@passwordUpdate')->name('password.update');
 
         // Users Manager
         Route::get('users', 'ManageUsersController@allUsers')->name('users.all');
