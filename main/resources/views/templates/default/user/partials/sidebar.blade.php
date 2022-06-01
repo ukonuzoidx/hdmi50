@@ -35,6 +35,12 @@
                  </a>
              </li>
              <li class="slide">
+                 <a class="side-menu__item" href="{{ route('user.epins') }}">
+                     <i class="side-menu__icon fe fe-user-check"></i>
+                     <span class="side-menu__label">Epins</span>
+                 </a>
+             </li>
+             <li class="slide">
                  <a class="side-menu__item" href="{{ route('ticket') }}">
                      <i class="side-menu__icon ti-face-smile"></i>
                      <span class="side-menu__label">Ticket</span>
