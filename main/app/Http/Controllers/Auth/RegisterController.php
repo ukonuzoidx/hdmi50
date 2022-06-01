@@ -247,6 +247,11 @@ class RegisterController extends Controller
         $user->epin             = $data['epin'];
         $user->kyc_status      = 0;
         $user->status = 1;
+        $user->address      = [
+            'address' => '',
+            'state' => '',
+            'country' => isset($data['country']) ? $data['country'] : null,
+        ];
         $user->ev = 1;
         $user->sv = 1;
         $user->ts = 0;
@@ -315,13 +320,13 @@ class RegisterController extends Controller
 
         }
         // email pin to the user
-        notify($user, 'WELCOME', [
-            'pin' => $data['pin'],
-            'username' => $user->username,
-            'email' => $user->email,
-            'fullname' => $user->firstname . ' ' . $user->lastname,
-            'sponsor' => $userCheck->username,
-        ]);
+        // notify($user, 'WELCOME', [
+        //     'pin' => $data['pin'],
+        //     'username' => $user->username,
+        //     'email' => $user->email,
+        //     'fullname' => $user->firstname . ' ' . $user->lastname,
+        //     'sponsor' => $userCheck->username,
+        // ]);
 
         return $user;
     }

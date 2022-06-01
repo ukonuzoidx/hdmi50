@@ -15,6 +15,9 @@
         <div class="breadcrumb-header justify-content-between">
             <div class="left-content">
                 <h3 class="content-title mb-2">Welcome back, {{ Auth::user()->full_name }}</h3>
+                <h5 class="mb-0">
+                    <span class="text-muted font-weight-bold">ID: {{ Auth::user()->user_id }}</span>
+                </h5>
                 <div class="d-flex">
                     <a href="/"><i class="mdi mdi-home text-muted hover-cursor"></i></a>
                     <p class="text-primary mb-0 hover-cursor">&nbsp;/&nbsp;Dashboard</p>

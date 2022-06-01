@@ -28,28 +28,73 @@ return new class extends Migration
         });
 
         $plans = Plan::create([
+            'name' => 'Starter',
+            'slug' => 'starter',
+            'pv' => 200,
+            'ref_com' => 16,
+            'tree_com' => 20,
+            'price' => '200',
+            'status' => 1,
+        ]);
+        $plans = Plan::create([
             'name' => 'Basic',
             'slug' => 'basic',
-            'pv' => 75,
-            'ref_com' => 6,
-            'tree_com' => 7.5,
-            'price' => '75',
+            'pv' => 1100,
+            'ref_com' => 88,
+            'tree_com' => 110,
+            'price' => '1100',
             'status' => 1,
         ]);
 
         $plans = Plan::create([
-            'name' => 'Pro',
-            'slug' => 'pro',
-            'pv' => 100,
-            'ref_com' => 8,
-            'tree_com' => 10,
-            'price' => '100',
+            'name' => 'Standard',
+            'slug' => 'standard',
+            'pv' => 3300,
+            'ref_com' => 88,
+            'tree_com' => 264,
+            'price' => '3300',
             'status' => 1,
         ]);
 
+        $plans = Plan::create([
+            'name' => 'Platinum',
+            'slug' => 'platinum',
+            'pv' => 9900,
+            'ref_com' => 792,
+            'tree_com' => 990,
+            'price' => '9900',
+            'status' => 1,
+        ]);
 
+        $plans = Plan::create([
+            'name' => 'Premium',
+            'slug' => 'premium',
+            'pv' => 29700,
+            'ref_com' => 2376,
+            'tree_com' => 2970,
+            'price' => '29700',
+            'status' => 1,
+        ]);
 
+        $plans = Plan::create([
+            'name' => 'Super',
+            'slug' => 'super',
+            'pv' => 89100,
+            'ref_com' => 7128,
+            'tree_com' => 8910,
+            'price' => '89100',
+            'status' => 1,
+        ]);
 
+        $plans = Plan::create([
+            'name' => 'Vip',
+            'slug' => 'vip',
+            'pv' => 266300,
+            'ref_com' => 21304,
+            'tree_com' => 26630,
+            'price' => '266300',
+            'status' => 1,
+        ]);
     }
 
 

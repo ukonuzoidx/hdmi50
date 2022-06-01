@@ -20,6 +20,7 @@ return new class extends Migration
             // $table->unsignedBigInteger('user_id');
             $table->string('epin')->unique();
             $table->integer('status')->default('0')->comment('0: unused, 1: used');
+            $table->string('type')->nullable()->comment('0: joining, 1: signup');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
         });
@@ -27,11 +28,6 @@ return new class extends Migration
         $epins = Epin::create([
             // 'user_id' => 1,
             // generate pin with substr 
-
-
-
-
-
             'epin' => '123456789',
             'status' => '1',
             'user_id' => 1,

@@ -45,6 +45,15 @@
                                 <li class="list-group-item rounded-0 d-flex justify-content-between">
                                     <span>@lang('Username')</span> {{ auth()->user()->username }}
                                 </li>
+                                <li class="list-group-item rounded-0 d-flex justify-content-between">
+                                    <span>@lang('Sponsor ID')</span> {{ auth()->user()->sponsor_id }}
+                                </li>
+                                <li class="list-group-item rounded-0 d-flex justify-content-between">
+                                    <span>@lang('Placer ID')</span> {{ auth()->user()->placer_id }}
+                                </li>
+                                <li class="list-group-item rounded-0 d-flex justify-content-between">
+                                    <span>@lang('User ID')</span> {{ auth()->user()->user_id }}
+                                </li>
                                 <li class="list-group-item d-flex justify-content-between">
                                     <span>@lang('Joined at')</span>
                                     {{ date('d M, Y h:i A', strtotime(auth()->user()->created_at)) }}
@@ -98,8 +107,8 @@
                                     <div class="form-group">
                                         <label class="form-control-label  font-weight-bold">@lang('Mobile Number')<span
                                                 class="text-danger">*</span></label>
-                                        <input class="form-control form-control-lg" type="text"
-                                            value="{{ auth()->user()->phone }}" readonly>
+                                        <input class="form-control form-control-lg" type="text" name="phone"
+                                            value="{{ auth()->user()->phone }}">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -121,28 +130,16 @@
                                         </small>
                                     </div>
                                 </div>
-                                <div class="col-xl-3 col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-control-label font-weight-bold">@lang('City')</label>
-                                        <input class="form-control form-control-lg" type="text" name="city"
-                                            value="{{ auth()->user()->address->city }}">
-                                    </div>
-                                </div>
-                                <div class="col-xl-3 col-md-6">
+
+                                <div class="col-xl-6 col-md-6">
                                     <div class="form-group ">
                                         <label class="form-control-label font-weight-bold">@lang('State')</label>
                                         <input class="form-control form-control-lg" type="text" name="state"
                                             value="{{ auth()->user()->address->state }}">
                                     </div>
                                 </div>
-                                <div class="col-xl-3 col-md-6">
-                                    <div class="form-group ">
-                                        <label class="form-control-label font-weight-bold">@lang('Zip/Postal')</label>
-                                        <input class="form-control form-control-lg" type="text" name="zip"
-                                            value="{{ auth()->user()->address->zip }}">
-                                    </div>
-                                </div>
-                                <div class="col-xl-3 col-md-6">
+
+                                <div class="col-xl-6 col-md-6">
                                     <div class="form-group ">
                                         <label class="form-control-label font-weight-bold">@lang('Country')</label>
                                         <select name="country" class="form-control form-control-lg">
@@ -151,6 +148,52 @@
 
                                     </div>
                                 </div>
+                                <div class="col-xl-4 col-md-6">
+                                    <div class="form-group ">
+                                        <label class="form-control-label font-weight-bold">@lang('Date of Birth')</label>
+                                        <input class="form-control form-control-lg" type="date" id="dob" name="dob"
+                                            placeholder="@lang('Date of Birth')" value="{{ auth()->user()->dob }}" >
+
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-md-6">
+                                    <div class="form-group ">
+                                        <label class="form-control-label font-weight-bold">@lang('Marital Status')</label>
+
+                                        <select class="form-control form-control-lg" name="martial_status"
+                                            id="martial_status">
+                                            <option value="">@lang('Select')</option>
+                                            <option value="Single">@lang('Single')</option>
+                                            <option value="Married">@lang('Married')</option>
+                                            <option value="Divorced">@lang('Divorced')</option>
+                                            <option value="Widowed">@lang('Widowed')</option>
+                                        </select>
+
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-md-6">
+                                    <div class="form-group ">
+                                        <label class="form-control-label font-weight-bold">@lang('Gender')</label>
+
+                                        <select class="form-control form-control-lg" name="gender" id="gender">
+                                            <option value="">@lang('Select')</option>
+                                            <option value="Male">@lang('Male')</option>
+                                            <option value="Female">@lang('Female')</option>
+                                        </select>
+
+                                    </div>
+                                </div>
+                                @if (auth()->user()->pin == "" || auth()->user()->pin == null)
+                                <div class="col-xl-4 col-md-6">
+                                    <div class="form-group ">
+                                        <label class="form-control-label font-weight-bold">@lang('Transaction Pin')</label>
+                                        <input class="form-control form-control-lg" type="text" id="pin" name="pin"
+                                            placeholder="@lang('Enter your Transaction pin')" value="{{ auth()->user()->pin }}" >
+
+                                    </div>
+                                </div>
+                                @endif
+
                             </div>
 
                             <div class="row mt-4">
@@ -176,6 +219,8 @@
         'use strict';
         (function($) {
             $("select[name=country]").val("{{ auth()->user()->address->country }}");
+            $("select[name=martial_status]").val("{{ auth()->user()->martial_status }}");
+            $("select[name=gender]").val("{{ auth()->user()->gender }}")
         })(jQuery)
 
         var loadFile = function(event) {
@@ -186,4 +231,24 @@
             }
         };
     </script>
+
+    <script src="{{ asset('assets/plugins/intl/js/prism.js') }}"></script>
+    <script src="{{ asset('assets/plugins/intl/js/intlTelInput.js') }}"></script>
+    <script src="{{ asset('assets/js/countrySync.js') }}"></script>
+@endpush
+
+
+@push('css')
+    <link rel="stylesheet" href="{{ asset('assets/plugins/intl/css/prism.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/intl/css/intlTelInput.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('assets/plugins/intl/css/demo.css') }}"> --}}
+    <link rel="stylesheet" href="{{ asset('assets/plugins/intl/css/countrySync.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/intl/css/isValidNumber.css') }}">
+    <style>
+        .form-control:disabled,
+        .form-control[readonly] {
+            background-color: transparent !important;
+        }
+
+    </style>
 @endpush

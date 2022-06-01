@@ -59,11 +59,6 @@ class User extends Authenticatable
         return $this->hasMany(Transaction::class)->orderBy('id', 'desc');
     }
 
-    public function kyc()
-    {
-        return $this->hasOne(Kyc::class);
-    }
-
     public function withdrawals()
     {
         return $this->hasMany(Withdraw::class)->where('status', '!=', 0);

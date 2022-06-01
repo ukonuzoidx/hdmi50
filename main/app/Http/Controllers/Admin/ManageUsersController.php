@@ -9,6 +9,7 @@ use App\Models\Withdraw;
 use App\Models\WithdrawMethod;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\GeneralSetting;
 
 class ManageUsersController extends Controller
 {
@@ -145,16 +146,14 @@ class ManageUsersController extends Controller
             return back()->withNotify($notify);
         }
 
-        $user->mobile = $request->mobile;
+        $user->phone = $request->phone;
         $user->firstname = $request->firstname;
         $user->lastname = $request->lastname;
         $user->lastname = $request->lastname;
         $user->email = $request->email;
         $user->address = [
             'address' => $request->address,
-            'city' => $request->city,
             'state' => $request->state,
-            'zip' => $request->zip,
             'country' => $request->country,
         ];
         $user->status = $request->status ? 1 : 0;
@@ -168,78 +167,69 @@ class ManageUsersController extends Controller
         return redirect()->back()->withNotify($notify);
     }
 
-    // public function addSubBalance(Request $request, $id)
-    // {
-    //     $request->validate(['amount' => 'required|numeric|gt:0']);
+    public function addSubBalance(Request $request, $id)
+    {
+        $request->validate(['amount' => 'required|numeric|gt:0']);
 
-    //     $user = User::findOrFail($id);
-    //     $amount = getAmount($request->amount);
-    //     $general = GeneralSetting::first(['cur_text', 'cur_sym']);
-    //     $trx = getTrx();
+        $user = User::findOrFail($id);
+        $amount = getAmount($request->amount);
+        $general = GeneralSetting::first(['cur_text', 'cur_sym']);
+        $trx = getTrx();
 
-    //     if ($request->act) {
-    //         $user->balance += $amount;
-    //         $user->save();
-    //         $notify[] = ['success', $general->cur_sym . $amount . ' has been added to ' . $user->username . ' balance'];
-
-
-    //         $transaction = new Transaction();
-    //         $transaction->user_id = $user->id;
-    //         $transaction->amount = $amount;
-    //         $transaction->post_balance = getAmount($user->balance);
-    //         $transaction->charge = 0;
-    //         $transaction->trx_type = '+';
-    //         $transaction->details = 'Added Balance Via Admin';
-    //         $transaction->trx =  $trx;
-    //         $transaction->save();
+        if ($request->act) {
+            $user->balance += $amount;
+            $user->save();
+            $notify[] = ['success', $general->cur_sym . $amount . ' has been added to ' . $user->username . ' balance'];
 
 
-    //         notify($user, 'BAL_ADD', [
-    //             'trx' => $trx,
-    //             'amount' => $amount,
-    //             'currency' => $general->cur_text,
-    //             'post_balance' => getAmount($user->balance),
-    //         ]);
-    //     } else {
-    //         if ($amount > $user->balance) {
-    //             $notify[] = ['error', $user->username . ' has insufficient balance.'];
-    //             return back()->withNotify($notify);
-    //         }
-    //         $user->balance -= $amount;
-    //         $user->save();
+            $transaction = new Transaction();
+            $transaction->user_id = $user->id;
+            $transaction->amount = $amount;
+            $transaction->post_balance = getAmount($user->balance);
+            $transaction->charge = 0;
+            $transaction->trx_type = '+';
+            $transaction->details = 'Added Balance Via Admin';
+            $transaction->trx =  $trx;
+            $transaction->save();
+
+
+            notify($user, 'BAL_ADD', [
+                'trx' => $trx,
+                'amount' => $amount,
+                'currency' => $general->cur_text,
+                'post_balance' => getAmount($user->balance),
+            ]);
+        } else {
+            if ($amount > $user->balance) {
+                $notify[] = ['error', $user->username . ' has insufficient balance.'];
+                return back()->withNotify($notify);
+            }
+            $user->balance -= $amount;
+            $user->save();
 
 
 
-    //         $transaction = new Transaction();
-    //         $transaction->user_id = $user->id;
-    //         $transaction->amount = $amount;
-    //         $transaction->post_balance = getAmount($user->balance);
-    //         $transaction->charge = 0;
-    //         $transaction->trx_type = '-';
-    //         $transaction->details = 'Subtract Balance Via Admin';
-    //         $transaction->trx =  $trx;
-    //         $transaction->save();
+            $transaction = new Transaction();
+            $transaction->user_id = $user->id;
+            $transaction->amount = $amount;
+            $transaction->post_balance = getAmount($user->balance);
+            $transaction->charge = 0;
+            $transaction->trx_type = '-';
+            $transaction->details = 'Subtract Balance Via Admin';
+            $transaction->trx =  $trx;
+            $transaction->save();
 
 
-    //         notify($user, 'BAL_SUB', [
-    //             'trx' => $trx,
-    //             'amount' => $amount,
-    //             'currency' => $general->cur_text,
-    //             'post_balance' => getAmount($user->balance)
-    //         ]);
-    //         $notify[] = ['success', $general->cur_sym . $amount . ' has been subtracted from ' . $user->username . ' balance'];
-    //     }
-    //     return back()->withNotify($notify);
-    // }
-
-    // public function userLoginHistory($id)
-    // {
-    //     $user = User::findOrFail($id);
-    //     $page_title = 'User Login History - ' . $user->username;
-    //     $empty_message = 'No users login found.';
-    //     $login_logs = $user->login_logs()->latest()->paginate(getPaginate());
-    //     return view('admin.users.logins', compact('page_title', 'empty_message', 'login_logs'));
-    // }
+            notify($user, 'BAL_SUB', [
+                'trx' => $trx,
+                'amount' => $amount,
+                'currency' => $general->cur_text,
+                'post_balance' => getAmount($user->balance)
+            ]);
+            $notify[] = ['success', $general->cur_sym . $amount . ' has been subtracted from ' . $user->username . ' balance'];
+        }
+        return back()->withNotify($notify);
+    }
 
     public function userRef($id)
     {
@@ -287,54 +277,7 @@ class ManageUsersController extends Controller
         return view('admin.reports.transactions', compact('page_title', 'user', 'transactions', 'empty_message'));
     }
 
-    // public function deposits(Request $request, $id)
-    // {
-    //     $user = User::findOrFail($id);
-    //     $userId = $user->id;
-    //     if ($request->search) {
-    //         $search = $request->search;
-    //         $page_title = 'Search User Deposits : ' . $user->username;
-    //         $deposits = $user->deposits()->where('trx', $search)->latest()->paginate(getPaginate());
-    //         $empty_message = 'No deposits';
-    //         return view('admin.deposit.log', compact('page_title', 'search', 'user', 'deposits', 'empty_message', 'userId'));
-    //     }
-
-    //     $page_title = 'User Deposit : ' . $user->username;
-    //     $deposits = $user->deposits()->latest()->paginate(getPaginate());
-    //     $empty_message = 'No deposits';
-    //     $scope = 'all';
-    //     return view('admin.deposit.log', compact('page_title', 'user', 'deposits', 'empty_message', 'userId', 'scope'));
-    // }
-
-
-    // public function depViaMethod($method, $type = null, $userId)
-    // {
-    //     $method = Gateway::where('alias', $method)->firstOrFail();
-    //     $user = User::findOrFail($userId);
-    //     if ($type == 'approved') {
-    //         $page_title = 'Approved Payment Via ' . $method->name;
-    //         $deposits = Deposit::where('method_code', '>=', 1000)->where('user_id', $user->id)->where('method_code', $method->code)->where('status', 1)->latest()->with(['user', 'gateway'])->paginate(getPaginate());
-    //     } elseif ($type == 'rejected') {
-    //         $page_title = 'Rejected Payment Via ' . $method->name;
-    //         $deposits = Deposit::where('method_code', '>=', 1000)->where('user_id', $user->id)->where('method_code', $method->code)->where('status', 3)->latest()->with(['user', 'gateway'])->paginate(getPaginate());
-    //     } elseif ($type == 'successful') {
-    //         $page_title = 'Successful Payment Via ' . $method->name;
-    //         $deposits = Deposit::where('status', 1)->where('user_id', $user->id)->where('method_code', $method->code)->latest()->with(['user', 'gateway'])->paginate(getPaginate());
-    //     } elseif ($type == 'pending') {
-    //         $page_title = 'Pending Payment Via ' . $method->name;
-    //         $deposits = Deposit::where('method_code', '>=', 1000)->where('user_id', $user->id)->where('method_code', $method->code)->where('status', 2)->latest()->with(['user', 'gateway'])->paginate(getPaginate());
-    //     } else {
-    //         $page_title = 'Payment Via ' . $method->name;
-    //         $deposits = Deposit::where('status', '!=', 0)->where('user_id', $user->id)->where('method_code', $method->code)->latest()->with(['user', 'gateway'])->paginate(getPaginate());
-    //     }
-    //     $page_title = 'Deposit History: ' . $user->username . ' Via ' . $method->name;
-    //     $methodAlias = $method->alias;
-    //     $empty_message = 'Deposit Log';
-    //     return view('admin.deposit.log', compact('page_title', 'empty_message', 'deposits', 'methodAlias', 'userId'));
-    // }
-
-
-
+    
     public function withdrawals(Request $request, $id)
     {
         $user = User::findOrFail($id);

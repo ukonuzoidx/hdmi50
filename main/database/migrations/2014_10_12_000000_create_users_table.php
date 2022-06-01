@@ -22,8 +22,13 @@ return new class extends Migration
             $table->integer('pos_id');
             $table->integer('position');
             // $table->integer('plan_id')->default(0);
-           // subscribe to many packages
             $table->string('firstname');
+            $table->string('phone');
+            $table->string('crypto_address')->unique()->nullable();
+            $table->date('dob')->nullable();
+            $table->string('gender')->nullable();
+            $table->string('martial_status')->nullable();
+            $table->json('address')->nullable()->comment('Contains full address');
             $table->string('lastname');
             $table->string('username');
             $table->string('sponsor_id');
@@ -44,7 +49,7 @@ return new class extends Migration
             $table->string('ver_code')->nullable()->comment('Verification Code');
             $table->string('ver_code_sent_at')->nullable()->comment('Verification Code Sent At');
             $table->tinyInteger('status')->comment('0: Inactive, 1: Active, 2: Banned');
-            $table->tinyInteger('kyc_status')->comment('0: Pending, 1:Review, 2: Rejected, 3: Approved');
+            $table->tinyInteger('kyc_status')->comment('0: Pending, 1:Completed');
             $table->tinyInteger('ev')->comment('0: email unverified, 1: email verified');
             $table->tinyInteger('sv')->comment('0: sms unverified, 1: sms verified');
             $table->tinyInteger('ts')->comment('0: 2fa off, 1: 2fa on');
@@ -66,7 +71,7 @@ return new class extends Migration
             'placer_id' =>  "PL" . random_int(1000000, 99999999),
             'epin' => 'EPIN1',
             'pin' => bcrypt('123456'),
-            'balance' => 1000.00000000,
+            'balance' => 1000000.00000000,
             'email' => 'johndoe@email.com',
             'password' => Hash::make('12345678'),
             'phone' => '+234156789012',
@@ -77,6 +82,12 @@ return new class extends Migration
             'ver_code_sent_at' => NULL,
             'status' => 1,
             'kyc_status' => 0,
+            'address' => [
+                'country' => 'Nigeria',
+                'state' => '',
+                'address' => '',
+            ],
+            
             'ev' => 1,
             'sv' => 1,
             'ts' => 1,

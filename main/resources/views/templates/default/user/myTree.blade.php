@@ -229,11 +229,6 @@
                                 </tr>
 
                                 <tr>
-                                    <td>@lang('Free Member')</td>
-                                    <td><span class="lfree"></span></td>
-                                    <td><span class="rfree"></span></td>
-                                </tr>
-                                <tr>
                                     <td>@lang('Paid Member')</td>
                                     <td><span class="lpaid"></span></td>
                                     <td><span class="rpaid"></span></td>

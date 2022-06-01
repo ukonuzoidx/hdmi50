@@ -34,19 +34,32 @@ class ManageEpinsController extends Controller
 
     public function epinStore(Request $request)
     {
-        $this->validate($request, [
-            'epin'              => 'required|unique:epins',
-            'amount'            => 'required|numeric|min:0',
+        $request->validate([
+            'sponsorId' => 'required',
         ]);
+
+        // check if sponsor id is valid
+        $sponsor = \App\Models\User::where('sponsor_id', $request->sponsorId)->first();
+        if (!$sponsor) {
+            $notify[] = ['error', 'Sponsor id is not valid'];
+            return back()->withNotify($notify);
+        }
 
         $status = 0;
 
-        $epin = new Epin();
-        $epin->epin             = $request->epin;
-        $epin->amount           = $request->amount;
-        $epin->status           = $status;
-        $epin->save();
-
+     
+        
+        
+        // create epin by the total number of total pin put
+        for ($i = 0; $i < $request->total; $i++) {
+           $epin= Epin::create([
+                'epin' => str_random(8),
+                'status' => $status,
+                'user_id' => $sponsor->id,
+                'type' => $request->type,
+            ]);
+        }
+        $epin;
         $notify[] = ['success', 'New Epin created successfully'];
         return back()->withNotify($notify);
     }

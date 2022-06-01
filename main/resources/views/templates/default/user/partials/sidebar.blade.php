@@ -29,43 +29,21 @@
                  <h3>KYC Registration</h3>
              </li>
              <li class="slide">
-                 <a class="side-menu__item" href="{{ route('user.kyc') }}">
-                     <i class="side-menu__icon ti-user"></i>
-                     <span class="side-menu__label">
-                         KYC Profile
-                     </span>
+                 <a class="side-menu__item" href="{{ route('user.profile-setting') }}">
+                     <i class="side-menu__icon fe fe-user-check"></i>
+                     <span class="side-menu__label">Profile</span>
+                 </a>
+             </li>
+             <li class="slide">
+                 <a class="side-menu__item" href="{{ route('ticket') }}">
+                     <i class="side-menu__icon ti-face-smile"></i>
+                     <span class="side-menu__label">Ticket</span>
                  </a>
              </li>
 
+
              <li>
-                 <h3>Plans & PV</h3>
-             </li>
-             <li class="slide">
-                 <a class="side-menu__item" href="{{ route('user.plan') }}">
-                     <i class="side-menu__icon ti-light-bulb"></i>
-                     <span class="side-menu__label">
-                         Plan
-                     </span>
-                 </a>
-             </li>
-             <li class="slide">
-                 <a class="side-menu__item" href="{{ route('user.pv.log') }}">
-                     <i class="side-menu__icon fe fe-user"></i>
-                     <span class="side-menu__label">
-                         PV LOG
-                     </span>
-                 </a>
-             </li>
-             <li>
-                 <h3>Referrals & My Tree</h3>
-             </li>
-             <li class="slide">
-                 <a class="side-menu__item" href="{{ route('user.my.ref') }}">
-                     <i class="side-menu__icon fe fe-users"></i>
-                     <span class="side-menu__label">
-                         Referrals
-                     </span>
-                 </a>
+                 <h3>Genealogy</h3>
              </li>
              <li class="slide">
                  <a class="side-menu__item" href="{{ route('user.my.tree') }}">
@@ -84,10 +62,77 @@
                      </span>
                  </a>
              </li>
-             <li>
-                 <h3>Withdraws & Reports</h3>
+
+
+             {{-- <li class="slide">
+                 <a class="side-menu__item" href="{{ route('user.plan') }}">
+                     <i class="side-menu__icon ti-light-bulb"></i>
+                     <span class="side-menu__label">
+                         Plan
+                     </span>
+                 </a>
              </li>
              <li class="slide">
+                 <a class="side-menu__item" href="{{ route('user.pv.log') }}">
+                     <i class="side-menu__icon fe fe-user"></i>
+                     <span class="side-menu__label">
+                         PV LOG
+                     </span>
+                 </a>
+             </li> --}}
+             <li>
+                 <h3>Invest and Finances</h3>
+             </li>
+
+             <li class="slide">
+                 <a class="side-menu__item" href="{{ route('user.plan') }}">
+                     <i class="side-menu__icon ti-light-bulb "></i>
+                     <span class="side-menu__label">
+                         Investment
+                     </span>
+                 </a>
+             </li>
+             <li class="slide">
+                 <a class="side-menu__item" data-toggle="slide" href="#">
+                     <i class="side-menu__icon ti-book  menu-icons"></i>
+                     <span class="side-menu__label">
+                         Finance
+                     </span>
+                     <i class="angle fe fe-chevron-down"></i></a>
+                 <ul class="slide-menu">
+                     <li><a class="slide-item" href="{{ route('user.report.transactions') }}">Transaction Log</a>
+                     </li>
+                     <li><a class="slide-item" href="{{ route('user.report.withdraw') }}">Withdraw Log</a></li>
+                     <li><a class="slide-item" href="{{ route('user.report.invest') }}">Invest Log</a></li>
+                     <li><a class="slide-item" href="{{ route('user.report.refCom') }}">Referral Commission</a>
+                     </li>
+                     <li><a class="slide-item" href="{{ route('user.report.binaryCom') }}">Binary Commission</a>
+                     </li>
+                 </ul>
+             </li>
+
+             <li class="slide">
+                 <a class="side-menu__item" href="{{ route('user.balance.transfer') }}">
+                     <i class="side-menu__icon ti-wallet"></i>
+                     <span class="side-menu__label">
+                         P2P Transfer
+                     </span>
+                 </a>
+             </li>
+
+             {{-- <li class="slide">
+                 <a class="side-menu__item" href="{{ route('user.my.ref') }}">
+                     <i class="side-menu__icon fe fe-users"></i>
+                     <span class="side-menu__label">
+                         Referrals
+                     </span>
+                 </a>
+             </li> --}}
+
+             {{-- <li>
+                 <h3>Withdraws & Reports</h3>
+             </li> --}}
+             {{-- <li class="slide">
                  <a class="side-menu__item" href="{{ route('user.withdraw') }}">
                      <i class="side-menu__icon ti-wallet"></i>
                      <span class="side-menu__label">
@@ -112,31 +157,12 @@
                      <li><a class="slide-item" href="{{ route('user.report.binaryCom') }}">Binary Commission</a>
                      </li>
                  </ul>
-             </li>
-             <li class="slide">
-                 <a class="side-menu__item" href="{{ route('user.balance.transfer') }}">
-                     <i class="side-menu__icon ti-wallet"></i>
-                     <span class="side-menu__label">
-                         P2P Transfer
-                     </span>
-                 </a>
-             </li>
+             </li> --}}
 
-             <li>
+
+             {{-- <li>
                  <h3>Profile</h3>
-             </li>
-             <li class="slide">
-                 <a class="side-menu__item" href="{{ route('ticket') }}">
-                     <i class="side-menu__icon ti-face-smile"></i>
-                     <span class="side-menu__label">Ticket</span>
-                 </a>
-             </li>
-             <li class="slide">
-                 <a class="side-menu__item" href="{{ route('user.profile-setting') }}">
-                     <i class="side-menu__icon fe fe-user-check"></i>
-                     <span class="side-menu__label">Profile</span>
-                 </a>
-             </li>
+             </li> --}}
 
          </ul>
      </div>

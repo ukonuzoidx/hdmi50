@@ -331,7 +331,7 @@ function matchingBonus($id, $pv, $placerId)
 //     }
 // }
 
-function updatePV($id, $pv, $details)
+function updatePV($id, $pv, $details, $totalPv)
 {
     while ($id != "" || $id != "0") {
         if (isUserExists($id)) {
@@ -347,10 +347,10 @@ function updatePV($id, $pv, $details)
             $pvlog->user_id = $posid;
 
             if ($position == 1) {
-                $extra->pv_left += $pv;
+                $extra->pv_left += $pv + $totalPv;
                 $pvlog->position = '1';
             } else {
-                $extra->pv_right += $pv;
+                $extra->pv_right += $pv + $totalPv;
                 $pvlog->position = '2';
             }
             $extra->save();
@@ -367,7 +367,7 @@ function updatePV($id, $pv, $details)
 }
 
 // tree and referral commission
-function treeComission($id, $amount, $details)
+function treeComission($id, $amount, $details, $tree_com)
 {
     $fromUser = User::find($id);
 
@@ -381,8 +381,8 @@ function treeComission($id, $amount, $details)
             $posUser = User::find($posid);
             // if ($posUser->plan_id != 0) {
 
-            $posUser->balance  += $amount;
-            $posUser->total_binary_com += $amount;
+            $posUser->balance  += $amount + $tree_com;
+            $posUser->total_binary_com += $amount + $tree_com;
             $posUser->save();
 
             $posUser->transactions()->create([
@@ -394,25 +394,24 @@ function treeComission($id, $amount, $details)
                 'trx' => getTrx(),
                 'post_balance' => getAmount($posUser->balance),
             ]);
+            $id = $posid;
+        } else {
+            break;
         }
-        $id = $posid;
-        // } else {
-        //     break;
-        // }
     }
 }
 
-function referralComission($user_id, $details)
+function referralComission($user_id, $details, $planId, $ref_com)
 {
 
     $user = User::find($user_id);
     $refer = User::find($user->ref_id);
     if ($refer) {
-        $plan = Plan::find($refer->plan_id);
+        $plan = Plan::find($planId);
         if ($plan) {
             $amount = $plan->ref_com;
-            $refer->balance += $amount;
-            $refer->total_ref_com += $amount;
+            $refer->balance += $amount + $ref_com;
+            $refer->total_ref_com += $amount + $ref_com;
             $refer->save();
 
             $trx = $refer->transactions()->create([
@@ -431,7 +430,7 @@ function referralComission($user_id, $details)
             notify($refer, 'referral_commission', [
                 'trx' => $trx->trx,
                 'amount' => getAmount($amount),
-                'currency' => "USD",
+                'currency' => $gnl->cur_text,
                 'username' => $user->username,
                 'post_balance' => getAmount($refer->balance),
             ]);

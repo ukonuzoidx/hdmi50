@@ -100,7 +100,7 @@
                                     <input type="hidden" name="plan_id" value="{{ $data->id }}" />
                                     {{-- input epin --}}
                                     @csrf
-                                    <input type="text" name="epin" class="form-control" placeholder="@lang('Enter your epin')"
+                                    <input type="text" name="pin" class="form-control" placeholder="@lang('Enter your Transaction pin')"
                                         required />
                                 </div>
                                 <div class="modal-footer">

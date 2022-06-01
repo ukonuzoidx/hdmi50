@@ -1,4 +1,4 @@
-@extends($activeTemplate.'layouts.app')
+@extends($activeTemplate . 'layouts.app')
 
 @section('panel')
 
@@ -124,6 +124,29 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form--label-2" for="username">Phone</label>
+                                    <input id="phone" class="form-control form--control-2" value="{{ old('phone') }}"
+                                        name="phone" type="tel">
+                                    <span id="valid-msg" class="hide">✓ Valid</span>
+                                    <span id="error-msg" class="hide"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form--label-2" for="username">Country</label>
+                                    <input type="text" readonly name="country" id="address-country" placeholder="Country"
+                                        class="form-control form--control-2 country">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form--label-2" for="username">State</label>
+                                    <input type="text" name="state" id="state" value="{{ old('state') }}"
+                                        placeholder="State" class="form-control form--control-2">
+                                </div>
+                            </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form--label-2" for="username">Username</label>

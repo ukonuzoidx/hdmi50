@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\UserExtra;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class PlanController extends Controller
 {
@@ -56,7 +57,7 @@ class PlanController extends Controller
         }
 
         $data['empty_message'] = 'No data found';
-        return view("user.pvlog", $data);
+        return view($this->activeTemplate . "user.pvlog", $data);
     }
 
     function planStore(Request $request)
@@ -66,41 +67,37 @@ class PlanController extends Controller
         $gnl = GeneralSetting::first();
 
         $user = User::find(Auth::id());
-        // check if epin is used and amount in the epin is greater than the amount in the plan
-        $epin = Epin::where('epin', $request->epin)->where('status', 0)->first();
+        // decrypt pin
+        $pin = Hash::check($request->pin, $user->pin);
 
-        if ($epin) {
-            if ($epin->amount > $plan->price) {
-                $notify[] = ['error', 'Epin amount is greater than plan amount'];
-                return back()->withNotify($notify);
-            }
-        } else {
-            $notify[] = ['error', 'Epin is not valid'];
+
+        if ($user->balance < $plan->price) {
+            $notify[] = ['error', 'Insufficient Balance'];
             return back()->withNotify($notify);
         }
-        // dd($epin);
-
-        if ($epin->amount < $plan->price) {
-            $notify[] = ['error', 'Epin amount is less than plan amount'];
+        if (!$pin) {
+            $notify[] = ['error', 'Invalid Pin'];
             return back()->withNotify($notify);
         }
 
-        // $oldPlan = $user->plan_id;
-        $user->total_invest += $plan->price;
-        $user->save();
-
-        SubscribedPlans::create([
-            'user_id' => $user->id,
-            'plan_id' => $plan->id,
-            'amount' => $plan->price,
+        $subscribed = SubscribedPlans::create([
+            'user_id'  => $user->id,
+            'plan_id'  => $plan->id,
+            'amount'   => $plan->price,
+            'pv'       => $plan->pv,
+            'ref_com'  => $plan->ref_com,
+            'tree_com' => $plan->tree_com,
             'subscribed_at' => date('Y-m-d H:i:s'),
             'expires_at' => date('Y-m-d H:i:s', strtotime('+12 months')),
         ]);
 
 
-        // update epin status
-        $epin->status = 1;
-        $epin->save();
+        // $oldPlan = $user->plan_id;
+        $user->balance -= $plan->price;
+        $user->total_invest += $plan->price;
+        $user->save();
+
+
 
 
         $trx = $user->transactions()->create([
@@ -109,28 +106,44 @@ class PlanController extends Controller
             'details' => 'Purchased ' . $plan->name,
             'remark' => 'purchased_plan',
             'trx' => getTrx(),
-            'post_balance' => getAmount($epin->amount),
+            'post_balance' => getAmount($user->balance),
         ]);
 
-        notify($user, 'plan_purchased', [
-            'plan' => $plan->name,
-            'amount' => getAmount($plan->price),
-            'currency' => $gnl->cur_text,
-            'trx' => $trx->trx,
-            'post_balance' => getAmount($epin->amount) . ' ' . $gnl->cur_text,
-        ]);
+        // notify($user, 'plan_purchased', [
+        //     'plan' => $plan->name,
+        //     'amount' => getAmount($plan->price),
+        //     'currency' => $gnl->cur_text,
+        //     'trx' => $trx->trx,
+        //     'post_balance' => getAmount($user->balance) . ' ' . $gnl->cur_text,
+        // ]);
         // if ($oldPlan == 0) {
         // updatePaidCount($user->id);
         // }
+
+        // count how many plan user has purchased
+        $count = SubscribedPlans::whereUserId($user->id)->count();
+
+        // if user has purchased many plan then assign the referral bonus to his/her referrer
+
         $details = Auth::user()->username . ' Subscribed to ' . $plan->name . ' plan.';
 
-        updatePV($user->id, $plan->pv, $details);
+        if ($count > 0) {
+            // calculate the total amount of plan user has purchased
+            $totalPv = SubscribedPlans::whereUserId($user->id)->sum('amount');
+            // get the sum of the current subscribed plan referral commission
+            $totalCommission = SubscribedPlans::whereUserId($user->id)->sum('ref_com');
+            // get the sum of the current subscribed plan tree commission
+            $totalTreeCommission = SubscribedPlans::whereUserId($user->id)->sum('tree_com');
+          
 
-        if ($plan->tree_com > 0) {
-            treeComission($user->id, $plan->tree_com, $details);
         }
-
-        referralComission($user->id, $details);
+        // dd($totalPv, $totalCommission, $totalTreeCommission, $count);
+        updatePV($user->id, $plan->pv, $details, $totalPv);
+        
+        referralComission($user->id, $details, $plan->id, $totalCommission);
+        if ($plan->tree_com > 0) {
+            treeComission($user->id, $plan->tree_com, $details, $totalTreeCommission);
+        }
 
         $notify[] = ['success', 'Purchased ' . $plan->name . ' Successfully'];
         return redirect()->route('user.home')->withNotify($notify);

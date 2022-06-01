@@ -93,14 +93,15 @@
                                 @lang('Paid Right User')
                                 <span class="font-weight-bold">{{ $user->userExtra->paid_right }}</span>
                             </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                @lang('Free Left User')
-                                <span class="font-weight-bold">{{ $user->userExtra->free_left }}</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                @lang('Free Right User')
-                                <span class="font-weight-bold">{{ $user->userExtra->free_right }}</span>
-                            </li>
+                              <li class="list-group-item rounded-0 d-flex justify-content-between">
+                                    <span>@lang('Sponsor ID')</span> {{ auth()->user()->sponsor_id }}
+                                </li>
+                                <li class="list-group-item rounded-0 d-flex justify-content-between">
+                                    <span>@lang('Placer ID')</span> {{ auth()->user()->placer_id }}
+                                </li>
+                                <li class="list-group-item rounded-0 d-flex justify-content-between">
+                                    <span>@lang('User ID')</span> {{ auth()->user()->user_id }}
+                                </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 @lang('Status')
                                 @switch($user->status)
@@ -120,13 +121,19 @@
                 <div class="card b-radius--10 overflow-hidden mt-30">
                     <div class="card-body">
                         <h5 class="mb-20 text-muted">@lang('User action')</h5>
-                         <a href="{{ route('admin.users.email.single', $user->id) }}" class="btn btn--danger btn--shadow btn-block btn-lg">
+                        <a data-toggle="modal" href="#addSubModal" class="btn btn--success btn--shadow btn-block btn-lg">
+                            @lang('Add Balance')
+                        </a>
+                        <a href="{{ route('admin.users.email.single', $user->id) }}"
+                            class="btn btn--danger btn--shadow btn-block btn-lg">
                             @lang('Send Email')
                         </a>
-                        <a href="{{ route('admin.users.single.tree', $user->username) }}" class="btn btn--primary btn--shadow btn-block btn-lg">
+                        <a href="{{ route('admin.users.single.tree', $user->username) }}"
+                            class="btn btn--primary btn--shadow btn-block btn-lg">
                             @lang('User Tree')
                         </a>
-                            <a href="{{ route('admin.users.ref', $user->id) }}" class="btn btn--info btn--shadow btn-block btn-lg">
+                        <a href="{{ route('admin.users.ref', $user->id) }}"
+                            class="btn btn--info btn--shadow btn-block btn-lg">
                             @lang('User Referrals')
                         </a>
                     </div>
@@ -135,7 +142,7 @@
 
             <div class="col-xl-9 col-lg-7 col-md-7 mb-30">
                 <div class="row mb-none-30">
-                
+
                     <div class="col-xl-4 col-lg-6 col-sm-6 mb-30">
                         <div class="dashboard-w1 bg--red b-radius--10 box-shadow has--link">
                             <a href="{{ route('admin.users.withdrawals', $user->id) }}" class="item--link"></a>
@@ -176,7 +183,8 @@
 
                     <div class="col-xl-4 col-lg-6 col-sm-6 mb-30">
                         <div class="dashboard-w1 bg--info b-radius--10 box-shadow has--link">
-                            <a href="{{ route('admin.report.invest') }}?user={{ $user->id }}" class="item--link"></a>
+                            <a href="{{ route('admin.report.invest') }}?user={{ $user->id }}"
+                                class="item--link"></a>
                             <div class="icon">
                                 <i class="la la-money"></i>
                             </div>
@@ -194,7 +202,8 @@
 
                     <div class="col-xl-4 col-lg-6 col-sm-6 mb-30">
                         <div class="dashboard-w1 bg--indigo b-radius--10 box-shadow has--link">
-                            <a href="{{ route('admin.report.refCom') }}?userID={{ $user->id }}" class="item--link"></a>
+                            <a href="{{ route('admin.report.refCom') }}?userID={{ $user->id }}"
+                                class="item--link"></a>
                             <div class="icon">
                                 <i class="la la-user"></i>
                             </div>
@@ -213,7 +222,8 @@
 
                     <div class="col-xl-4 col-lg-6 col-sm-6 mb-30">
                         <div class="dashboard-w1 bg--10 b-radius--10 box-shadow has--link">
-                            <a href="{{route('admin.report.binaryCom')}}?userID={{$user->id}}" class="item--link"></a>
+                            <a href="{{ route('admin.report.binaryCom') }}?userID={{ $user->id }}"
+                                class="item--link"></a>
                             <div class="icon">
                                 <i class="la la-tree"></i>
                             </div>
@@ -231,7 +241,8 @@
 
                     <div class="col-xl-4 col-lg-6 col-sm-6 mb-30">
                         <div class="dashboard-w1 bg--19 b-radius--10 box-shadow has--link">
-                         <a href="{{route('admin.report.single.pvLog', $user->id)}}?type=cutPV" class="item--link"></a>
+                            <a href="{{ route('admin.report.single.pvLog', $user->id) }}?type=cutPV"
+                                class="item--link"></a>
                             <div class="icon">
                                 <i class="la la-cut"></i>
                             </div>
@@ -247,7 +258,8 @@
                     </div>
                     <div class="col-xl-4 col-lg-6 col-sm-6 mb-30">
                         <div class="dashboard-w1 bg--15 b-radius--10 box-shadow has--link">
-                            <a href="{{route('admin.report.single.pvLog', $user->id)}}?type=leftPV" class="item--link"></a>
+                            <a href="{{ route('admin.report.single.pvLog', $user->id) }}?type=leftPV"
+                                class="item--link"></a>
                             <div class="icon">
                                 <i class="las la-arrow-alt-circle-left"></i>
                             </div>
@@ -263,7 +275,8 @@
                     </div>
                     <div class="col-xl-4 col-lg-6 col-sm-6 mb-30">
                         <div class="dashboard-w1 bg--12 b-radius--10 box-shadow has--link">
-                            <a href="{{route('admin.report.single.pvLog', $user->id)}}?type=rightPV" class="item--link"></a>
+                            <a href="{{ route('admin.report.single.pvLog', $user->id) }}?type=rightPV"
+                                class="item--link"></a>
                             <div class="icon">
                                 <i class="las la-arrow-alt-circle-right"></i>
                             </div>
@@ -345,27 +358,12 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xl-3 col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-control-label font-weight-bold">@lang('City') </label>
-                                        <input class="form-control" type="text" name="city"
-                                            value="{{ $user->address->city }}">
-                                    </div>
-                                </div>
 
                                 <div class="col-xl-3 col-md-6">
                                     <div class="form-group ">
                                         <label class="form-control-label font-weight-bold">@lang('State') </label>
                                         <input class="form-control" type="text" name="state"
                                             value="{{ $user->address->state }}">
-                                    </div>
-                                </div>
-
-                                <div class="col-xl-3 col-md-6">
-                                    <div class="form-group ">
-                                        <label class="form-control-label font-weight-bold">@lang('Zip/Postal') </label>
-                                        <input class="form-control" type="text" name="zip"
-                                            value="{{ $user->address->zip }}">
                                     </div>
                                 </div>
 

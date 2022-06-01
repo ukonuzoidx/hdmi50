@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AdminNotification;
+use App\Models\Epin;
 use App\Models\GeneralSetting;
 use App\Models\Kyc;
 use App\Models\PvLog;
@@ -49,9 +50,13 @@ class UserController extends Controller
             'lastname' => 'required|string|max:50',
             'address' => "sometimes|required|max:80",
             'state' => 'sometimes|required|max:80',
-            'zip' => 'sometimes|required|max:40',
-            'city' => 'sometimes|required|max:50',
-            'image' => 'mimes:png,jpg,jpeg'
+            'image' => 'mimes:png,jpg,jpeg',
+            'phone' => 'required|string|max:15',
+            'pin' => 'required|string|max:15',
+            'dob' => 'sometimes|required|date',
+            'gender' => 'sometimes|required',
+            'martial_status' => 'sometimes|required',
+
         ], [
             'firstname.required' => 'First Name Field is required',
             'lastname.required' => 'Last Name Field is required'
@@ -61,15 +66,20 @@ class UserController extends Controller
         $in['firstname'] = $request->firstname;
         $in['lastname'] = $request->lastname;
 
+        $in['crypto_address'] = $request->crypto_address;
+        $in['phone'] = $request->phone;
+        $in['dob'] = $request->dob;
+        $in['gender'] = $request->gender;
+        $in['martial_status'] = $request->martial_status;
+
         $in['address'] = [
             'address' => $request->address,
             'state' => $request->state,
-            'zip' => $request->zip,
             'country' => $request->country,
-            'city' => $request->city,
         ];
-
+        $in['pin'] = Hash::make($request->pin);
         $user = Auth::user();
+
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
@@ -89,6 +99,7 @@ class UserController extends Controller
             $image->save($location);
         }
         // dd($in);
+        $user->kyc_status = 1;
         $user->fill($in)->save();
         $notify[] = ['success', 'Profile Updated successfully.'];
         return back()->withNotify($notify);
@@ -331,8 +342,10 @@ class UserController extends Controller
             $notify[] = ['error', 'Balance Transfer Not Possible In Your Own Account'];
             return back()->withNotify($notify);
         }
-        $charge = $gnl->bal_trans_fixed_charge + (($request->amount * $gnl->bal_trans_per_charge) / 100);
+        // $charge = $gnl->bal_trans_fixed_charge + (($request->amount * $gnl->bal_trans_per_charge) / 100);
+        $charge = 0;
         $amount = $request->amount + $charge;
+        // $amount = $request->amount + $charge;
         if ($user->balance >= $amount) {
             $user->balance -= $amount;
             $user->save();
@@ -414,65 +427,15 @@ class UserController extends Controller
         }
     }
 
-
-    public function kyc()
+    // show auth user epins created for them
+    public function epins()
     {
-        $data['page_title'] = "KYC";
-        // $data['user'] = Auth::user();
-        $data['kyc'] = Kyc::where('user_id', Auth::id())->first();
-        return view($this->activeTemplate . 'user.kyc', $data);
+        $data['page_title'] = "E-Pin Details";
+        $data['epins'] = Epin::where('user_id', Auth::id())->latest()->paginate(getPaginate());
+        $data['empty_message'] = "No Data Found!";
+        return view($this->activeTemplate . 'user.epins', $data);
     }
 
-    public function kycStore(Request $request)
-    {
-        $data = $request->all();
-        // validate data
-        $this->validate($request, [
-            'crypto_address' => 'required',
-            'phone' => 'required',
-            'dob' => 'required',
-            'address' => 'required',
-            'country' => 'required',
-            'state' => 'required',
-            'gender' => 'required',
-            'martial_status' => 'required',
-        ]);
 
-        // dd($data);
-
-        try {
-
-            $user = User::find(Auth::id());
-            // check if user already have kyc
-            $kyc = Kyc::where('user_id', Auth::id())->first();
-            // dd($request->all(), $kyc);
-
-
-            if ($kyc == null) {
-                $kyc = new Kyc();
-                $kyc->user_id = Auth::id();
-                $kyc->crypto_address = $data['crypto_address'];
-                $kyc->phone = $data['phone'];
-                $kyc->dob = $data['dob'];
-                $kyc->gender = $data['gender'];
-                $kyc->martial_status = $data['martial_status'];
-                $kyc->address
-                    = [
-                        'address' => isset($data['address']) ? $data['address'] : null,
-                        'state' => isset($data['state']) ? $data['state'] : null,
-                        'country' => isset($data['country']) ? $data['country'] : null,
-                    ];
-                $kyc->save();
-                $user->kyc_status = 1;
-                $user->save();
-            }
-
-            $notify[] = ['success', 'KYC Updated Successfully.'];
-            return back()->withNotify($notify);
-        } catch (\Exception $e) {
-            dd($e);
-            $notify[] = ['error', $e->getMessage()];
-            return back()->withNotify($notify);
-        }
-    }
+  
 }

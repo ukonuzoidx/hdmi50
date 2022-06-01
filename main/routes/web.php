@@ -104,6 +104,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
 
         Route::post('plan/update', 'MlmController@planUpdate')->name('plan.update');
 
+
         // matching bonus
         Route::post('matching-bonus/update', 'MlmController@matchingUpdate')->name('matching-bonus.update');
 
@@ -240,6 +241,7 @@ Route::name('user.')->prefix('user')->group(
                 Route::post('profile-setting', 'UserController@submitProfile');
                 Route::get('change-password', 'UserController@changePassword')->name('change-password');
                 Route::post('change-password', 'UserController@submitPassword');
+                Route::get('epins', 'UserController@epins')->name('epins');
 
 
                 // plans

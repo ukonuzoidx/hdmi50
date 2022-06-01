@@ -33,13 +33,13 @@
                         <h4 class="card-title font-weight-normal">@lang('Balance Transfer')</h4>
                     </div>
                     <div class="col-md-12 text-center">
-                        <div class="alert block-none alert-danger p-2" role="alert">
+                        {{-- <div class="alert block-none alert-danger p-2" role="alert">
                             <strong>@lang('Balance Transfer Charge') {{ getAmount($general->bal_trans_fixed_charge) }}
                                 {{ __($general->cur_text) }} @lang('Fixed and')
                                 {{ getAmount($general->bal_trans_per_charge) }}
                                 % @lang('of your total amount to transfer balance.')</strong>
                             <p id="after-balance"></p>
-                        </div>
+                        </div> --}}
                     </div>
                     <form class="contact-form" method="POST" action="{{ route('user.balance.transfer.post') }}">
                         @csrf
