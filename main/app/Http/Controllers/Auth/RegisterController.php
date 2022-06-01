@@ -154,7 +154,7 @@ class RegisterController extends Controller
             'password'      => 'required|string|min:6|confirmed',
             'username'      => 'required|alpha_num|unique:users|min:6',
             'epin'          => 'required|string|max:160|unique:users',
-            'pin'           => 'required|string|unique:users',
+            // 'pin'           => 'required|string|unique:users',
             'country'  => 'required'
         ]);
     }
@@ -238,20 +238,14 @@ class RegisterController extends Controller
         $user->password         = Hash::make($data['password']);
         $user->username         = trim($data['username']);
         $user->phone            = $data['full_phone'];
-        $user->pin              = Hash::make($data['pin']);
+        // $user->pin              = Hash::make($data['pin']);
         $user->balance          = 0;
         $user->subscribed_amount = $signup_fee;
         $user->total_ref_com    = 0;
         $user->total_binary_com = 0;
         $user->total_invest     = 0;
         $user->epin             = $data['epin'];
-        $user->address          = [
-            'address' => '',
-            'state' => isset($data['state']) ? $data['state'] : null,
-            'zip' => isset($data['zip']) ? $data['zip'] : null,
-            'country' => isset($data['country']) ? $data['country'] : null,
-            'city' => isset($data['city']) ? $data['city'] : null,
-        ];
+        $user->kyc_status      = 0;
         $user->status = 1;
         $user->ev = 1;
         $user->sv = 1;

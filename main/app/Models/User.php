@@ -59,10 +59,10 @@ class User extends Authenticatable
         return $this->hasMany(Transaction::class)->orderBy('id', 'desc');
     }
 
-    // public function deposits()
-    // {
-    //     return $this->hasMany(Deposit::class)->where('status', '!=', 0);
-    // }
+    public function kyc()
+    {
+        return $this->hasOne(Kyc::class);
+    }
 
     public function withdrawals()
     {

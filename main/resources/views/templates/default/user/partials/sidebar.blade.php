@@ -26,6 +26,18 @@
                  </a>
              </li>
              <li>
+                 <h3>KYC Registration</h3>
+             </li>
+             <li class="slide">
+                 <a class="side-menu__item" href="{{ route('user.kyc') }}">
+                     <i class="side-menu__icon ti-user"></i>
+                     <span class="side-menu__label">
+                         KYC Profile
+                     </span>
+                 </a>
+             </li>
+
+             <li>
                  <h3>Plans & PV</h3>
              </li>
              <li class="slide">
@@ -101,7 +113,7 @@
                      </li>
                  </ul>
              </li>
-              <li class="slide">
+             <li class="slide">
                  <a class="side-menu__item" href="{{ route('user.balance.transfer') }}">
                      <i class="side-menu__icon ti-wallet"></i>
                      <span class="side-menu__label">

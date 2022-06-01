@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+@extends($activeTemplate.'layouts.app')
 
 @section('panel')
 
@@ -116,7 +116,7 @@
                                         placeholder="Enter Last Name" value="{{ old('lastname') }}">
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form--label-2" for="email">Email</label>
                                     <input type="email" name="email" id="email" class="form-control form--control-2"
@@ -126,51 +126,10 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form--label-2" for="Phone">Phone</label>
-                                    <input id="phone" class="form-control" value="{{ old('phone') }}" name="phone"
-                                        type="tel">
-                                    {{-- <input type="hidden" name="full_phone" id="full_phone"> --}}
-                                    <span id="valid-msg" class="hide">✓ Valid</span>
-                                    <span id="error-msg" class="hide"></span>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form--label-2" for="country">Country</label>
-                                    <input type="text" readonly name="country" id="address-country" placeholder="Country"
-                                        class="form-control country">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form--label-2" for="city">City</label>
-                                    <input type="text" name="city" id="city" placeholder="city"
-                                        class="form-control form--control-2" value="{{ old('city') }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form--label-2" for="state">State</label>
-                                    <input type="text" name="state" id="state" placeholder="State"
-                                        class="form-control form--control-2" value="{{ old('state') }}">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
                                     <label class="form--label-2" for="username">Username</label>
                                     <input type="text" name="username" placeholder="Enter your username" id="username"
                                         class="form-control form--control-2" value={{ old('username') }}>
                                     <span id="username_check"></span>
-                                </div>
-                            </div>
-
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form--label-2" for="pin_valid">Pin</label>
-                                    <input type="text" name="pin" id="pin_valid" placeholder="Enter your Transaction Pin"
-                                        class="form-control form--control-2">
                                 </div>
                             </div>
                             <div class="col-md-6">

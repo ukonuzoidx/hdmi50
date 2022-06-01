@@ -2155,22 +2155,6 @@ select.form--control-2 option {
     position: relative;
     height: 100%;
 }
-.policy__item {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    padding: 25px 20px;
-    background: #ffffff;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    border: 1px solid #e3e4ff;
-    -webkit-transition: all ease 0.3s;
-    -moz-transition: all ease 0.3s;
-    transition: all ease 0.3s;
-    position: relative;
-    height: 100%;
-}
 
 .feature__item::before {
     inset: 10px;

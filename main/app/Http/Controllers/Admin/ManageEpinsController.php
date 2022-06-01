@@ -18,7 +18,7 @@ class ManageEpinsController extends Controller
 
     public function usedEpins()
     {
-        $page_title = 'Manage Active Users';
+        $page_title = 'Used Epins';
         $empty_message = 'No used epin found';
         $epins = Epin::used()->latest()->paginate(getPaginate());
         return view('admin.epins.index', compact('page_title', 'empty_message', 'epins'));
@@ -26,7 +26,7 @@ class ManageEpinsController extends Controller
 
     public function unusedEpins()
     {
-        $page_title = 'Unused Users';
+        $page_title = 'Unused Epins';
         $empty_message = 'No unused epin found';
         $epins = Epin::unused()->latest()->paginate(getPaginate());
         return view('admin.epins.index', compact('page_title', 'empty_message', 'epins'));

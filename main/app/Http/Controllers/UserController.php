@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AdminNotification;
 use App\Models\GeneralSetting;
+use App\Models\Kyc;
 use App\Models\PvLog;
 use App\Models\Transaction;
 use App\Models\User;
@@ -414,10 +415,64 @@ class UserController extends Controller
     }
 
 
+    public function kyc()
+    {
+        $data['page_title'] = "KYC";
+        // $data['user'] = Auth::user();
+        $data['kyc'] = Kyc::where('user_id', Auth::id())->first();
+        return view($this->activeTemplate . 'user.kyc', $data);
+    }
+
+    public function kycStore(Request $request)
+    {
+        $data = $request->all();
+        // validate data
+        $this->validate($request, [
+            'crypto_address' => 'required',
+            'phone' => 'required',
+            'dob' => 'required',
+            'address' => 'required',
+            'country' => 'required',
+            'state' => 'required',
+            'gender' => 'required',
+            'martial_status' => 'required',
+        ]);
+
+        // dd($data);
+
+        try {
+
+            $user = User::find(Auth::id());
+            // check if user already have kyc
+            $kyc = Kyc::where('user_id', Auth::id())->first();
+            // dd($request->all(), $kyc);
 
 
-  
+            if ($kyc == null) {
+                $kyc = new Kyc();
+                $kyc->user_id = Auth::id();
+                $kyc->crypto_address = $data['crypto_address'];
+                $kyc->phone = $data['phone'];
+                $kyc->dob = $data['dob'];
+                $kyc->gender = $data['gender'];
+                $kyc->martial_status = $data['martial_status'];
+                $kyc->address
+                    = [
+                        'address' => isset($data['address']) ? $data['address'] : null,
+                        'state' => isset($data['state']) ? $data['state'] : null,
+                        'country' => isset($data['country']) ? $data['country'] : null,
+                    ];
+                $kyc->save();
+                $user->kyc_status = 1;
+                $user->save();
+            }
 
-  
-
+            $notify[] = ['success', 'KYC Updated Successfully.'];
+            return back()->withNotify($notify);
+        } catch (\Exception $e) {
+            dd($e);
+            $notify[] = ['error', $e->getMessage()];
+            return back()->withNotify($notify);
+        }
+    }
 }

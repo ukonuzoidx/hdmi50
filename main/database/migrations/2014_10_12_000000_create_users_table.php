@@ -35,7 +35,6 @@ return new class extends Migration
             $table->string('email');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('phone');
             $table->decimal('subscribed_amount', 16, 8)->default(0.00000000);
             $table->decimal('balance', 18, 8)->default(0.00000000);
             $table->decimal('total_ref_com', 18, 8)->default(0.00000000);
@@ -45,7 +44,7 @@ return new class extends Migration
             $table->string('ver_code')->nullable()->comment('Verification Code');
             $table->string('ver_code_sent_at')->nullable()->comment('Verification Code Sent At');
             $table->tinyInteger('status')->comment('0: Inactive, 1: Active, 2: Banned');
-            $table->json('address')->nullable()->comment('Contains full address');
+            $table->tinyInteger('kyc_status')->comment('0: Pending, 1:Review, 2: Rejected, 3: Approved');
             $table->tinyInteger('ev')->comment('0: email unverified, 1: email verified');
             $table->tinyInteger('sv')->comment('0: sms unverified, 1: sms verified');
             $table->tinyInteger('ts')->comment('0: 2fa off, 1: 2fa on');
@@ -63,8 +62,8 @@ return new class extends Migration
             'firstname' => 'John',
             'lastname' => 'Doe',
             'username' => 'johndoe',
-            'sponsor_id' => 'HDMI5020',
-            'placer_id' => "HDMI5030",
+            'sponsor_id' => "SP" . random_int(1000000, 99999999),
+            'placer_id' =>  "PL" . random_int(1000000, 99999999),
             'epin' => 'EPIN1',
             'pin' => bcrypt('123456'),
             'balance' => 1000.00000000,
@@ -77,13 +76,7 @@ return new class extends Migration
             'ver_code' => NULL,
             'ver_code_sent_at' => NULL,
             'status' => 1,
-            'address' => [
-                'address' => 'Address A',
-                'city' => 'Lagos',
-                'state' => 'Lagos',
-                'country' => 'Nigeria',
-                'zip' => '902101',
-            ],
+            'kyc_status' => 0,
             'ev' => 1,
             'sv' => 1,
             'ts' => 1,

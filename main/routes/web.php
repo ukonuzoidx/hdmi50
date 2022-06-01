@@ -273,6 +273,10 @@ Route::name('user.')->prefix('user')->group(
                 Route::post('/transfer', 'UserController@balanceTransfer')->name('balance.transfer.post');
                 Route::post('/search-user', 'UserController@searchUser')->name('search.user');
                 Route::post('/check-pin', 'UserController@checkPin')->name('check.pin');
+
+                // KYC
+                Route::get('/kyc', 'UserController@kyc')->name('kyc');
+                Route::post('/kyc', 'UserController@kycStore')->name('kyc.store');
             }
         );
     }
