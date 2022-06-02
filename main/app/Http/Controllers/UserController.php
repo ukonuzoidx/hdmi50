@@ -513,7 +513,6 @@ class UserController extends Controller
             $epin->user_id = $user->id;
             $epin->sent_by = Auth::id();
             $epin->recieved_by = $user->id;
-            $epin->status = 0;
             $epin->save();
             $notify[] = ['success', 'E-Pin Sent Successfully!'];
             return back()->withNotify($notify);
