@@ -24,7 +24,7 @@ class SiteController extends Controller
 
     public function CheckSponsor(Request $request)
     {
-        $id = User::where('sponsor_id', $request->sponsor)->first();
+        $id = User::where('user_id', $request->sponsor)->first();
         // if($id ) {
         //     return response()->json(['status' => 'success', 'message' => 'Sponsor ID is valid']);
         // } else {
@@ -40,12 +40,14 @@ class SiteController extends Controller
 
     public function CheckPlacer(Request $request)
     {
-        $id = User::where('placer_id', $request->placer)->first();
+        $id = User::where('user_id', $request->placer)->first();
+
+        // dd($id);
 
         if ($id == '') {
             return response()->json(['success' => false, 'msg' => "<span class='help-block'><strong class='text-danger'>Placer ID not found</strong></span>"]);
         } else {
-            return response()->json(['success' => true, 'msg' => "<span class='help-block'><strong class='text-success'>$id->username</strong></span>
+            return response()->json(['success' => true, 'msg' => "<span class='help-block'><strong class='text-success'>$id->fullname</strong></span>
                      <input type='hidden' id='placer_ref_id' value='$id->id' name='placer_ref_id'>"]);
         }
     }

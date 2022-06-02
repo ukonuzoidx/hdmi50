@@ -64,8 +64,8 @@ class RegisterController extends Controller
         $country_code = @implode(',', $info['code']);
 
         if ($request->ref && $request->placer && $request->position) {
-            $ref_user = User::where('sponsor_id', $request->ref)->first();
-            $ref_placer = User::where('placer_id', $request->placer)->first();
+            $ref_user = User::where('user_id', $request->ref)->first();
+            $ref_placer = User::where('user_id', $request->placer)->first();
 
             if ($ref_user == null) {
                 $notify[] = ['error', 'Invalid Referral link.'];
@@ -146,6 +146,7 @@ class RegisterController extends Controller
             // 'password' => ['required', 'string', 'min:8', 'confirmed'],
             'sponsor_id'      => 'required|string|max:160',
             'placer_id'      => 'required|string|max:160',
+            // 'user_id' => 'required|string|max:160',
             'position'      => 'required|integer',
             'firstname'     => 'sometimes|required|string|max:60',
             'lastname'      => 'sometimes|required|string|max:60',
@@ -169,14 +170,14 @@ class RegisterController extends Controller
             return back()->withNotify($notify)->withInput();
         }
 
-        $userCheck = User::where('sponsor_id', $request->sponsor_id)->first();
+        $userCheck = User::where('user_id', $request->sponsor_id)->first();
         // dd($request->all());
         if (!$userCheck) {
             $notify[] = ['error', 'Referral Sponsor not found.'];
             return back()->withNotify($notify);
         }
 
-        $placerCheck = User::where('placer_id', $request->placer_id)->first();
+        $placerCheck = User::where('user_id', $request->placer_id)->first();
 
         if (!$placerCheck) {
             $notify[] = ['error', 'Referral Placer not found.'];
@@ -208,15 +209,15 @@ class RegisterController extends Controller
 
         $general = GeneralSetting::first();
 
-        $userCheck = User::where('sponsor_id', $data['sponsor_id'])->first();
-        $placerCheck = User::where('placer_id',
+        $userCheck = User::where('user_id', $data['sponsor_id'])->first();
+        $placerCheck = User::where('user_id',
             $data['placer_id']
         )->first();
         $pos = getPosition($placerCheck->id,
             $data['position']
         );
 
-        $string = Str::orderedUuid();
+        // generate strings with random characters and numbers
 
         // sign up fee $150
         $signup_fee = $general->signup_bonus;
@@ -227,10 +228,8 @@ class RegisterController extends Controller
         //User Create
         $user = new User();
         $user->ref_id           = $userCheck->id;
-        $user->sponsor_id       = "SP50" . random_int(1000000, 99999999);
-        $user->placer_id        = "PL50" . random_int(1000000, 99999999);
         $user->pos_id           = $placerCheck->id;
-        $user->user_id          = $string;
+        $user->user_id          = generateRandomInteger(10);
         $user->position         = $pos['position'];
         $user->firstname        = isset($data['firstname']) ? $data['firstname'] : null;
         $user->lastname         = isset($data['lastname']) ? $data['lastname'] : null;

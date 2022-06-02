@@ -233,32 +233,6 @@
                                     <td><span class="lpaid"></span></td>
                                     <td><span class="rpaid"></span></td>
                                 </tr>
-                                <tr>
-                                    <td>@lang('Referral link')</td>
-                                    <td>
-                                        <input type="url" value="" class="form-control lRef" id="leftRef" readonly>
-                                        <button type="button" @click="copyBtnClick" data-copytarget="#leftRef" id="copybtn"
-                                            class="btn btn--primary btn-block"> <i class="fa fa-copy"></i>
-                                            @lang('Copy')</button>
-
-                                    </td>
-                                    <td>
-                                        <input type="url" value="" class="form-control rRef" id="rightRef" readonly>
-                                        <button type="button" @click="copyBtnClick" data-copytarget="#rightRef"
-                                            id="copybtn2" class="btn btn--primary btn-block"> <i class="fa fa-copy"></i>
-                                            @lang('Copy')</button>
-
-                                    </td>
-
-                                </tr>
-                                {{-- <tr>
-                                        <td>@lang('Check Dowline')</td>
-                                        <td> 
-                                             <a class="tree_url">
-                                                <span class="tree_url"></span>
-                                            </a>
-                                        </td>
-                                    </tr> --}}
                             </table>
 
                         </div>
@@ -295,54 +269,12 @@
                 $('.tree_ref').text($(this).data('refby'));
                 $('.lpv').text($(this).data('lpv'));
                 $('.rpv').text($(this).data('rpv'));
-                $('.lfree').text($(this).data('lfree'));
-                $('.rfree').text($(this).data('rfree'));
                 $('.lpaid').text($(this).data('lpaid'));
                 $('.rpaid').text($(this).data('rpaid'));
-                $('.rfree').text($(this).data('rfree'));
-                $('.lRef').attr({
-                    "value": $(this).data('leftref')
-                });
-                $('.rRef').attr({
-                    "value": $(this).data('rightref')
-                });
-                // $('.lRef').attr({
-                //     "href": $(this).data('leftref')
-                // });
-                // $('.rRef').attr({
-                //     "href": $(this).data('rightref')
-                // });
-                // $(".lRef").text($(this).data('leftref'));
-                // $(".rRef").text($(this).data('rightref'));
+              
 
                 $('#exampleModalCenter').modal('show');
             });
-        })(jQuery);
-    </script>
-    <script>
-        'use strict';
-        (function($) {
-            document.body.addEventListener('click', copy, true);
-
-            function copy(e) {
-                var
-                    t = e.target,
-                    c = t.dataset.copytarget,
-                    inp = (c ? document.querySelector(c) : null);
-                if (inp && inp.select) {
-                    inp.select();
-                    try {
-                        document.execCommand('copy');
-                        inp.blur();
-                        t.classList.add('copied');
-                        setTimeout(function() {
-                            t.classList.remove('copied');
-                        }, 1500);
-                    } catch (err) {
-                        alert(`@lang('Please press Ctrl/Cmd+C to copy')`);
-                    }
-                }
-            }
         })(jQuery);
     </script>
 @endpush

@@ -109,40 +109,40 @@ class PlanController extends Controller
             'post_balance' => getAmount($user->balance),
         ]);
 
-        // notify($user, 'plan_purchased', [
-        //     'plan' => $plan->name,
-        //     'amount' => getAmount($plan->price),
-        //     'currency' => $gnl->cur_text,
-        //     'trx' => $trx->trx,
-        //     'post_balance' => getAmount($user->balance) . ' ' . $gnl->cur_text,
-        // ]);
+        notify($user, 'plan_purchased', [
+            'plan' => $plan->name,
+            'amount' => getAmount($plan->price),
+            'currency' => $gnl->cur_text,
+            'trx' => $trx->trx,
+            'post_balance' => getAmount($user->balance) . ' ' . $gnl->cur_text,
+        ]);
         // if ($oldPlan == 0) {
         // updatePaidCount($user->id);
         // }
 
         // count how many plan user has purchased
-        $count = SubscribedPlans::whereUserId($user->id)->count();
+        // $count = SubscribedPlans::whereUserId($user->id)->count();
 
         // if user has purchased many plan then assign the referral bonus to his/her referrer
 
         $details = Auth::user()->username . ' Subscribed to ' . $plan->name . ' plan.';
 
-        if ($count > 0) {
-            // calculate the total amount of plan user has purchased
-            $totalPv = SubscribedPlans::whereUserId($user->id)->sum('amount');
-            // get the sum of the current subscribed plan referral commission
-            $totalCommission = SubscribedPlans::whereUserId($user->id)->sum('ref_com');
-            // get the sum of the current subscribed plan tree commission
-            $totalTreeCommission = SubscribedPlans::whereUserId($user->id)->sum('tree_com');
+        // if ($count > 0) {
+        //     // calculate the total amount of plan user has purchased
+        //     $totalPv = SubscribedPlans::whereUserId($user->id)->sum('amount');
+        //     // get the sum of the current subscribed plan referral commission
+        //     $totalCommission = SubscribedPlans::whereUserId($user->id)->sum('ref_com');
+        //     // get the sum of the current subscribed plan tree commission
+        //     $totalTreeCommission = SubscribedPlans::whereUserId($user->id)->sum('tree_com');
           
 
-        }
+        // }
         // dd($totalPv, $totalCommission, $totalTreeCommission, $count);
-        updatePV($user->id, $plan->pv, $details, $totalPv);
+        updatePV($user->id, $plan->pv, $details);
         
-        referralComission($user->id, $details, $plan->id, $totalCommission);
+        referralComission($user->id, $details, $plan->id);
         if ($plan->tree_com > 0) {
-            treeComission($user->id, $plan->tree_com, $details, $totalTreeCommission);
+            treeComission($user->id, $plan->tree_com, $details);
         }
 
         $notify[] = ['success', 'Purchased ' . $plan->name . ' Successfully'];

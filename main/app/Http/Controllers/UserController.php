@@ -431,7 +431,7 @@ class UserController extends Controller
     public function epins()
     {
         $data['page_title'] = "E-Pin Details";
-        $data['epins'] = Epin::where('user_id', Auth::id())->latest()->paginate(getPaginate());
+        $data['epins'] = Epin::where('user_id', Auth::id())->where('status', '=', 0)->latest()->paginate(getPaginate());
         $data['empty_message'] = "No Data Found!";
         return view($this->activeTemplate . 'user.epins', $data);
     }

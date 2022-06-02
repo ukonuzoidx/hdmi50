@@ -9,8 +9,20 @@ Route::get('/clear', function () {
     // \Illuminate\Support\Facades\Artisan::call('optimize');
     $notify[] = ['success', 'Cache has been cleared.'];
     return redirect()->route('home')->withNotify($notify);
-    
 });
+
+Route::get(
+    '/random',
+    function ($length = 8) {
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+);
 
 // Route::get('/cron', 'CronController@cron')->name('pv.matching.cron');
 

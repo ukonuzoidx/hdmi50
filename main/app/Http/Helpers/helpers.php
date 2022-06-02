@@ -173,13 +173,13 @@ function updatePaidCount($id)
 
             $extra = UserExtra::where('user_id', $posid)->first();
 
-            // if ($position == 1) {
-            //     // $extra->free_left -= 1;
-            //     $extra->paid_left += 1;
-            // } else {
-            //     // $extra->free_right -= 1;
-            //     $extra->paid_right += 1;
-            // }
+            if ($position == 1) {
+                // $extra->free_left -= 1;
+                $extra->paid_left += 1;
+            } else {
+                // $extra->free_right -= 1;
+                $extra->paid_right += 1;
+            }
             $extra->save();
             $id = $posid;
         } else {
@@ -331,7 +331,7 @@ function matchingBonus($id, $pv, $placerId)
 //     }
 // }
 
-function updatePV($id, $pv, $details, $totalPv)
+function updatePV($id, $pv, $details)
 {
     while ($id != "" || $id != "0") {
         if (isUserExists($id)) {
@@ -347,10 +347,10 @@ function updatePV($id, $pv, $details, $totalPv)
             $pvlog->user_id = $posid;
 
             if ($position == 1) {
-                $extra->pv_left += $pv + $totalPv;
+                $extra->pv_left += $pv;
                 $pvlog->position = '1';
             } else {
-                $extra->pv_right += $pv + $totalPv;
+                $extra->pv_right += $pv;
                 $pvlog->position = '2';
             }
             $extra->save();
@@ -367,7 +367,7 @@ function updatePV($id, $pv, $details, $totalPv)
 }
 
 // tree and referral commission
-function treeComission($id, $amount, $details, $tree_com)
+function treeComission($id, $amount, $details)
 {
     $fromUser = User::find($id);
 
@@ -381,8 +381,8 @@ function treeComission($id, $amount, $details, $tree_com)
             $posUser = User::find($posid);
             // if ($posUser->plan_id != 0) {
 
-            $posUser->balance  += $amount + $tree_com;
-            $posUser->total_binary_com += $amount + $tree_com;
+            $posUser->balance  += $amount;
+            $posUser->total_binary_com += $amount;
             $posUser->save();
 
             $posUser->transactions()->create([
@@ -401,7 +401,7 @@ function treeComission($id, $amount, $details, $tree_com)
     }
 }
 
-function referralComission($user_id, $details, $planId, $ref_com)
+function referralComission($user_id, $details, $planId)
 {
 
     $user = User::find($user_id);
@@ -410,8 +410,8 @@ function referralComission($user_id, $details, $planId, $ref_com)
         $plan = Plan::find($planId);
         if ($plan) {
             $amount = $plan->ref_com;
-            $refer->balance += $amount + $ref_com;
-            $refer->total_ref_com += $amount + $ref_com;
+            $refer->balance += $amount;
+            $refer->total_ref_com += $amount;
             $refer->save();
 
             $trx = $refer->transactions()->create([
@@ -685,14 +685,14 @@ function showSingleUserInTree($user)
         } else {
             $hisTree = route('user.other.tree', $user->username);
         }
-        $sponsId = getUserById($user->id)->sponsor_id ?? '';
-        $placerId = getUserById($user->id)->placer_id ?? '';
+        // $sponsId = getUserById($user->id)->user_id ?? '';
+        // $placerId = getUserById($user->id)->user_id ?? '';
 
-        $reflinkLeft = route('user.register', ['ref' => $sponsId, 'placer' => $placerId, 'position' => 'left']);
-        $reflinkRight = route('user.register', ['ref' => $sponsId, 'placer' => $placerId, 'position' => 'right']);
+        // $reflinkLeft = route('user.register', ['ref' => $sponsId, 'placer' => $placerId, 'position' => 'left']);
+        // $reflinkRight = route('user.register', ['ref' => $sponsId, 'placer' => $placerId, 'position' => 'right']);
 
-        $shortleftUrl = urlShort($reflinkLeft);
-        $shortrightUrl = urlShort($reflinkRight);
+        // $shortleftUrl = urlShort($reflinkLeft);
+        // $shortrightUrl = urlShort($reflinkRight);
         // dd($sponsId, $placerId, $shortleftUrl, $shortrightUrl, $reflinkLeft, $reflinkRight);
 
         $extraData = " data-name=\"$user->fullname\"";
@@ -701,8 +701,8 @@ function showSingleUserInTree($user)
         // $extraData .= " data-plan=\"$planName\"";
         $extraData .= " data-image=\"$img\"";
         $extraData .= " data-refby=\"$refBy\"";
-        $extraData .= " data-sponsorid=\"$sponsId\"";
-        $extraData .= " data-placerid=\"$placerId\"";
+        // $extraData .= " data-sponsorid=\"$sponsId\"";
+        // $extraData .= " data-placerid=\"$placerId\"";
         $extraData .= " data-username=\"$user->username\"";
         $extraData .= " data-lfree=\"" . @$user->userExtra->free_left . "\"";
         $extraData .= " data-rfree=\"" . @$user->userExtra->free_right . "\"";
@@ -710,8 +710,8 @@ function showSingleUserInTree($user)
         $extraData .= " data-rpaid=\"" . @$user->userExtra->paid_right . "\"";
         $extraData .= " data-lpv=\"" . getAmount(@$user->userExtra->pv_left) . "\"";
         $extraData .= " data-rpv=\"" . getAmount(@$user->userExtra->pv_right) . "\"";
-        $extraData .= "data-leftRef=\"" . $shortleftUrl . "\"";
-        $extraData .= "data-rightRef=\"" . $shortrightUrl . "\"";
+        // $extraData .= "data-leftRef=\"" . $shortleftUrl . "\"";
+        // $extraData .= "data-rightRef=\"" . $shortrightUrl . "\"";
 
         $res .= "<div class=\"user showDetails\" type=\"button\" $extraData>";
         $res .= "<img src=\"$img\" alt=\"*\"  class=\"$userType\">";
@@ -1140,4 +1140,29 @@ function verificationCode($length)
         $max = ($max * 10) + 9;
     }
     return random_int($min, $max);
+}
+
+
+// generate random string
+function generateRandomString($length)
+{
+    $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
+
+// generate random integer
+function generateRandomInteger($length)
+{
+    $characters = '0123456789';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
 }

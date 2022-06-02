@@ -70,7 +70,7 @@
                                         <div class="form-group">
                                             <label class="form--label-2" for="sponsor_id">Sponsor ID</label>
                                             <input type="text" name="sponsor_id" class="form-control form--control-2"
-                                                placeholder="Enter Sponsor ID" value="{{ $ref_user->sponsor_id }}"
+                                                placeholder="Enter Sponsor ID" value="{{ $ref_user->user_id }}"
                                                 readonly>
                                             @php echo $sponsorss_id; @endphp
                                         </div>
@@ -80,7 +80,7 @@
                                         <div class="form-group">
                                             <label class="form--label-2" for="placer_id">Placer ID</label>
                                             <input type="text" name="placer_id" class="form-control form--control-2"
-                                                placeholder="Enter Placer ID" value="{{ $ref_placer->placer_id }}"
+                                                placeholder="Enter Placer ID" value="{{ $ref_placer->user_id }}"
                                                 readonly>
                                             @php echo $placerss_id; @endphp
                                         </div>
@@ -91,9 +91,10 @@
                                             <label class="form--label-2" for="position">Select Position</label>
                                             <select id="position" class="form-control form--control-2" required disabled>
                                                 <option value="">Select Position</option>
-                                                @foreach (mlmPositions() as $k => $v)
-                                                    <option value="{{ $k }}">@lang($v)</option>
-                                                @endforeach
+                                                 @foreach(mlmPositions() as $k=> $v)
+                                                        <option @if($position == $k) selected
+                                                                @endif value="{{$k}}">@lang($v)</option>
+                                                    @endforeach
                                             </select>
                                             <input type="hidden" name="position" value="{{ $position }}">
                                             @php echo $joining; @endphp

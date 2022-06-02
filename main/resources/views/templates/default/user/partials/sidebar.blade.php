@@ -29,44 +29,39 @@
                  <h3>KYC Registration</h3>
              </li>
              <li class="slide">
-                 <a class="side-menu__item" href="{{ route('user.profile-setting') }}">
-                     <i class="side-menu__icon fe fe-user-check"></i>
-                     <span class="side-menu__label">Profile</span>
-                 </a>
+                 <a class="side-menu__item" data-toggle="slide" href="#">
+                     <i class="side-menu__icon fe fe-user-check  menu-icons"></i>
+                     <span class="side-menu__label">
+                         Profile
+                     </span>
+                     <i class="angle fe fe-chevron-down"></i></a>
+                 <ul class="slide-menu">
+                     <li><a class="slide-item" href="{{ route('user.profile-setting') }}">KYC</a>
+                     </li>
+                     <li><a class="slide-item" href="{{ route('user.epins') }}">EPINS</a></li>
+                     <li><a class="slide-item" href="{{ route('ticket') }}">Ticket</a></li>
+                 </ul>
              </li>
-             <li class="slide">
-                 <a class="side-menu__item" href="{{ route('user.epins') }}">
-                     <i class="side-menu__icon fe fe-user-check"></i>
-                     <span class="side-menu__label">Epins</span>
-                 </a>
-             </li>
-             <li class="slide">
-                 <a class="side-menu__item" href="{{ route('ticket') }}">
-                     <i class="side-menu__icon ti-face-smile"></i>
-                     <span class="side-menu__label">Ticket</span>
-                 </a>
-             </li>
+
+
 
 
              <li>
                  <h3>Genealogy</h3>
              </li>
              <li class="slide">
-                 <a class="side-menu__item" href="{{ route('user.my.tree') }}">
-                     <i class="side-menu__icon fa fa-tree"></i>
+                 <a class="side-menu__item" data-toggle="slide" href="#">
+                     <i class="side-menu__icon fa fa-tree  menu-icons"></i>
                      <span class="side-menu__label">
-                         My Tree
+                         Genealogy
                      </span>
-                 </a>
-             </li>
-             <li class="slide">
-                 <a class="side-menu__item" href="{{ route('user.binary.summary') }}">
-                     <i class="side-menu__icon ti-bar-chart"></i>
-                     {{-- <i class="side-menu__icon fe fe-bar-chart-2"></i> --}}
-                     <span class="side-menu__label">
-                         Binary Summary
-                     </span>
-                 </a>
+                     <i class="angle fe fe-chevron-down"></i></a>
+                 <ul class="slide-menu">
+                     <li><a class="slide-item" href="{{ route('user.my.tree') }}">Binary Tree</a>
+                     </li>
+                     <li><a class="slide-item" href="{{ route('user.my.ref') }}">Sponsor List</a></li>
+                     <li><a class="slide-item" href="{{ route('user.binary.summary') }}">Placement List</a></li>
+                 </ul>
              </li>
 
 
@@ -106,27 +101,29 @@
                      </span>
                      <i class="angle fe fe-chevron-down"></i></a>
                  <ul class="slide-menu">
-                     <li><a class="slide-item" href="{{ route('user.report.transactions') }}">Transaction Log</a>
+                     <li><a class="slide-item" href="{{ route('user.report.transactions') }}">Transaction
+                             History</a>
                      </li>
-                     <li><a class="slide-item" href="{{ route('user.report.withdraw') }}">Withdraw Log</a></li>
-                     <li><a class="slide-item" href="{{ route('user.report.invest') }}">Invest Log</a></li>
-                     <li><a class="slide-item" href="{{ route('user.report.refCom') }}">Referral Commission</a>
+                     <li><a class="slide-item" href="{{ route('user.report.withdraw') }}">Withdraw History</a>
                      </li>
-                     <li><a class="slide-item" href="{{ route('user.report.binaryCom') }}">Binary Commission</a>
+                     <li><a class="slide-item" href="{{ route('user.report.invest') }}">Invest History</a></li>
+                     {{-- <li><a class="slide-item" href="{{ route('user.report.refCom') }}">Referral Commission</a>
                      </li>
-                 </ul>
+                     <li><a class="slide-item" href="{{ route('user.report.binaryCom') }}">Binary Commission</a> --}}
              </li>
+         </ul>
+         </li>
 
-             <li class="slide">
-                 <a class="side-menu__item" href="{{ route('user.balance.transfer') }}">
-                     <i class="side-menu__icon ti-wallet"></i>
-                     <span class="side-menu__label">
-                         P2P Transfer
-                     </span>
-                 </a>
-             </li>
+         <li class="slide">
+             <a class="side-menu__item" href="{{ route('user.balance.transfer') }}">
+                 <i class="side-menu__icon ti-wallet"></i>
+                 <span class="side-menu__label">
+                     P2P Transfer
+                 </span>
+             </a>
+         </li>
 
-             {{-- <li class="slide">
+         {{-- <li class="slide">
                  <a class="side-menu__item" href="{{ route('user.my.ref') }}">
                      <i class="side-menu__icon fe fe-users"></i>
                      <span class="side-menu__label">
@@ -135,10 +132,10 @@
                  </a>
              </li> --}}
 
-             {{-- <li>
+         {{-- <li>
                  <h3>Withdraws & Reports</h3>
              </li> --}}
-             {{-- <li class="slide">
+         {{-- <li class="slide">
                  <a class="side-menu__item" href="{{ route('user.withdraw') }}">
                      <i class="side-menu__icon ti-wallet"></i>
                      <span class="side-menu__label">
@@ -166,7 +163,7 @@
              </li> --}}
 
 
-             {{-- <li>
+         {{-- <li>
                  <h3>Profile</h3>
              </li> --}}
 

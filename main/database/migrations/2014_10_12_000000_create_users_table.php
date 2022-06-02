@@ -31,8 +31,8 @@ return new class extends Migration
             $table->json('address')->nullable()->comment('Contains full address');
             $table->string('lastname');
             $table->string('username');
-            $table->string('sponsor_id');
-            $table->string('placer_id');
+            // $table->string('sponsor_id');
+            // $table->string('placer_id');
             $table->string('left_side')->default(0);
             $table->string('right_side')->default(0);
             $table->string('epin')->unique();
@@ -67,8 +67,6 @@ return new class extends Migration
             'firstname' => 'John',
             'lastname' => 'Doe',
             'username' => 'johndoe',
-            'sponsor_id' => "SP" . random_int(1000000, 99999999),
-            'placer_id' =>  "PL" . random_int(1000000, 99999999),
             'epin' => 'EPIN1',
             'pin' => bcrypt('123456'),
             'balance' => 1000000.00000000,

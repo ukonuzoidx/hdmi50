@@ -53,7 +53,7 @@ class ManageEpinsController extends Controller
         // create epin by the total number of total pin put
         for ($i = 0; $i < $request->total; $i++) {
            $epin= Epin::create([
-                'epin' => str_random(8),
+                'epin' => generateRandomString(8),
                 'status' => $status,
                 'user_id' => $sponsor->id,
                 'type' => $request->type,
