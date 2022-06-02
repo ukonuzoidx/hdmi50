@@ -20,7 +20,9 @@ return new class extends Migration
             // $table->unsignedBigInteger('user_id');
             $table->string('epin')->unique();
             $table->integer('status')->default('0')->comment('0: unused, 1: used');
-            $table->string('type')->nullable()->comment('0: joining, 1: signup');
+            $table->integer('type')->nullable()->comment('0: joining, 1: signup');
+            $table->integer('sent_by')->nullable();
+            $table->integer('recieved_by')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
         });

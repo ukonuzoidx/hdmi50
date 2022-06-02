@@ -32,7 +32,7 @@
             </div>
             <a href="javascript:void(0)" class="btn mb-4 btn--success add-epin">
                 <i class="fa fa-fw fa-plus"></i>
-                @lang('Add New Epin')
+                @lang('Generate Epin')
             </a>
 
         </div>
@@ -50,7 +50,7 @@
                                         <th scope="col">@lang('Amount')</th>
                                         <th scope="col">@lang('Status')</th>
                                         <th scope="col">@lang('Created At')</th>
-                                        <th scope="col">@lang('Action')</th>
+                                        {{-- <th scope="col">@lang('Action')</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -66,7 +66,7 @@
                                                 @endif
                                             <td data-label="@lang('Joined At')">{{ showDateTime($epin->created_at) }}
                                             </td>
-                                            <td data-label="@lang('Action')">
+                                            {{-- <td data-label="@lang('Action')">
                                                 <button type="button" class="icon-btn edit" data-toggle="tooltip"
                                                     data-id="{{ $epin->id }}" data-name="{{ $epin->epin }}"
                                                     data-status="{{ $epin->status }}"
@@ -74,7 +74,7 @@
                                                     data-original-title="Edit">
                                                     <i class="la la-pencil"></i>
                                                 </button>
-                                            </td>
+                                            </td> --}}
                                         </tr>
                                     @empty
                                         <tr>

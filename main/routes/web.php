@@ -253,7 +253,13 @@ Route::name('user.')->prefix('user')->group(
                 Route::post('profile-setting', 'UserController@submitProfile');
                 Route::get('change-password', 'UserController@changePassword')->name('change-password');
                 Route::post('change-password', 'UserController@submitPassword');
-                Route::get('epins', 'UserController@epins')->name('epins');
+
+                //epins
+                Route::get('epins', 'UserController@allEpins')->name('epins');
+                Route::get('epins/unused', 'UserController@epinsUnused')->name('epins.unused');
+                Route::get('epins/used', 'UserController@epinsUsed')->name('epins.used');
+                Route::get('epins/sent', 'UserController@epinsSent')->name('epins.sent');
+                Route::post('epins/sent', 'UserController@epinSend')->name('epins.sent.user');
 
 
                 // plans

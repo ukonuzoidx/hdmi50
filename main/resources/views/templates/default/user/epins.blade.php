@@ -17,12 +17,18 @@
                     <p class="text-primary mb-0 hover-cursor">&nbsp;/&nbsp;{{ $page_title }}</p>
                 </div>
             </div>
+            <a href="javascript:void(0)" class="btn mb-4 btn--success transfer">
+                <i class="fa fa-fw fa-plus"></i>
+                @lang('Transfer Epin')
+            </a>
+
             <div class="d-flex align-items-end flex-wrap my-auto right-content breadcrumb-right">
                 <button class="btn btn-primary mt-2 mt-xl-0">Current Rank<br>
                     <span class="badge badge-light">Silver Rank</span>
                     {{-- <span class="badge badge-light">{{ auth()->user()->rank }}</span> --}}
                 </button>
             </div>
+
         </div>
         <!-- /breadcrumb -->
 
@@ -68,6 +74,40 @@
             </div>
         </div>
 
+        <div id="transfer-epin" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">@lang('Transfer Epin')</h5>
+
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+
+                    </div>
+                    <form method="post" action="{{ route('user.epins.sent') }}">
+                        @csrf
+                        <div class="modal-body">
+
+                            <input class="form-control epin_id" type="hidden" name="id">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label class="font-weight-bold"> @lang('Name') :</label>
+                                    <input class="form-control" name="epin" placeholder="Put your Epin" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="font-weight-bold"> @lang('Username') </label>
+                                    <input type="text" class="form-control" name="username" placeholder="Enter the username " required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-block btn--primary">@lang('Transfer')</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- /container -->
 @endsection
@@ -106,4 +146,15 @@
 
     <!-- Internal Datatable js -->
     <script src="{{ asset('assets/admin/js/table-data.js') }}"></script>
+    <script>
+        "use strict";
+        (function($) {
+            $('.transfer').on('click', function() {
+                var modal = $('#transfer-epin');
+                modal.modal('show');
+            });
+
+
+        })(jQuery);
+    </script>
 @endpush

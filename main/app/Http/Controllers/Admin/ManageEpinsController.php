@@ -39,17 +39,13 @@ class ManageEpinsController extends Controller
         ]);
 
         // check if sponsor id is valid
-        $sponsor = \App\Models\User::where('sponsor_id', $request->sponsorId)->first();
+        $sponsor = \App\Models\User::where('user_id', $request->sponsorId)->first();
         if (!$sponsor) {
             $notify[] = ['error', 'Sponsor id is not valid'];
             return back()->withNotify($notify);
         }
-
         $status = 0;
-
-     
-        
-        
+   
         // create epin by the total number of total pin put
         for ($i = 0; $i < $request->total; $i++) {
            $epin= Epin::create([

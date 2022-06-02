@@ -436,6 +436,115 @@ class UserController extends Controller
         return view($this->activeTemplate . 'user.epins', $data);
     }
 
+    // show auth user epins created for them
+    public function epinsHistory()
+    {
+        $data['page_title'] = "E-Pin History";
+        $data['epins'] = Epin::where('user_id', Auth::id())->where('status', '!=', 0)->latest()->paginate(getPaginate());
+        $data['empty_message'] = "No Data Found!";
+        return view($this->activeTemplate . 'user.epinsHistory', $data);
+    }
 
+    // show auth user unused epins
+    public function epinsUnused()
+    {
+        $data['page_title'] = "Unused E-Pin";
+        $data['epins'] = Epin::unused()->where('user_id', Auth::id())->latest()->paginate(getPaginate());
+        $data['empty_message'] = "No Data Found!";
+        return view($this->activeTemplate . 'user.epins', $data);
+    }
+
+    // show auth user used epins
+    public function epinsUsed()
+    {
+        $data['page_title'] = "Used E-Pin";
+        $data['epins'] = Epin::used()->where('user_id', Auth::id())->latest()->paginate(getPaginate());
+        $data['empty_message'] = "No Data Found!";
+        return view($this->activeTemplate . 'user.epins', $data);
+    }
+
+    // show auth user sent epins
+    public function epinsSent()
+    {
+        $data['page_title'] = "Sent E-Pin";
+        $data['epins'] = Epin::where('sent_by', auth()->id())->latest()->paginate(getPaginate());
+        $data['empty_message'] = "No Data Found!";
+        return view($this->activeTemplate . 'user.epins', $data);
+    }
+
+    // show auth user received epins
+    public function epinsReceived()
+    {
+        $data['page_title'] = "Received E-Pin";
+        $data['epins'] = Epin::where('user_id', Auth::id())->where('received_by', auth()->id())->latest()->paginate(getPaginate());
+        $data['empty_message'] = "No Data Found!";
+        return view($this->activeTemplate . 'user.epins', $data);
+    }
+
+    // send epin from auth user to other user
+    public function epinSend(Request $request)
+    {
+     $this->validate($request, [
+            'username' => 'required',
+            'epin' => 'required',
+            ]);
+
+        $user = User::where('username', $request->username)->first();
+
+        if (!$user) {
+            $notify[] = ['error', 'User Not Found!'];
+            return back()->withNotify($notify);
+        }
+
+        $epin = Epin::where('epin', $request->epin)->where('user_id', Auth::id())->first();
+
+        if (!$epin) {
+            $notify[] = ['error', 'E-Pin Not Found!'];
+            return back()->withNotify($notify);
+        }
+
+        if ($epin->status == 1) {
+            $notify[] = ['error', 'E-Pin Already Used!'];
+            return back()->withNotify($notify);
+        }
+
+      //check if epin is unused the send it to user
+        if ($epin->status == 0) {
+            $epin->user_id = $user->id;
+            $epin->sent_by = Auth::id();
+            $epin->recieved_by = $user->id;
+            $epin->status = 0;
+            $epin->save();
+            $notify[] = ['success', 'E-Pin Sent Successfully!'];
+            return back()->withNotify($notify);
+        }
+
+
+         
+
+        // if ($user) {
+        //     $epin = Epin::find($request->epin);
+        //     if ($epin) {
+        //         if ($epin->status == 0) {
+        //             $epin->sent_by = Auth::id();
+        //             $epin->status = 1;
+        //             $epin->save();
+        //             $notify[] = ['success', 'E-Pin Sent Successfully.'];
+        //             return back()->withNotify($notify);
+        //         } else {
+        //             $notify[] = ['error', 'E-Pin Already Sent.'];
+        //             return back()->withNotify($notify);
+        //         }
+        //     } else {
+        //         $notify[] = ['error', 'E-Pin Not Found.'];
+        //         return back()->withNotify($notify);
+        //     }
+
+        // $notify[] = ['success', 'E-Pin Sent Successfully.'];
+        // return back()->withNotify($notify);
+        }
+
+   
+        
   
 }
