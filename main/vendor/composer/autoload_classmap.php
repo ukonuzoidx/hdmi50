@@ -56,7 +56,6 @@ return array(
     'App\\Models\\Extension' => $baseDir . '/app/Models/Extension.php',
     'App\\Models\\Frontend' => $baseDir . '/app/Models/Frontend.php',
     'App\\Models\\GeneralSetting' => $baseDir . '/app/Models/GeneralSetting.php',
-    'App\\Models\\Kyc' => $baseDir . '/app/Models/Kyc.php',
     'App\\Models\\Page' => $baseDir . '/app/Models/Page.php',
     'App\\Models\\PasswordReset' => $baseDir . '/app/Models/PasswordReset.php',
     'App\\Models\\Plan' => $baseDir . '/app/Models/Plan.php',

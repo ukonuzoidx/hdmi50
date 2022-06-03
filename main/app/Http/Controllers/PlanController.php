@@ -127,22 +127,15 @@ class PlanController extends Controller
 
         $details = Auth::user()->username . ' Subscribed to ' . $plan->name . ' plan.';
 
-        // if ($count > 0) {
-        //     // calculate the total amount of plan user has purchased
-        //     $totalPv = SubscribedPlans::whereUserId($user->id)->sum('amount');
-        //     // get the sum of the current subscribed plan referral commission
-        //     $totalCommission = SubscribedPlans::whereUserId($user->id)->sum('ref_com');
-        //     // get the sum of the current subscribed plan tree commission
-        //     $totalTreeCommission = SubscribedPlans::whereUserId($user->id)->sum('tree_com');
-          
+        $shiba = $gnl->shiba_bonus * 0.05;
 
-        // }
-        // dd($totalPv, $totalCommission, $totalTreeCommission, $count);
         updatePV($user->id, $plan->pv, $details);
+
         
         referralComission($user->id, $details, $plan->id);
         if ($plan->tree_com > 0) {
             treeComission($user->id, $plan->tree_com, $details);
+
         }
 
         $notify[] = ['success', 'Purchased ' . $plan->name . ' Successfully'];
@@ -200,5 +193,22 @@ class PlanController extends Controller
         $data['page_title'] = "Binary Summery";
         $data['logs'] = UserExtra::where('user_id', auth()->id())->firstOrFail();
         return view($this->activeTemplate . 'user.binarySummary', $data);
+    }
+
+    public function placementList()
+    {
+       /**
+        * get all users who are placed under the current user
+        * and get their position in the tree
+        */
+        $data['page_title'] = "Placement List";
+        
+  
+        // dd($data);
+
+        return view($this->activeTemplate . '.user.placementList', $data);
+        // $data['page_title'] = "Placement List";
+        // $data['logs'] = User::where('ref_id', auth()->id())->latest()->paginate(10);
+        // return view($this->activeTemplate . 'user.placementList', $data);
     }
 }

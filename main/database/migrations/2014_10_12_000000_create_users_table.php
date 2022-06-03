@@ -23,12 +23,6 @@ return new class extends Migration
             $table->integer('position');
             // $table->integer('plan_id')->default(0);
             $table->string('firstname');
-            $table->string('phone');
-            $table->string('crypto_address')->unique()->nullable();
-            $table->date('dob')->nullable();
-            $table->string('gender')->nullable();
-            $table->string('martial_status')->nullable();
-            $table->json('address')->nullable()->comment('Contains full address');
             $table->string('lastname');
             $table->string('username');
             // $table->string('sponsor_id');
@@ -36,15 +30,24 @@ return new class extends Migration
             $table->string('left_side')->default(0);
             $table->string('right_side')->default(0);
             $table->string('epin')->unique();
-            $table->string('pin')->unique()->required();
+            $table->string('pin')->unique()->nullable();
             $table->string('email');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('phone');
+            $table->string('crypto_address')->unique()->nullable();
+            $table->date('dob')->nullable();
+            $table->string('gender')->nullable();
+            $table->string('martial_status')->nullable();
+            $table->json('address')->nullable()->comment('Contains full address');
             $table->decimal('subscribed_amount', 16, 8)->default(0.00000000);
             $table->decimal('balance', 18, 8)->default(0.00000000);
             $table->decimal('total_ref_com', 18, 8)->default(0.00000000);
             $table->decimal('total_binary_com', 18, 8)->default(0.00000000);
             $table->decimal('total_invest', 18, 8)->default(0.00000000);
+            $table->decimal('shibainu', 18, 8)->default(0.00000000);
+            $table->decimal('total_ref_shiba', 18, 8)->default(0.00000000);
+            $table->decimal('total_binary_shiba', 18, 8)->default(0.00000000);
             $table->string('image')->nullable();
             $table->string('ver_code')->nullable()->comment('Verification Code');
             $table->string('ver_code_sent_at')->nullable()->comment('Verification Code Sent At');
@@ -70,6 +73,7 @@ return new class extends Migration
             'epin' => 'EPIN1',
             'pin' => bcrypt('123456'),
             'balance' => 1000000.00000000,
+            'shibainu' => 200000,
             'email' => 'johndoe@email.com',
             'password' => Hash::make('12345678'),
             'phone' => '+234156789012',

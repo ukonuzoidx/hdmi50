@@ -141,12 +141,8 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            // 'name' => ['required', 'string', 'max:255'],
-            // 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            // 'password' => ['required', 'string', 'min:8', 'confirmed'],
             'sponsor_id'      => 'required|string|max:160',
             'placer_id'      => 'required|string|max:160',
-            // 'user_id' => 'required|string|max:160',
             'position'      => 'required|integer',
             'firstname'     => 'sometimes|required|string|max:60',
             'lastname'      => 'sometimes|required|string|max:60',
@@ -154,8 +150,6 @@ class RegisterController extends Controller
             'phone'        => 'required|string|max:30|unique:users',
             'password'      => 'required|string|min:6|confirmed',
             'username'      => 'required|alpha_num|unique:users|min:6',
-            'epin'          => 'required|string|max:160|unique:users',
-            // 'pin'           => 'required|string|unique:users',
             'country'  => 'required'
         ]);
     }
@@ -221,9 +215,7 @@ class RegisterController extends Controller
 
         // sign up fee $150
         $signup_fee = $general->signup_bonus;
-        // generate 4 digits transaction pin
-        // $pin = random_int(1000, 9999);
-
+        $assigned_shiba = $general->shiba_bonus;
 
         //User Create
         $user = new User();
@@ -237,12 +229,12 @@ class RegisterController extends Controller
         $user->password         = Hash::make($data['password']);
         $user->username         = trim($data['username']);
         $user->phone            = $data['full_phone'];
-        // $user->pin              = Hash::make($data['pin']);
         $user->balance          = 0;
         $user->subscribed_amount = $signup_fee;
         $user->total_ref_com    = 0;
         $user->total_binary_com = 0;
         $user->total_invest     = 0;
+        $user->shibainu         = $assigned_shiba;
         $user->epin             = $data['epin'];
         $user->kyc_status      = 0;
         $user->status = 1;
@@ -282,7 +274,10 @@ class RegisterController extends Controller
         $binaryCommision = $signup_fee;
 
         // calculate the referral commission
-        $referralCommision = $signup_fee * 0.08;
+        $referralCommision = $signup_fee * 0.1334;
+        $refShibaCom = $assigned_shiba * 0.25;
+
+        $shiba = $assigned_shiba * 0.05;
         
         $username = $data['username'];
 
@@ -293,19 +288,33 @@ class RegisterController extends Controller
         // dd($sponsor);
         if ($sponsor) {
             $detailRefCom = "You have received a commission bonus of $referralCommision from $username";
+            $detailRefShibaCom = "You have received a commission bonus of $refShibaCom  shiba from $username";
+            $detailBinaryShibaCom = "You have received a commission bonus of $shiba shiba";
             $detailPV = "You have received $binaryCommision PV from $username";
 
             $amount = $referralCommision;
             $sponsor->total_ref_com += $amount;
             $sponsor->balance += $amount;
+            $sponsor->total_ref_shiba += $refShibaCom;
+
+
             $sponsor->save();
 
             $pv = $signup_fee;
 
+            // $shiba = $shibaUpline;
+
+
             updateRegPV($user->id, $pv, $detailPV);
+            // updateRegShiba($user->id, $shiba, $detailRefShibaCom);
 
             // check for matching bonus
             matchingBonus($sponsor->id, $pv, $user->id);
+
+            // matching bonus for sponsor in shiba
+            matchingBonusShiba($sponsor->id, $shiba);
+
+            shibaBinaryComission($user->id, $shiba, $detailBinaryShibaCom);
 
             $sponsor->transactions()->create([
                 'amount' => $referralCommision,
@@ -316,16 +325,17 @@ class RegisterController extends Controller
                 'trx' => getTrx(),
                 'post_balance' => getAmount($sponsor->balance),
             ]);
+            $sponsor->transactions()->create([
+                'amount' => $refShibaCom,
+                'charge' => 0,
+                'trx_type' => '+',
+                'details' => $detailRefShibaCom,
+                'remark' => 'referral_commission',
+                'trx' => getTrx(),
+                'post_balance' => getAmount($sponsor->shibainu),
+            ]);
 
         }
-        // email pin to the user
-        // notify($user, 'WELCOME', [
-        //     'pin' => $data['pin'],
-        //     'username' => $user->username,
-        //     'email' => $user->email,
-        //     'fullname' => $user->firstname . ' ' . $user->lastname,
-        //     'sponsor' => $userCheck->username,
-        // ]);
 
         return $user;
     }

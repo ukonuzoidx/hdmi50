@@ -272,6 +272,7 @@ Route::name('user.')->prefix('user')->group(
                 Route::get('/tree/search', 'PlanController@otherTree')->name('other.tree.search');
                 Route::get('/binary-log', 'PlanController@binaryCom')->name('binary.log');
                 Route::get('/binary-summary', 'PlanController@binarySummary')->name('binary.summary');
+                Route::get('placement-list', 'PlanController@placementList')->name('placement.list');
 
                 //Report
                 Route::get('report/deposit/log', 'UserReportController@depositHistory')->name('report.deposit');

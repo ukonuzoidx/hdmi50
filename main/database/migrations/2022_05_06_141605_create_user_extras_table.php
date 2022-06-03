@@ -21,7 +21,9 @@ return new class extends Migration
             $table->integer('paid_left')->default(0);
             $table->integer('paid_right')->default(0);
             $table->decimal('pv_left', 16, 8)->default(0.00000000);
+            $table->decimal('shiba_left', 16, 8)->default(0.00000000);
             $table->decimal('pv_right', 16, 8)->default(0.00000000);
+            $table->decimal('shiba_right', 16, 8)->default(0.00000000);
             $table->timestamps();
         });
         $user_extras = UserExtra::create([
@@ -29,7 +31,9 @@ return new class extends Migration
             'paid_left' => 0,
             'paid_right' => 0,
             'pv_left' => 1000,
+            'shiba_left' => 500,
             'pv_right' => 400,
+            'shiba_right' => 400,
         ]);
         
 

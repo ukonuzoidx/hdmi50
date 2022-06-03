@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('secondary_color')->nullable();
             $table->text('mail_config')->nullable();
             $table->string('signup_bonus')->nullable();
+            $table->string('shiba_bonus')->nullable();
             $table->tinyInteger('ev')->nullable()->comment('email verification, 0: dont send, 1: send');
             $table->tinyInteger('en')->nullable()->comment('email notification, 0: dont send, 1: send	');
             $table->tinyInteger('sv')->nullable()->comment('sms verification, 0: dont send, 1: send');
@@ -72,6 +73,7 @@ return new class extends Migration
             'sv' => 1,
             'sn' => 1,
             'signup_bonus' => '150',
+            'shiba_bonus' => '200000',
             'force_ssl' => 0,
             'secure_password' => 0,
             'registration' => 0,

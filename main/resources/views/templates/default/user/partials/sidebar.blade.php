@@ -73,7 +73,7 @@
                      <li><a class="slide-item" href="{{ route('user.my.tree') }}">Binary Tree</a>
                      </li>
                      <li><a class="slide-item" href="{{ route('user.my.ref') }}">Sponsor List</a></li>
-                     <li><a class="slide-item" href="{{ route('user.binary.summary') }}">Placement List</a></li>
+                     <li><a class="slide-item" href="{{ route('user.placement.list') }}">Placement List</a></li>
                  </ul>
              </li>
 
@@ -94,21 +94,7 @@
                             </span>
                         </a>
                     </li> --}}
-             <li>
-                 <h3>Settings</h3>
-             </li>
-
-             <li class="slide">
-                 <a class="side-menu__item" data-toggle="slide" href="#">
-                     <i class="side-menu__icon fa fa-cog  menu-icons"></i>
-                     <span class="side-menu__label">
-                         Settings
-                     </span>
-                     <i class="angle fe fe-chevron-down"></i></a>
-                 <ul class="slide-menu">
-                     <li><a class="slide-item" href="{{ route('ticket') }}">Ticket</a></li>
-                 </ul>
-             </li>
+           
              <li>
                  <h3>Invest and Finances</h3>
              </li>
@@ -143,6 +129,23 @@
              </li>
          </ul>
          </li>
+
+
+           <li>
+                 <h3>Settings</h3>
+             </li>
+
+             <li class="slide">
+                 <a class="side-menu__item" data-toggle="slide" href="#">
+                     <i class="side-menu__icon fa fa-cog  menu-icons"></i>
+                     <span class="side-menu__label">
+                         Settings
+                     </span>
+                     <i class="angle fe fe-chevron-down"></i></a>
+                 {{-- <ul class="slide-menu">
+                     <li><a class="slide-item" href="{{ route('ticket') }}">Ticket</a></li>
+                 </ul> --}}
+             </li>
 
          {{-- <li class="slide">
              <a class="side-menu__item" href="{{ route('user.balance.transfer') }}">

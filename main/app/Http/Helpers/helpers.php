@@ -203,9 +203,11 @@ function updateRegPV($id, $pv, $details)
 
             if ($position == 1) {
                 $extra->pv_left += $pv;
+                $extra->shiba_left += $pv;
                 $pvlog->position = '1';
             } else {
                 $extra->pv_right += $pv;
+                $extra->shiba_right += $pv;
                 $pvlog->position = '2';
             }
             $extra->save();
@@ -222,6 +224,8 @@ function updateRegPV($id, $pv, $details)
     }
 }
 
+
+
 function matchingBonus($id, $pv, $placerId)
 {
     while ($id != "" || $id != "0") {
@@ -233,13 +237,6 @@ function matchingBonus($id, $pv, $placerId)
 
             // check the left and right pv of sponsor
             $sponsor = UserExtra::where('user_id', $user->id)->first();
-            /**
-             * check between the left and right pv of sponsor and see which one is smaller
-             * if the left pv is smaller then the right pv then the matching bonus will be given to the left pv
-             * if the right pv is smaller then the left pv then the matching bonus will be given to the right pv
-             * if both the pv are equal then the matching bonus will be given to the left pv
-             * if both the pv are equal then the matching bonus will be given to the right pv
-             */
 
             if ($sponsor->pv_left < $sponsor->pv_right) {
                 $sponsor->pv_left += $pv;
@@ -265,16 +262,6 @@ function matchingBonus($id, $pv, $placerId)
                 $pvlog->trx_type = '+';
                 $pvlog->details = 'Matching Bonus from ' . $placer->username;
                 $pvlog->save();
-            } else if ($sponsor->pv_left == $sponsor->pv_right) {
-                $sponsor->pv_left -= $pv;
-                $sponsor->pv_right -= $pv;
-                $sponsor->save();
-                $pvlog = new PvLog();
-                $pvlog->user_id = $user->id;
-                $pvlog->amount = $pv;
-                $pvlog->trx_type = '+';
-                $pvlog->details = 'Matching Bonus from ' . $placer->username;
-                $pvlog->save();
             }
             $id = $user->sponsor_id;
         } else {
@@ -283,53 +270,37 @@ function matchingBonus($id, $pv, $placerId)
     }
 }
 
-// function matchingBonus($id, $pv, $placerId)
-// {
-//     // check for user id
-//     $user = User::find($id);
-//     $placerId = User::find($placerId);
-//     // check for user position
-//     $position = getPositionLocation($id);
-//     // check for user position id
-//     $posid = getPositionId($id);
-//     // check for user position extra
-//     $extra = UserExtra::where('user_id', $id)->first();
-//     dd($user, $placerId, $position, $posid, $pv, $extra);
 
-//     // checking for smaller left or right pv 
-//     // then create a matching bouns for that user
-//     if ($position == 1) {
-//         // check if pv left is zero or greater than zero and pv right is not zero and greater than pv left
-//         if ($extra->pv_left > 0 && $extra->pv_right > 0 && $extra->pv_left < $extra->pv_right) {
-//             // adding balance 10% of pv to the user
-//             $user->balance += ($pv * 0.1);
-//             $user->save();
-//             $extra->pv_left += $pv;
-//             $extra->save();
-//             $pvlog = new PvLog();
-//             $pvlog->user_id = $posid;
-//             $pvlog->amount = $pv;
-//             $pvlog->trx_type = '+';
-//             $pvlog->details = 'Matching Bonus';
-//             $pvlog->save();
-//         }
-//     } else {
-//         // check if pv right is zero or greater than zero and pv left is not zero and greater than pv right
-//         if ($extra->pv_right > 0 && $extra->pv_left > 0 && $extra->pv_right < $extra->pv_left) {
-//             // adding balance 10% of pv to the user
-//             $user->balance += ($pv * 0.1);
-//             $user->save();
-//             $extra->pv_right += $pv;
-//             $extra->save();
-//             $pvlog = new PvLog();
-//             $pvlog->user_id = $posid;
-//             $pvlog->amount = $pv;
-//             $pvlog->trx_type = '+';
-//             $pvlog->details = 'Matching Bonus';
-//             $pvlog->save();
-//         }
-//     }
-// }
+function matchingBonusShiba($id, $refShibaCom)
+{
+    // find the user
+    $user = User::find($id);
+    /**
+     * check the left and right side of the user to see if there is any zero
+     * if there is zero then we need to give the user the shiba commission to the user
+     * and add bonus to the user 
+     * 
+     */
+    if ($user) {
+        if ($user->left_side != 0 && $user->right_side != 0) {
+            $user->shibainu += $refShibaCom;
+            $user->save();
+        }
+    } else {
+        return;
+    }
+}
+
+
+/**
+ * convert amount to shiba inu
+ * where $1 = 10000 shiba inu
+ */
+function convertToShibaInu($amount)
+{
+    return $amount * 10000;
+}
+
 
 function updatePV($id, $pv, $details)
 {
@@ -366,6 +337,40 @@ function updatePV($id, $pv, $details)
     }
 }
 
+// shiba binary commission
+function shibaBinaryComission($id, $amount, $details)
+{
+    $fromUser = User::find($id);
+
+    while ($id != "" || $id != "0") {
+        if (isUserExists($id)) {
+            $posid = getPositionId($id);
+            if ($posid == "0") {
+                break;
+            }
+
+            $posUser = User::find($posid);
+            // if ($posUser->plan_id != 0) {
+
+            $posUser->shibainu  += $amount;
+            $posUser->total_binary_shiba += $amount;
+            $posUser->save();
+
+            $posUser->transactions()->create([
+                'amount' => $amount,
+                'charge' => 0,
+                'trx_type' => '+',
+                'details' => $details,
+                'remark' => 'binary_commission',
+                'trx' => getTrx(),
+                'post_balance' => getAmount($posUser->shibainu),
+            ]);
+            $id = $posid;
+        } else {
+            break;
+        }
+    }
+}
 // tree and referral commission
 function treeComission($id, $amount, $details)
 {

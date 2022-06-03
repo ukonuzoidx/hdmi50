@@ -31,21 +31,6 @@
             </div>
         </div>
         <!-- /breadcrumb -->
-        @php
-            $total_earnings = getAmount(auth()->user()->total_ref_com) + getAmount(auth()->user()->total_binary_com);
-            $available_balance = getAmount(auth()->user()->balance);
-            $sponsorCom = getAmount(auth()->user()->total_ref_com);
-            $binaryCom = getAmount(auth()->user()->total_binary_com);
-            $totalLeft = getAmount(auth()->user()->userExtra->pv_left);
-            $totalRight = getAmount(auth()->user()->userExtra->pv_right);
-            $totalShiba = getAmount(auth()->user()->userExtra->shiba_left) + getAmount(auth()->user()->userExtra->shiba_right);
-            $available_shiba = getAmount(auth()->user()->shibainu);
-            $sponsor_shiba = getAmount(auth()->user()->total_ref_shiba);
-            $binary_shiba = getAmount(auth()->user()->total_binary_shiba);
-            $total_shiba_left = getAmount(auth()->user()->userExtra->shiba_left);
-            $total_shiba_right = getAmount(auth()->user()->userExtra->shiba_right);
-            
-        @endphp
 
         {{-- ref + binary + total com + roi --}}
         <div class="row ">
@@ -59,8 +44,7 @@
                             <span class="text--small">Total Earnings</span>
                         </div>
                         <div class="numbers">
-                            <span class="amount">USD
-                                {{ $total_earnings }}</span>
+                            <span class="amount">USD {{ getAmount(auth()->user()->total_ref_com) + getAmount(auth()->user()->total_binary_com) }}</span>
                             {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
                         </div>
                         <a href="{{ route('user.report.transactions') }}"
@@ -78,7 +62,7 @@
                             <span class="text--small">Available Balance</span>
                         </div>
                         <div class="numbers">
-                            <span class="amount">USD {{ $available_balance }}</span>
+                            <span class="amount">USD {{ getAmount(auth()->user()->balance) }}</span>
                             {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
                         </div>
                         <a href="{{ route('user.report.transactions') }}"
@@ -86,7 +70,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
+               <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
                 <div class="dashboard-w1 bg--5 b-radius--10 box-shadow">
                     <div class="icon">
                         <i class="las la-cloud-upload-alt"></i>
@@ -96,7 +80,7 @@
                             <span class="text--small">Sponsor Commission</span>
                         </div>
                         <div class="numbers">
-                            <span class="amount">USD {{ $sponsorCom }}</span>
+                            <span class="amount">USD {{ getAmount(auth()->user()->total_ref_com) }}</span>
                             {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
                         </div>
                         <a href="{{ route('user.report.refCom') }}"
@@ -104,7 +88,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
+              <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
                 <div class="dashboard-w1 bg--3 b-radius--10 box-shadow">
                     <div class="icon">
                         <i class="las la-cloud-upload-alt"></i>
@@ -114,7 +98,7 @@
                             <span class="text--small">Binary Commission</span>
                         </div>
                         <div class="numbers">
-                            <span class="amount">USD {{ $binaryCom }}</span>
+                            <span class="amount">USD {{ getAmount(auth()->user()->total_binary_com) }}</span>
                             {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
                         </div>
                         <a href="{{ route('user.report.binaryCom') }}"
@@ -122,7 +106,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
+              <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
                 <div class="dashboard-w1 bg--2 b-radius--10 box-shadow">
                     <div class="icon">
                         <i class="las la-hand-holding-usd"></i>
@@ -151,7 +135,7 @@
                             <span class="text--small">Total PV Left</span>
                         </div>
                         <div class="numbers">
-                            <span class="amount">{{ $totalLeft }}</span>
+                            <span class="amount">{{ getAmount(auth()->user()->userExtra->pv_left) }}</span>
                             {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
                         </div>
                         <a href="{{ route('user.pv.log') }}?type=leftPV"
@@ -160,7 +144,7 @@
                 </div>
             </div>
             <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
-                <div class="dashboard-w1 bg--4 b-radius--10 box-shadow">
+                <div class="dashboard-w1 bg--8 b-radius--10 box-shadow">
                     <div class="icon">
                         <i class="las la-hand-holding-usd"></i>
                     </div>
@@ -169,7 +153,7 @@
                             <span class="text--small">Total PV Right</span>
                         </div>
                         <div class="numbers">
-                            <span class="amount">{{ $totalRight }}</span>
+                            <span class="amount">{{ getAmount(auth()->user()->userExtra->pv_right) }}</span>
                             {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
                         </div>
                         <a href="{{ route('user.pv.log') }}?type=rightPV"
@@ -177,17 +161,17 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
+              <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
                 <div class="dashboard-w1 bg--warning b-radius--10 box-shadow">
                     <div class="icon">
                         <i class="las la-cloud-upload-alt"></i>
                     </div>
                     <div class="details">
                         <div class="desciption">
-                            <span class="text--small">Total Invest PV</span>
+                            <span class="text--small">Total Invested</span>
                         </div>
                         <div class="numbers">
-                            <span class="amount">USD {{ getAmount($total_invest_pv) }}</span>
+                            <span class="amount">USD {{ getAmount(auth()->user()->total_invest) }}</span>
                             {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
                         </div>
                         <a href="{{ route('user.report.invest') }}"
@@ -195,63 +179,63 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
-                <div class="dashboard-w1 bg--warning b-radius--10 box-shadow">
-                    <div class="icon">
-                        <i class="las la-cloud-upload-alt"></i>
-                    </div>
-                    <div class="details">
-                        <div class="desciption">
-                            <span class="text--small">Total Shiba</span>
-                        </div>
-                        <div class="numbers">
-                            <span class="amount">{{ $totalShiba }} SHIB</span>
-                            {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
-                        </div>
-                        <a href="{{ route('user.report.withdraw') }}"
-                            class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('View All')</a>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
-                <div class="dashboard-w1 bg--3 b-radius--10 box-shadow">
-                    <div class="icon">
-                        <i class="las la-cloud-upload-alt"></i>
-                    </div>
-                    <div class="details">
-                        <div class="desciption">
-                            <span class="text--small">Available Shiba</span>
-                        </div>
-                        <div class="numbers">
-                            <span class="amount">{{ $available_shiba }} SHIB</span>
-                            {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
-                        </div>
-                        <a href="{{ route('user.report.withdraw') }}"
-                            class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('View All')</a>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
+            <div class="col-xl-3 col-lg-4 col-sm-6 mb-30">
                 <div class="dashboard-w1 bg--info b-radius--10 box-shadow">
                     <div class="icon">
-                        <i class="las la-cloud-upload-alt"></i>
+                        <i class="fa fa-tree"></i>
                     </div>
                     <div class="details">
                         <div class="desciption">
-                            <span class="text--small">Sponsor Bonus Shiba</span>
+                            <span class="text--small">Total Withdrawal</span>
                         </div>
                         <div class="numbers">
-                            <span class="amount">{{ $sponsor_shiba }} SHIB</span>
+                            <span class="amount">{{ getAmount($totalWithdraw) }}</span>
                             {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
                         </div>
                         <a href="{{ route('user.report.withdraw') }}"
                             class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('View All')</a>
+                    </div>
+                </div>
 
+            </div>
+            <div class="col-xl-3 col-lg-4 col-sm-6 mb-30">
+                <div class="dashboard-w1 bg--10 b-radius--10 box-shadow">
+                    <div class="icon">
+                        <i class="las la-cloud-download-alt"></i>
+                    </div>
+                    <div class="details">
+                        <div class="desciption">
+                            <span class="text--small">Completed Withdrawal</span>
+                        </div>
+                        <div class="numbers">
+                            <span class="amount">{{ getAmount($completeWithdraw) }}</span>
+                            {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
+                        </div>
+                        <a href="{{ route('user.report.withdraw') }}?type=complete"
+                            class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('View All')</a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-xl-3 col-lg-4 col-sm-6 mb-30">
+                <div class="dashboard-w1 bg--10 b-radius--10 box-shadow">
+                    <div class="icon">
+                        <i class="las la-cloud-upload-alt"></i>
+                    </div>
+                    <div class="details">
+                        <div class="desciption">
+                            <span class="text--small">Pending Withdrawal</span>
+                        </div>
+                        <div class="numbers">
+                            <span class="amount">{{ getAmount($pendingWithdraw) }}</span>
+                            {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
+                        </div>
+                        <a href="{{ route('user.report.withdraw') }}?type=pending"
+                            class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('View All')</a>
                     </div>
                 </div>
             </div>
+
             <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
                 <div class="dashboard-w1 bg--9 b-radius--10 box-shadow">
                     <div class="icon">
@@ -259,53 +243,132 @@
                     </div>
                     <div class="details">
                         <div class="desciption">
-                            <span class="text--small">Binary Bonus Shiba</span>
+                            <span class="text--small">Rejected Withdrawal</span>
                         </div>
                         <div class="numbers">
-                            <span class="amount">{{ $binary_shiba }} SHIB</span>
+                            <span class="amount">{{ getAmount($rejectWithdraw) }}</span>
                             {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
                         </div>
-                        <a href="{{ route('user.report.withdraw') }}"
+                        <a href="{{ route('user.report.withdraw') }}?type=reject"
                             class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('View All')</a>
+                    </div>
+                </div>
+            </div>
+          
+         
+          
+            <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
+                <div class="dashboard-w1 bg--11 b-radius--10 box-shadow">
+                    <div class="icon">
+                        <i class="las la-arrow-alt-circle-left"></i>
+                    </div>
+                    <div class="details">
+                        <div class="desciption">
+                            <span class="text--small">Total Referral</span>
+                        </div>
+                        <div class="numbers">
+                            <span class="amount">{{ $total_ref }}</span>
+                            {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
+                        </div>
+                        <a href="{{ route('user.my.ref') }}"
+                            class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('View All')</a>
+                    </div>
+                </div>
+            </div>
 
+            <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
+                <div class="dashboard-w1 bg--5 b-radius--10 box-shadow">
+                    <div class="icon">
+                        <i class="las la-hand-holding-usd"></i>
+                    </div>
+                    <div class="details">
+                        <div class="desciption">
+                            <span class="text--small">Total Paid Left</span>
+                        </div>
+                        <div class="numbers">
+                            <span class="amount">{{ auth()->user()->userExtra->paid_left }}</span>
+                            {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
+                        </div>
+                        <a href="{{ route('user.my.tree') }}"
+                            class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('View All')</a>
                     </div>
                 </div>
             </div>
             <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
-                <div class="dashboard-w1 bg--9 b-radius--10 box-shadow">
+                <div class="dashboard-w1 bg--5 b-radius--10 box-shadow">
                     <div class="icon">
-                        <i class="las la-cloud-upload-alt"></i>
+                        <i class="las la-hand-holding-usd"></i>
                     </div>
                     <div class="details">
                         <div class="desciption">
-                            <span class="text--small">Total Shiba Left</span>
+                            <span class="text--small">Total Paid Right</span>
                         </div>
                         <div class="numbers">
-                            <span class="amount">{{ $total_shiba_left }} SHIB</span>
+                            <span class="amount">{{ auth()->user()->userExtra->paid_right }}</span>
                             {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
                         </div>
-                        <a href="{{ route('user.report.withdraw') }}"
+                        <a href="{{ route('user.my.tree') }}"
                             class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('View All')</a>
-
                     </div>
                 </div>
             </div>
             <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
-                <div class="dashboard-w1 bg--9 b-radius--10 box-shadow">
+                <div class="dashboard-w1 bg--5 b-radius--10 box-shadow">
                     <div class="icon">
-                        <i class="las la-cloud-upload-alt"></i>
+                        <i class="las la-hand-holding-usd"></i>
                     </div>
                     <div class="details">
                         <div class="desciption">
-                            <span class="text--small">Total Shiba Right</span>
+                            <span class="text--small">Total Left</span>
                         </div>
                         <div class="numbers">
-                            <span class="amount">{{ $total_shiba_right }} SHIB</span>
+                            <span
+                                class="amount">{{ auth()->user()->userExtra->free_left + auth()->user()->userExtra->paid_left }}</span>
                             {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
                         </div>
-                        <a href="{{ route('user.report.withdraw') }}"
+                        <a href="{{ route('user.my.tree') }}"
                             class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('View All')</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
+                <div class="dashboard-w1 bg--5 b-radius--10 box-shadow">
+                    <div class="icon">
+                        <i class="las la-hand-holding-usd"></i>
+                    </div>
+                    <div class="details">
+                        <div class="desciption">
+                            <span class="text--small">Total Right</span>
+                        </div>
+                        <div class="numbers">
+                            <span
+                                class="amount">{{ auth()->user()->userExtra->free_right + auth()->user()->userExtra->paid_right }}</span>
+                            {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
+                        </div>
+                        <a href="{{ route('user.my.tree') }}"
+                            class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">
+                            @lang('View All')
+                        </a>
+                    </div>
+                </div>
+            </div>
 
+          
+            <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
+                <div class="dashboard-w1 bg--8 b-radius--10 box-shadow">
+                    <div class="icon">
+                        <i class="las la-hand-holding-usd"></i>
+                    </div>
+                    <div class="details">
+                        <div class="desciption">
+                            <span class="text--small">Total PVCut</span>
+                        </div>
+                        <div class="numbers">
+                            <span class="amount">{{ getAmount($totalPvCut) }}</span>
+                            {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
+                        </div>
+                        <a href="{{ route('user.pv.log') }}?type=cutPV"
+                            class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('View All')</a>
                     </div>
                 </div>
             </div>

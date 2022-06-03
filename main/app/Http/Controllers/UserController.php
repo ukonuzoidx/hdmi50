@@ -26,13 +26,7 @@ class UserController extends Controller
     public function index()
     {
         $data['total_ref'] = User::where('ref_id', auth()->id())->count();
-        // $data['totalDeposit']       = Deposit::where('user_id', auth()->id())->where('status', 1)->sum('amount');
-        $data['totalWithdraw']      = Withdraw::where('user_id', auth()->id())->where('status', 1)->sum('amount');
-        $data['completeWithdraw']   = Withdraw::where('user_id', auth()->id())->where('status', 1)->count();
-        $data['pendingWithdraw']    = Withdraw::where('user_id', auth()->id())->where('status', 2)->count();
-        $data['rejectWithdraw']     = Withdraw::where('user_id', auth()->id())->where('status', 3)->count();
-        $data['totalPvCut']         = PvLog::where('user_id', auth()->id())->where('trx_type', '-')->sum('amount');
-
+        $data['total_invest_pv'] = PvLog::where('user_id', auth()->id())->where('trx_type', '+')->sum('amount');
         return view($this->activeTemplate . 'user.dashboard', $data);
     }
 
