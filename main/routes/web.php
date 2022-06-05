@@ -120,6 +120,9 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
         // matching bonus
         Route::post('matching-bonus/update', 'MlmController@matchingUpdate')->name('matching-bonus.update');
 
+        // roi updates
+        Route::post('roi/update', 'MlmController@roiUpdate')->name('roi.update');
+
 
         // tree
         Route::get('/tree/{id}', 'ManageUsersController@tree')->name('users.single.tree');

@@ -7,6 +7,7 @@ use App\Models\Epin;
 use App\Models\GeneralSetting;
 use App\Models\Kyc;
 use App\Models\PvLog;
+use App\Models\Roi;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Withdraw;
@@ -26,7 +27,10 @@ class UserController extends Controller
     public function index()
     {
         $data['total_ref'] = User::where('ref_id', auth()->id())->count();
+        $data['totalWithdraw']   = Withdraw::where('user_id', auth()->id())->where('status', 1)->sum('amount');
         $data['total_invest_pv'] = PvLog::where('user_id', auth()->id())->where('trx_type', '+')->sum('amount');
+        $data['roi'] = assignRoi(auth()->id());
+        $data['weeklyroi'] = seeWeeklyRoiEarned(auth()->id());
         return view($this->activeTemplate . 'user.dashboard', $data);
     }
 
@@ -478,10 +482,10 @@ class UserController extends Controller
     // send epin from auth user to other user
     public function epinSend(Request $request)
     {
-     $this->validate($request, [
+        $this->validate($request, [
             'username' => 'required',
             'epin' => 'required',
-            ]);
+        ]);
 
         $user = User::where('username', $request->username)->first();
 
@@ -502,7 +506,7 @@ class UserController extends Controller
             return back()->withNotify($notify);
         }
 
-      //check if epin is unused the send it to user
+        //check if epin is unused the send it to user
         if ($epin->status == 0) {
             $epin->user_id = $user->id;
             $epin->sent_by = Auth::id();
@@ -513,7 +517,7 @@ class UserController extends Controller
         }
 
 
-         
+
 
         // if ($user) {
         //     $epin = Epin::find($request->epin);
@@ -535,9 +539,5 @@ class UserController extends Controller
 
         // $notify[] = ['success', 'E-Pin Sent Successfully.'];
         // return back()->withNotify($notify);
-        }
-
-   
-        
-  
+    }
 }

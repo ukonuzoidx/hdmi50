@@ -234,7 +234,6 @@ class RegisterController extends Controller
         $user->total_ref_com    = 0;
         $user->total_binary_com = 0;
         $user->total_invest     = 0;
-        $user->shibainu         = $assigned_shiba;
         $user->epin             = $data['epin'];
         $user->kyc_status      = 0;
         $user->status = 1;
@@ -295,7 +294,7 @@ class RegisterController extends Controller
             $amount = $referralCommision;
             $sponsor->total_ref_com += $amount;
             $sponsor->balance += $amount;
-            $sponsor->total_ref_shiba += $refShibaCom;
+            $sponsor->total_ref_shiba += $assigned_shiba;
 
 
             $sponsor->save();

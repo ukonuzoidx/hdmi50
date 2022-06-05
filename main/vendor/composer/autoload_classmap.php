@@ -60,6 +60,7 @@ return array(
     'App\\Models\\PasswordReset' => $baseDir . '/app/Models/PasswordReset.php',
     'App\\Models\\Plan' => $baseDir . '/app/Models/Plan.php',
     'App\\Models\\PvLog' => $baseDir . '/app/Models/PvLog.php',
+    'App\\Models\\Roi' => $baseDir . '/app/Models/Roi.php',
     'App\\Models\\SubscribedPlans' => $baseDir . '/app/Models/SubscribedPlans.php',
     'App\\Models\\SupportAttachment' => $baseDir . '/app/Models/SupportAttachment.php',
     'App\\Models\\SupportMessage' => $baseDir . '/app/Models/SupportMessage.php',

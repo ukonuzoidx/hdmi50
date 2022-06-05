@@ -44,6 +44,9 @@
             $binary_shiba = getAmount(auth()->user()->total_binary_shiba);
             $total_shiba_left = getAmount(auth()->user()->userExtra->shiba_left);
             $total_shiba_right = getAmount(auth()->user()->userExtra->shiba_right);
+            // $user_roi = getAmount(auth()->user()->roi);
+            // $total_roi = $roi;
+            $weeklyRoi = $weeklyroi;
             
         @endphp
 
@@ -59,9 +62,8 @@
                             <span class="text--small">Total Earnings</span>
                         </div>
                         <div class="numbers">
-                            <span class="amount">USD
-                                {{ $total_earnings }}</span>
-                            {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
+                            <span class="amount">  {{ $totalWithdraw }}</span>
+                            <span class="currency-sign">{{$general->cur_text}}</span>
                         </div>
                         <a href="{{ route('user.report.transactions') }}"
                             class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('View All')</a>
@@ -78,8 +80,8 @@
                             <span class="text--small">Available Balance</span>
                         </div>
                         <div class="numbers">
-                            <span class="amount">USD {{ $available_balance }}</span>
-                            {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
+                            <span class="amount">{{ $available_balance }}</span>
+                            <span class="currency-sign">{{$general->cur_text}}</span>
                         </div>
                         <a href="{{ route('user.report.transactions') }}"
                             class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('View All')</a>
@@ -96,8 +98,8 @@
                             <span class="text--small">Sponsor Commission</span>
                         </div>
                         <div class="numbers">
-                            <span class="amount">USD {{ $sponsorCom }}</span>
-                            {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
+                            <span class="amount">{{ $sponsorCom }}</span>
+                            <span class="currency-sign">{{$general->cur_text}}</span>
                         </div>
                         <a href="{{ route('user.report.refCom') }}"
                             class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('View All')</a>
@@ -114,8 +116,8 @@
                             <span class="text--small">Binary Commission</span>
                         </div>
                         <div class="numbers">
-                            <span class="amount">USD {{ $binaryCom }}</span>
-                            {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
+                            <span class="amount">{{ $binaryCom }}</span>
+                            <span class="currency-sign">{{$general->cur_text}}</span>
                         </div>
                         <a href="{{ route('user.report.binaryCom') }}"
                             class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('View All')</a>
@@ -187,7 +189,7 @@
                             <span class="text--small">Total Invest PV</span>
                         </div>
                         <div class="numbers">
-                            <span class="amount">USD {{ getAmount($total_invest_pv) }}</span>
+                            <span class="amount">{{ getAmount($total_invest_pv) }}</span>
                             {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
                         </div>
                         <a href="{{ route('user.report.invest') }}"
@@ -302,6 +304,46 @@
                         <div class="numbers">
                             <span class="amount">{{ $total_shiba_right }} SHIB</span>
                             {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
+                        </div>
+                        <a href="{{ route('user.report.withdraw') }}"
+                            class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('View All')</a>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
+                <div class="dashboard-w1 bg--9 b-radius--10 box-shadow">
+                    <div class="icon">
+                        <i class="las la-cloud-upload-alt"></i>
+                    </div>
+                    <div class="details">
+                        <div class="desciption">
+                            <span class="text--small">Total ROI</span>
+                        </div>
+                        <div class="numbers">
+                            <span class="amount">{{ getAmount($roi) }}</span>
+                            <span class="currency-sign">{{ $general->cur_text }}</span>
+                        </div>
+                        <a href="{{ route('user.report.withdraw') }}"
+                            class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('View All')</a>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
+                <div class="dashboard-w1 bg--9 b-radius--10 box-shadow">
+                    <div class="icon">
+                        <i class="las la-cloud-upload-alt"></i>
+                    </div>
+                    <div class="details">
+                        <div class="desciption">
+                            <span class="text--small">Weekly</span>
+                        </div>
+                        <div class="numbers">
+                            <span class="amount">{{ getAmount($weeklyRoi) }}</span>
+                            <span class="currency-sign">{{ $general->cur_text }}</span>
                         </div>
                         <a href="{{ route('user.report.withdraw') }}"
                             class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('View All')</a>

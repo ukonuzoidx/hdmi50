@@ -23,6 +23,7 @@ return new class extends Migration
             $table->decimal('ref_com', 16, 8)->default(0.00000000);
             $table->decimal('tree_com', 16, 8)->default(0.00000000);
             $table->decimal('price', 16, 8)->default(0.00000000);
+            $table->decimal('roi', 18, 8)->default(0.00000000);
             $table->tinyInteger('status')->default(1)->comment('0: Inactive, 1: Active');
             $table->timestamps();
         });
@@ -34,6 +35,7 @@ return new class extends Migration
             'ref_com' => 16,
             'tree_com' => 20,
             'price' => '200',
+            'roi' => '0.699',
             'status' => 1,
         ]);
         $plans = Plan::create([
@@ -43,6 +45,7 @@ return new class extends Migration
             'ref_com' => 88,
             'tree_com' => 110,
             'price' => '1100',
+            'roi' => '3.494',
             'status' => 1,
         ]);
 
@@ -53,6 +56,7 @@ return new class extends Migration
             'ref_com' => 88,
             'tree_com' => 264,
             'price' => '3300',
+            'roi' => '10.483',
             'status' => 1,
         ]);
 
@@ -63,6 +67,7 @@ return new class extends Migration
             'ref_com' => 792,
             'tree_com' => 990,
             'price' => '9900',
+            'roi' => '31.450',
             'status' => 1,
         ]);
 
@@ -73,6 +78,7 @@ return new class extends Migration
             'ref_com' => 2376,
             'tree_com' => 2970,
             'price' => '29700',
+            'roi' => '94.350',
             'status' => 1,
         ]);
 
@@ -83,6 +89,7 @@ return new class extends Migration
             'ref_com' => 7128,
             'tree_com' => 8910,
             'price' => '89100',
+            'roi' => '283.050',
             'status' => 1,
         ]);
 
@@ -93,6 +100,7 @@ return new class extends Migration
             'ref_com' => 21304,
             'tree_com' => 26630,
             'price' => '266300',
+            'roi' => '849.150',
             'status' => 1,
         ]);
     }

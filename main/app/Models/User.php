@@ -75,6 +75,11 @@ class User extends Authenticatable
     //     return $this->hasMany(Plan::class);
     // }
     
+    // roi
+    public function roi()
+    {
+        return $this->hasMany(Roi::class);
+    }
 
 
 

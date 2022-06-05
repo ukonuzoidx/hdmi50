@@ -7,9 +7,11 @@ use App\Models\GeneralSetting;
 use App\Models\MatchingBonus;
 use App\Models\Plan;
 use App\Models\PvLog;
+use App\Models\Roi;
 use App\Models\User;
 use App\Models\UserExtra;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Magarrent\LaravelUrlShortener\Models\UrlShortener;
 use Illuminate\Support\Facades\Mail;
 use PHPMailer\PHPMailer\Exception;
@@ -233,7 +235,7 @@ function matchingBonus($id, $pv, $placerId)
         $user = User::find($id);
         $placer = User::find($placerId);
 
-        if ($user && $placer) {
+        if ($user->left_side != 0 && $user->right_side != 0) {
 
             // check the left and right pv of sponsor
             $sponsor = UserExtra::where('user_id', $user->id)->first();
@@ -1170,4 +1172,84 @@ function generateRandomInteger($length)
         $randomString .= $characters[rand(0, $charactersLength - 1)];
     }
     return $randomString;
+}
+
+
+/**
+ * Go through the general settings and see how long a roi is to be updated
+ * add roi to the user if the time is up
+ * @return bool
+ * 
+ */
+function assignRoi($id)
+{
+    // check if the user has a roi
+    $user = User::find($id);
+    $gnl = GeneralSetting::first();
+    $roi = Roi::where('user_id', $user->id)->first();
+
+    if ($roi) {
+        // check the genral settings and see the time to and when to update the roi
+        if ($gnl->roi_bonus_time == 'daily') {
+            // do a coundown timer for the roi
+            $day = Date('H');
+            if (strtolower($day) == $gnl->roi_when) 
+            {
+                $user->balance += $roi->roi;
+                $user->roi += $roi->roi;
+                $user->save();
+                $roi->roi_last_paid = Carbon::now();
+                $roi->save();
+                $roi = $user->roi;
+                return $roi;
+            } else {
+                return false;
+            }
+        }
+    } else {
+        return false;
+    }
+}
+
+/**
+ * Go through the general settings and see how long a roi is to be updated
+ * add roi to the user if the time is up
+ * @return bool
+ * 
+ */
+function seeWeeklyRoiEarned($id)
+{
+    // check if the user has a roi
+    $user = User::find($id);
+    $gnl = GeneralSetting::first();
+    $roi = Roi::where('user_id', $user->id)->first();
+
+    $dateFrom = Carbon::now()->subDays(7);
+    $dateTo = Carbon::now();
+    $weekly = Roi::whereBetween('roi_last_paid', [$dateFrom, $dateTo])->count();
+    $previousDateFrom = Carbon::now()->subDays(14);
+    $previousDateTo = Carbon::now()->subDays(8);
+    $previousWeekly = Roi::whereBetween('created_at', [$previousDateFrom, $previousDateTo])->count();
+
+
+    /**
+     * If the user has a weekly roi then check if the user has a previous weekly roi
+     * then sum the total for that week
+     * if the user has no previous weekly roi then sum the total for that week
+     * 
+     */
+    if ($weekly > 0) {
+        if ($previousWeekly > 0) {
+            $weeklyRoi = Roi::whereBetween('roi_last_paid', [$dateFrom, $dateTo])->sum('roi');
+            $previousWeeklyRoi = Roi::whereBetween('created_at', [$previousDateFrom, $previousDateTo])->sum('roi');
+            $total = $weeklyRoi + $previousWeeklyRoi;
+            return $total;
+        } else {
+            $weeklyRoi = Roi::whereBetween('roi_last_paid', [$dateFrom, $dateTo])->sum('roi');
+            $total = $weeklyRoi;
+            return $total;
+        }
+    } else {
+        return 0;
+    }
 }

@@ -93,12 +93,6 @@
                                 @lang('Paid Right User')
                                 <span class="font-weight-bold">{{ $user->userExtra->paid_right }}</span>
                             </li>
-                              <li class="list-group-item rounded-0 d-flex justify-content-between">
-                                    <span>@lang('Sponsor ID')</span> {{ auth()->user()->sponsor_id }}
-                                </li>
-                                <li class="list-group-item rounded-0 d-flex justify-content-between">
-                                    <span>@lang('Placer ID')</span> {{ auth()->user()->placer_id }}
-                                </li>
                                 <li class="list-group-item rounded-0 d-flex justify-content-between">
                                     <span>@lang('User ID')</span> {{ auth()->user()->user_id }}
                                 </li>

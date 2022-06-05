@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\GeneralSetting;
 use App\Models\Plan;
 use App\Models\SubscribedPlans;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -31,6 +32,7 @@ class MlmController extends Controller
             'pv'                => 'required|min:0|integer',
             'ref_com'           => 'required|numeric|min:0',
             'tree_com'          => 'required|numeric|min:0',
+            'roi'               => 'required|numeric|min:0',
         ]);
 
 
@@ -40,6 +42,7 @@ class MlmController extends Controller
         $plan->pv               = $request->pv;
         $plan->ref_com          = $request->ref_com;
         $plan->tree_com         = $request->tree_com;
+        $plan->roi              = $request->roi;
         $plan->status           = $request->status ? 1 : 0;
         $plan->save();
 
@@ -56,6 +59,7 @@ class MlmController extends Controller
             'pv'                => 'required|min:0|integer',
             'ref_com'           => 'required|numeric|min:0',
             'tree_com'          => 'required|numeric|min:0',
+            'roi'               => 'required|numeric|min:0',
         ]);
 
         $plan                   = Plan::find($request->id);
@@ -64,6 +68,7 @@ class MlmController extends Controller
         $plan->pv               = $request->pv;
         $plan->ref_com          = $request->ref_com;
         $plan->tree_com         = $request->tree_com;
+        $plan->roi              = $request->roi;
         $plan->status           = $request->status ? 1 : 0;
         $plan->save();
 
@@ -100,6 +105,31 @@ class MlmController extends Controller
         $setting->save();
 
         $notify[] = ['success', 'Matching bonus has been updated.'];
+        return back()->withNotify($notify);
+    }
+
+    // roi update in general settings
+    public function roiUpdate(Request $request)
+    {
+        $this->validate($request, [
+            'roi_bonus_time' => 'required',
+        ]);
+
+        $setting = GeneralSetting::first();
+        if ($request->roi_bonus_time == 'daily') {
+            $when = $request->daily_time;
+        } elseif ($request->roi_bonus_time == 'weekly') {
+            $when = $request->weekly_time;
+        } elseif ($request->roi_bonus_time == 'monthly') {
+            $when = $request->monthly_time;
+        }
+
+        $setting->roi_bonus_time = $request->roi_bonus_time;
+        $setting->roi_when = $when;
+        // $setting->roi_when_time = Carbon::parse($when)->format('Y-m-d H:i:s');
+        $setting->save();
+
+        $notify[] = ['success', 'ROI has been updated.'];
         return back()->withNotify($notify);
     }
 }

@@ -6,6 +6,7 @@ use App\Models\Epin;
 use App\Models\GeneralSetting;
 use App\Models\Plan;
 use App\Models\PvLog;
+use App\Models\Roi;
 use App\Models\SubscribedPlans;
 use App\Models\Transaction;
 use App\Models\User;
@@ -95,10 +96,17 @@ class PlanController extends Controller
         // $oldPlan = $user->plan_id;
         $user->balance -= $plan->price;
         $user->total_invest += $plan->price;
+        $user->roi += $plan->roi;
+        $user->balance += $plan->roi;
         $user->save();
 
 
-
+        $roi = Roi::create([
+            'user_id' => $user->id,
+            'plan_id' => $plan->id,
+            'roi' => $plan->roi,
+            'roi_last_paid' => date('Y-m-d H:i:s'),
+        ]);
 
         $trx = $user->transactions()->create([
             'amount' => $plan->price,
@@ -116,14 +124,6 @@ class PlanController extends Controller
             'trx' => $trx->trx,
             'post_balance' => getAmount($user->balance) . ' ' . $gnl->cur_text,
         ]);
-        // if ($oldPlan == 0) {
-        // updatePaidCount($user->id);
-        // }
-
-        // count how many plan user has purchased
-        // $count = SubscribedPlans::whereUserId($user->id)->count();
-
-        // if user has purchased many plan then assign the referral bonus to his/her referrer
 
         $details = Auth::user()->username . ' Subscribed to ' . $plan->name . ' plan.';
 

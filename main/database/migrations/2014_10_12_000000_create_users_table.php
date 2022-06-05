@@ -39,6 +39,7 @@ return new class extends Migration
             $table->date('dob')->nullable();
             $table->string('gender')->nullable();
             $table->string('martial_status')->nullable();
+            $table->decimal('roi', 18, 9)->default(0.00000000);
             $table->json('address')->nullable()->comment('Contains full address');
             $table->decimal('subscribed_amount', 16, 8)->default(0.00000000);
             $table->decimal('balance', 18, 8)->default(0.00000000);
@@ -73,7 +74,7 @@ return new class extends Migration
             'epin' => 'EPIN1',
             'pin' => bcrypt('123456'),
             'balance' => 1000000.00000000,
-            'shibainu' => 200000,
+            'shibainu' => 0.00000000,
             'email' => 'johndoe@email.com',
             'password' => Hash::make('12345678'),
             'phone' => '+234156789012',

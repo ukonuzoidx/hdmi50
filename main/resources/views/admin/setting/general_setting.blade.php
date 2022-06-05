@@ -174,67 +174,22 @@
         </div>
 
 
-        {{-- <div class="row ">
+        <div class="row ">
 
             <div class="col-lg-12 mb-30">
                 <div class="card">
                     <div class="card-header ">
                         <h4 class="card-title font-weight-normal">@lang('Matching Bonus')</h4>
                     </div>
-                    <form action="{{ route('admin.matching-bonus.update') }}" method="post">
+                    <form action="{{ route('admin.roi.update') }}" method="post">
                         <div class="card-body">
                             @csrf
-                            <div class="row justify-content-between mb-5">
-                                <div class="col-md-4">
-                                    <div class="input-group custom-height">
-                                        <input type="text" class="form-control form-control-lg"
-                                            value="{{ $general->total_pv }}" name="total_pv" id="#" aria-describedby="#"
-                                            required="">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text" id="#">@lang('PV')</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-1">
-                                    <h2 class="text-center">=</h2>
-                                </div>
-                                <div class="col-md-3 mb-4">
-                                    <div class="input-group custom-height">
-                                        <input type="text" class="form-control form-control-lg" name="pv_price"
-                                            value="{{ $general->pv_price }}" aria-describedby="#" required="">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text" id="#">{{ $general->cur_text }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-4">
-                                    <div class="input-group mb-3 custom-height">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">@lang('MAX')</span>
-                                        </div>
-                                        <input type="text" class="form-control form-control-lg"
-                                            value="{{ $general->max_pv }}" name="max_pv"
-                                            aria-label="Amount (to the nearest dollar)">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text">@lang('PV')</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
                             <div class="row">
-                                <div class="col-lg-4">
-                                    <label>@lang('Carry / Flush')</label>
-                                    <select class="form-control form-control-lg" name="cary_flash" required>
-                                        <option value="0">@lang('Carry (Cut Only Paid BV)')</option>
-                                        <option value="1">@lang('Flush (Cut Weak Leg Value)')</option>
-                                        <option value="2">@lang('Flush (Cut All BV and reset to 0)')</option>
-                                    </select>
-                                </div>
                                 <div class="form-group col-md-4 ">
-                                    <label>@lang('Matching Bonus Time')</label>
-                                    <select name="matching_bonus_time" class="form-control form-control-lg">
+                                    <label>@lang('ROI Bonus Time')</label>
+                                    <select name="roi_bonus_time" class="form-control form-control-lg">
+                                        <option value="Select Time">Select option</option>
                                         <option value="daily">@lang('Daily')</option>
                                         <option value="weekly">@lang('Weekly')</option>
                                         <option value="monthly">@lang('Monthly')</option>
@@ -300,7 +255,7 @@
                     </form>
                 </div>
             </div>
-        </div> --}}
+        </div>
     </div>
 @endsection
 
@@ -351,29 +306,28 @@
                 });
             });
 
-            $("select[name=cary_flash]").val("{{ $general->cary_flash }}");
-            $("select[name=matching_bonus_time]").val("{{ $general->matching_bonus_time }}");
-            $("select[name=weekly_time]").val("{{ $general->matching_when }}");
-            $("select[name=monthly_time]").val("{{ $general->matching_when }}");
-            $("select[name=daily_time]").val("{{ $general->matching_when }}");
+            $("select[name=roi_bonus_time]").val("{{ $general->roi_bonus_time }}");
+            $("select[name=weekly_time]").val("{{ $general->roi_when }}");
+            $("select[name=monthly_time]").val("{{ $general->roi_when }}");
+            $("select[name=daily_time]").val("{{ $general->roi_when }}");
 
-            $('select[name=matching_bonus_time]').on('change', function() {
-                matchingBonus($(this).val());
+            $('select[name=roi_bonus_time]').on('change', function() {
+                roiBonus($(this).val());
             });
 
-            matchingBonus($('select[name=matching_bonus_time]').val());
+            roiBonus($('select[name=roi_bonus_time]').val());
 
-            function matchingBonus(matching_bonus_time) {
-                if (matching_bonus_time == 'daily') {
+            function roiBonus(roi_bonus_time) {
+                if (roi_bonus_time == 'daily') {
                     document.getElementById('weekly_time').style.display = 'none';
                     document.getElementById('monthly_time').style.display = 'none'
                     document.getElementById('daily_time').style.display = 'block'
 
-                } else if (matching_bonus_time == 'weekly') {
+                } else if (roi_bonus_time == 'weekly') {
                     document.getElementById('weekly_time').style.display = 'block';
                     document.getElementById('monthly_time').style.display = 'none'
                     document.getElementById('daily_time').style.display = 'none'
-                } else if (matching_bonus_time == 'monthly') {
+                } else if (roi_bonus_time == 'monthly') {
                     document.getElementById('weekly_time').style.display = 'none';
                     document.getElementById('monthly_time').style.display = 'block'
                     document.getElementById('daily_time').style.display = 'none'

@@ -200,6 +200,7 @@
                                         <th class="wd-15p border-bottom-0">Email</th>
                                         <th class="wd-15p border-bottom-0">Plan Name</th>
                                         <th class="wd-15p border-bottom-0">Amount</th>
+                                        <th class="wd-15p border-bottom-0">ROI</th>
                                         <th class="wd-10p border-bottom-0">Subscribed At</th>
                                         <th class="wd-10p border-bottom-0">Status</th>
                                         <th class="wd-10p border-bottom-0">Expired At</th>
@@ -216,6 +217,7 @@
                                             </td>
                                             <td>{{ $data->plan->name }}</td>
                                             <td>{{ $general->cur_text }} {{ getAmount($data->plan->price) }}</td>
+                                            <td>{{ $general->cur_sym }} {{ getAmount($data->plan->roi) }}</td>
 
                                             <td>
                                                 @if ($data->subscribed_at != '')
@@ -241,7 +243,7 @@
                                                         <span class="badge badge-success">@lang('Active')</span>
                                                     </td>
                                                 @endif
-                                                @endif
+                                            @endif
                                             <td>
                                                 @if ($data->expires_at != '')
                                                     {{ showDateTime($data->expires_at) }}
@@ -249,7 +251,7 @@
                                                     @lang('Not Assign')
                                                 @endif
                                             </td>
-                                            
+
 
                                         </tr>
 

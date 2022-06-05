@@ -619,6 +619,7 @@ class ComposerStaticInit470e4d8b1a2fe5cce8b21c1eab380829
         'App\\Models\\PasswordReset' => __DIR__ . '/../..' . '/app/Models/PasswordReset.php',
         'App\\Models\\Plan' => __DIR__ . '/../..' . '/app/Models/Plan.php',
         'App\\Models\\PvLog' => __DIR__ . '/../..' . '/app/Models/PvLog.php',
+        'App\\Models\\Roi' => __DIR__ . '/../..' . '/app/Models/Roi.php',
         'App\\Models\\SubscribedPlans' => __DIR__ . '/../..' . '/app/Models/SubscribedPlans.php',
         'App\\Models\\SupportAttachment' => __DIR__ . '/../..' . '/app/Models/SupportAttachment.php',
         'App\\Models\\SupportMessage' => __DIR__ . '/../..' . '/app/Models/SupportMessage.php',

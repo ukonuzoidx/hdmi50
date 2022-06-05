@@ -36,7 +36,7 @@
             </a>
         </div>
         <!-- /breadcrumb -->
-        
+
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -51,6 +51,7 @@
                                         <th scope="col">@lang('Personal Volume (PV)')</th>
                                         <th scope="col">@lang('Referral Commission')</th>
                                         <th scope="col">@lang('Tree Commission')</th>
+                                        <th scope="col">@lang('ROI')</th>
                                         <th scope="col">@lang('Status')</th>
                                         <th scope="col">@lang('Action')</th>
                                     </tr>
@@ -60,12 +61,17 @@
                                         <tr>
                                             <td data-label="@lang('Sl')">{{ $key + 1 }}</td>
                                             <td data-label="@lang('Name')">{{ __($plan->name) }}</td>
-                                            <td data-label="@lang('Price')">{{ getAmount($plan->price) }} USD</td>
+                                            <td data-label="@lang('Price')">{{ getAmount($plan->price) }}
+                                                {{ $general->cur_text }}</td>
                                             <td data-label="@lang('Pv')">{{ $plan->pv }}</td>
-                                            <td data-label="@lang('Referral Commission')"> {{ getAmount($plan->ref_com) }} USD</td>
+                                            <td data-label="@lang('Referral Commission')"> {{ getAmount($plan->ref_com) }}
+                                                {{ $general->cur_text }}</td>
 
                                             <td data-label="@lang('Tree Commission')">
-                                                {{ getAmount($plan->tree_com) }} USD
+                                                {{ getAmount($plan->tree_com) }} {{ $general->cur_text }}
+                                            </td>
+                                            <td data-label="@lang('ROI')">
+                                                {{ $general->cur_sym }} {{ getAmount($plan->roi) }}
                                             </td>
                                             <td data-label="@lang('Status')">
                                                 @if ($plan->status == 1)
@@ -83,6 +89,7 @@
                                                     data-status="{{ $plan->status }}" data-pv="{{ $plan->pv }}"
                                                     data-price="{{ getAmount($plan->price) }}"
                                                     data-ref_com="{{ getAmount($plan->ref_com) }}"
+                                                    data-roi="{{ getAmount($plan->roi) }}"
                                                     data-tree_com="{{ getAmount($plan->tree_com) }}"
                                                     data-original-title="Edit">
                                                     <i class="la la-pencil"></i>
@@ -106,7 +113,7 @@
                 </div>
             </div>
         </div>
-           <div class="row row-sm">
+        <div class="row row-sm">
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-header pb-0">
@@ -166,7 +173,7 @@
                                                         <span class="badge badge-success">@lang('Active')</span>
                                                     </td>
                                                 @endif
-                                                @endif
+                                            @endif
                                             <td>
                                                 @if ($data->expires_at != '')
                                                     {{ showDateTime($data->expires_at) }}
@@ -174,7 +181,7 @@
                                                     @lang('Not Assign')
                                                 @endif
                                             </td>
-                                            
+
 
                                         </tr>
 
@@ -255,6 +262,14 @@
                             </div>
                             <small class="small text--red">@lang('When someone buys this plan, all of his ancestors will get this amount.')</small>
                         </div>
+                        <div class="form-group">
+                            <label class="font-weight-bold">@lang('ROI')</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span class="input-group-text">$ </span></div>
+                                <input type="text" class="form-control roi" name="roi" id="roiComEdit" readonly
+                                    required>
+                            </div>
+                        </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-12">
@@ -322,6 +337,13 @@
                             </div>
                             <small class="small text--red">@lang('When someone buys this plan, all of his uplines will get this amount.')</small>
                         </div>
+                        <div class="form-group">
+                            <label class="font-weight-bold"> @lang('ROI')</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span class="input-group-text">$ </span></div>
+                                <input type="text" class="form-control" id="roiCom" name="roi" readonly required>
+                            </div>
+                        </div>
 
                         <div class="form-row">
                             <div class="form-group col">
@@ -374,6 +396,7 @@
                 modal.find('.pv').val($(this).data('pv'));
                 modal.find('.ref_com').val($(this).data('ref_com'));
                 modal.find('.tree_com').val($(this).data('tree_com'));
+                modal.find('.roi').val($(this).data('roi'));
 
 
 

@@ -4,6 +4,7 @@ use App\Models\GeneralSetting;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Carbon\Carbon;
 
 return new class extends Migration
 {
@@ -26,6 +27,7 @@ return new class extends Migration
             $table->text('mail_config')->nullable();
             $table->string('signup_bonus')->nullable();
             $table->string('shiba_bonus')->nullable();
+            $table->string('tax_bonus')->nullable(); 
             $table->tinyInteger('ev')->nullable()->comment('email verification, 0: dont send, 1: send');
             $table->tinyInteger('en')->nullable()->comment('email notification, 0: dont send, 1: send	');
             $table->tinyInteger('sv')->nullable()->comment('sms verification, 0: dont send, 1: send');
@@ -43,10 +45,13 @@ return new class extends Migration
             $table->integer('max_pv')->nullable();
             $table->binary('notice')->nullable();
             $table->binary('free_user_notice')->nullable();
-            $table->string('matching_bonus_time')->nullable();
-            $table->string('matching_when')->nullable();
-            $table->dateTime('last_paid')->nullable();
-            $table->dateTime('last_cron')->nullable();
+            $table->string('roi_bonus_time')->nullable();
+            $table->string('roi_when')->nullable();
+            // $table->dateTime('roi_when_time')->nullable();
+            // $table->string('matching_bonus_time')->nullable();
+            // $table->string('matching_when')->nullable();
+            // $table->dateTime('last_paid')->nullable();
+            // $table->dateTime('last_cron')->nullable();
             $table->decimal('bal_trans_per_charge', 18, 8)->default(0.000000);
             $table->decimal('bal_trans_fixed_charge', 18, 8)->default(0.000000);
             $table->timestamps();
@@ -74,6 +79,7 @@ return new class extends Migration
             'sn' => 1,
             'signup_bonus' => '150',
             'shiba_bonus' => '200000',
+            'tax_bonus'   => '1.5', 
             'force_ssl' => 0,
             'secure_password' => 0,
             'registration' => 0,
@@ -87,12 +93,13 @@ return new class extends Migration
             'max_pv' => '0',
             'notice' => '',
             'free_user_notice' => '',
-            'matching_bonus_time' => 'daily',
-            'matching_when' => '1',
-            'last_paid' => null,
-            'last_cron' => null,
-            'bal_trans_per_charge' => '1',
-            'bal_trans_fixed_charge' => '10'
+            'roi_bonus_time' => 'daily',
+            'roi_when' => '6',
+            // 'roi_when_time' => Carbon::parse('06:00')->format('Y-m-d H:i:s'),
+            // 'last_paid' => null,
+            // 'last_cron' => null,
+            'bal_trans_per_charge' => '0',
+            'bal_trans_fixed_charge' => '0'
         ]);
     }
 
