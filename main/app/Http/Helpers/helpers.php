@@ -1193,8 +1193,7 @@ function assignRoi($id)
         if ($gnl->roi_bonus_time == 'daily') {
             // do a coundown timer for the roi
             $day = Date('H');
-            if (strtolower($day) == $gnl->roi_when) 
-            {
+            if (strtolower($day) == $gnl->roi_when) {
                 $user->balance += $roi->roi;
                 $user->roi += $roi->roi;
                 $user->save();

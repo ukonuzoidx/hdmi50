@@ -47,7 +47,7 @@ return new class extends Migration
             $table->binary('free_user_notice')->nullable();
             $table->string('roi_bonus_time')->nullable();
             $table->string('roi_when')->nullable();
-            // $table->dateTime('roi_when_time')->nullable();
+            $table->dateTime('roi_when_time')->nullable();
             // $table->string('matching_bonus_time')->nullable();
             // $table->string('matching_when')->nullable();
             // $table->dateTime('last_paid')->nullable();
@@ -95,7 +95,7 @@ return new class extends Migration
             'free_user_notice' => '',
             'roi_bonus_time' => 'daily',
             'roi_when' => '6',
-            // 'roi_when_time' => Carbon::parse('06:00')->format('Y-m-d H:i:s'),
+            'roi_when_time' => Carbon::parse('06:00')->format('Y-m-d H:i:s'),
             // 'last_paid' => null,
             // 'last_cron' => null,
             'bal_trans_per_charge' => '0',

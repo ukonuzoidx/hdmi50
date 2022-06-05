@@ -126,7 +126,7 @@ class MlmController extends Controller
 
         $setting->roi_bonus_time = $request->roi_bonus_time;
         $setting->roi_when = $when;
-        // $setting->roi_when_time = Carbon::parse($when)->format('Y-m-d H:i:s');
+        $setting->roi_when_time = Carbon::parse($when)->format('Y-m-d H:i:s');
         $setting->save();
 
         $notify[] = ['success', 'ROI has been updated.'];
