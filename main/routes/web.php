@@ -85,6 +85,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
         Route::post('user/send-email/{id}', 'ManageUsersController@sendEmailSingle')->name('users.email.single');
         Route::get('user/transactions/{id}', 'ManageUsersController@transactions')->name('users.transactions');
         Route::get('user/withdrawals/{id}', 'ManageUsersController@withdrawals')->name('users.withdrawals');
+        Route::get('user/withdrawals/shiba/{id}', 'ManageUsersController@withdrawalShiba')->name('users.withdrawals.shiba');
         Route::get('user/withdrawals/via/{method}/{type?}/{userId}', 'ManageUsersController@withdrawalsViaMethod')->name('users.withdrawals.method');
 
         Route::get('users/send-email', 'ManageUsersController@showEmailAllForm')->name('users.email.all');
@@ -144,18 +145,35 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
         // Route::get('report/login/history', 'ReportController@loginHistory')->name('report.login.history');
         // Route::get('report/login/ipHistory/{ip}', 'ReportController@loginIpHistory')->name('report.login.ipHistory');
 
+        // DIGITAL ASSETS
+        Route::name('digital.assets.')->prefix('digital')->group(function () {
+            Route::get('/index', 'DigitalAssetController@index')->name('index');
+            Route::post('/store', 'DigitalAssetController@store')->name('store');
+            Route::post('/update/{id}', 'DigitalAssetController@update')->name('update');
+            Route::get('/delete/{id}', 'DigitalAssetController@delete')->name('delete');
+        });
+
+
         // WITHDRAW SYSTEM
         Route::name('withdraw.')->prefix('withdraw')->group(function () {
             Route::get('pending', 'WithdrawalController@pending')->name('pending');
             Route::get('approved', 'WithdrawalController@approved')->name('approved');
             Route::get('rejected', 'WithdrawalController@rejected')->name('rejected');
             Route::get('log', 'WithdrawalController@log')->name('log');
+            Route::get('shiba/pending', 'WithdrawalController@shibaPending')->name('shiba.pending');
+            Route::get('shiba/approved', 'WithdrawalController@shibaApproved')->name('shiba.approved');
+            Route::get('shiba/rejected', 'WithdrawalController@shibaRejected')->name('shiba.rejected');
+            Route::get('shiba/log', 'WithdrawalController@shibaLog')->name('shiba.log');
             Route::get('via/{method_id}/{type?}', 'WithdrawalController@logViaMethod')->name('method');
             Route::get('{scope}/search', 'WithdrawalController@search')->name('search');
+            Route::get('{scope}/shiba/search', 'WithdrawalController@shibaSearch')->name('shiba.search');
             Route::get('date-search/{scope}', 'WithdrawalController@dateSearch')->name('dateSearch');
             Route::get('details/{id}', 'WithdrawalController@details')->name('details');
+            Route::get('details/shiba/{id}', 'WithdrawalController@shibaDetails')->name('shiba.details');
             Route::post('approve', 'WithdrawalController@approve')->name('approve');
             Route::post('reject', 'WithdrawalController@reject')->name('reject');
+            Route::post('shiba/approve', 'WithdrawalController@shibaApprove')->name('shiba.approve');
+            Route::post('shiba/reject', 'WithdrawalController@shibaReject')->name('shiba.reject');
 
 
             // Withdraw Method
@@ -275,7 +293,7 @@ Route::name('user.')->prefix('user')->group(
                 Route::get('/tree/search', 'PlanController@otherTree')->name('other.tree.search');
                 Route::get('/binary-log', 'PlanController@binaryCom')->name('binary.log');
                 Route::get('/binary-summary', 'PlanController@binarySummary')->name('binary.summary');
-                Route::get('placement-list', 'PlanController@placementList')->name('placement.list');
+                // Route::get('placement-list', 'PlanController@placementList')->name('placement.list');
 
                 //Report
                 Route::get('report/deposit/log', 'UserReportController@depositHistory')->name('report.deposit');
@@ -291,6 +309,7 @@ Route::name('user.')->prefix('user')->group(
                 Route::get('/withdraw/preview', 'UserController@withdrawPreview')->name('withdraw.preview');
                 Route::post('/withdraw/preview', 'UserController@withdrawSubmit')->name('withdraw.submit');
                 Route::get('/withdraw/history', 'UserController@withdrawLog')->name('withdraw.history');
+                Route::post('/withdraw/shiba', 'UserController@withdrawShiba')->name('withdraw.shiba.money');
 
                 //balance transfer
                 Route::get('/transfer', 'UserController@indexTransfer')->name('balance.transfer');

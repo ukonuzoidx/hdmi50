@@ -1225,10 +1225,10 @@ function seeWeeklyRoiEarned($id)
 
     $dateFrom = Carbon::now()->subDays(7);
     $dateTo = Carbon::now();
-    $weekly = Roi::whereBetween('roi_last_paid', [$dateFrom, $dateTo])->count();
+    $weekly = Roi::where('user_id', $user->id)->whereBetween('roi_last_paid', [$dateFrom, $dateTo])->count();
     $previousDateFrom = Carbon::now()->subDays(14);
     $previousDateTo = Carbon::now()->subDays(8);
-    $previousWeekly = Roi::whereBetween('created_at', [$previousDateFrom, $previousDateTo])->count();
+    $previousWeekly = Roi::where('user_id', $user->id)->whereBetween('created_at', [$previousDateFrom, $previousDateTo])->count();
 
 
     /**
@@ -1237,18 +1237,25 @@ function seeWeeklyRoiEarned($id)
      * if the user has no previous weekly roi then sum the total for that week
      * 
      */
-    if ($weekly > 0) {
-        if ($previousWeekly > 0) {
-            $weeklyRoi = Roi::whereBetween('roi_last_paid', [$dateFrom, $dateTo])->sum('roi');
-            $previousWeeklyRoi = Roi::whereBetween('created_at', [$previousDateFrom, $previousDateTo])->sum('roi');
-            $total = $weeklyRoi + $previousWeeklyRoi;
-            return $total;
+    if ($user && $roi) {
+
+        if ($weekly > 0) {
+            if ($previousWeekly > 0) {
+                $weeklyRoi = Roi::where('user_id', $user->id)->whereBetween('roi_last_paid', [$dateFrom, $dateTo])->sum('roi');
+                $previousWeeklyRoi = Roi::where('user_id', $user->id)->whereBetween('created_at', [$previousDateFrom, $previousDateTo])->sum('roi');
+                $total = $weeklyRoi + $previousWeeklyRoi;
+                return $total;
+            } else {
+                $weeklyRoi = Roi::where('user_id', $user->id)->whereBetween('roi_last_paid', [$dateFrom, $dateTo])->sum('roi');
+                $total = $weeklyRoi;
+                return $total;
+            }
         } else {
-            $weeklyRoi = Roi::whereBetween('roi_last_paid', [$dateFrom, $dateTo])->sum('roi');
-            $total = $weeklyRoi;
-            return $total;
+            return 0;
         }
-    } else {
-        return 0;
     }
 }
+
+/**
+ * convert showSingleTree  of a user to a list
+ */

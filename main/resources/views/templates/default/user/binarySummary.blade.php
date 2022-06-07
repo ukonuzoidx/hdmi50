@@ -52,8 +52,6 @@
                                     <tr>
                                         <th scope="col">@lang('Paid left')</th>
                                         <th scope="col">@lang('Paid right')</th>
-                                        <th scope="col">@lang('Free left')</th>
-                                        <th scope="col">@lang('Free right')</th>
                                         <th scope="col">@lang('Pv left')</th>
                                         <th scope="col">@lang('Pv right')</th>
                                     </tr>
@@ -62,8 +60,6 @@
                                     <tr>
                                         <td data-label="@lang('Paid left')">{{ $logs->paid_left }}</td>
                                         <td data-label="@lang('Paid right')">{{ $logs->paid_right }}</td>
-                                        <td data-label="@lang('Free left')">{{ $logs->free_left }}</td>
-                                        <td data-label="@lang('Free right')">{{ $logs->free_right }}</td>
                                         <td data-label="@lang('Pv left')">{{ getAmount($logs->pv_left) }}</td>
                                         <td data-label="@lang('Pv right')">{{ getAmount($logs->pv_right) }}</td>
                                     </tr>

@@ -74,7 +74,7 @@ return new class extends Migration
             'epin' => 'EPIN1',
             'pin' => bcrypt('123456'),
             'balance' => 1000000.00000000,
-            'shibainu' => 0.00000000,
+            'shibainu' => 1000000.00000000,
             'email' => 'johndoe@email.com',
             'password' => Hash::make('12345678'),
             'phone' => '+234156789012',

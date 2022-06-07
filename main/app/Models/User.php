@@ -63,6 +63,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Withdraw::class)->where('status', '!=', 0);
     }
+    public function withdrawalshiba()
+    {
+        return $this->hasMany(WithdrawShiba::class)->where('status', '!=', 0);
+    }
 
     public function userExtra()
     {

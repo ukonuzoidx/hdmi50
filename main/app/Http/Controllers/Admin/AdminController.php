@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\AdminNotification;
-
+use App\Models\WithdrawShiba;
 
 class AdminController extends Controller
 {
@@ -44,23 +44,14 @@ class AdminController extends Controller
         $report['months'] = collect([]);
         $report['deposit_month_amount'] = collect([]);
         $report['withdraw_month_amount'] = collect([]);
+        $report['withdraw_shiba_month_amount'] = collect([]);
 
-        // $depositsMonth = Deposit::whereYear('created_at', '>=', Carbon::now()->subYear())
-        //     ->selectRaw("SUM( CASE WHEN status = 1 THEN amount END) as depositAmount")
-        //     ->selectRaw("DATE_FORMAT(created_at,'%M') as months")
-        //     ->orderBy('created_at')
-        //     ->groupBy(DB::Raw("MONTH(created_at)"))->get();
-
-        // $depositsMonth->map(function ($aaa) use ($report) {
-        //     $report['months']->push($aaa->months);
-        //     $report['deposit_month_amount']->push(getAmount($aaa->depositAmount));
-        // });
 
         $withdrawalMonth = Withdraw::whereYear('created_at', '>=', Carbon::now()->subYear())->where('status', 1)
-        ->selectRaw("SUM( CASE WHEN status = 1 THEN amount END) as withdrawAmount")
-        ->selectRaw("DATE_FORMAT(created_at,'%M') as months")
-        ->orderBy('created_at')
-        ->groupBy(DB::Raw("MONTH(created_at)"))->get();
+            ->selectRaw("SUM( CASE WHEN status = 1 THEN amount END) as withdrawAmount")
+            ->selectRaw("DATE_FORMAT(created_at,'%M') as months")
+            ->orderBy('created_at')
+            ->groupBy(DB::Raw("MONTH(created_at)"))->get();
         $withdrawalMonth->map(function ($bb) use ($report) {
             $report['withdraw_month_amount']->push(getAmount($bb->withdrawAmount));
         });
@@ -70,8 +61,8 @@ class AdminController extends Controller
 
         // Withdraw Graph
         $withdrawal = Withdraw::where('created_at', '>=', \Carbon\Carbon::now()->subDays(30))->where('status', 1)
-        ->select(array(DB::Raw('sum(amount)   as totalAmount'), DB::Raw('DATE(created_at) day')))
-        ->groupBy('day')->get();
+            ->select(array(DB::Raw('sum(amount)   as totalAmount'), DB::Raw('DATE(created_at) day')))
+            ->groupBy('day')->get();
         $withdrawals['per_day'] = collect([]);
         $withdrawals['per_day_amount'] = collect([]);
         $withdrawal->map(function ($a) use ($withdrawals) {
@@ -79,11 +70,36 @@ class AdminController extends Controller
             $withdrawals['per_day_amount']->push($a->totalAmount + 0);
         });
 
+        $withdrawalShibaMonth = WithdrawShiba::whereYear('created_at', '>=', Carbon::now()->subYear())->where('status', 1)
+            ->selectRaw("SUM( CASE WHEN status = 1 THEN shibainu END) as withdrawShibaAmount")
+            ->selectRaw("DATE_FORMAT(created_at,'%M') as months")
+            ->orderBy('created_at')
+            ->groupBy(DB::Raw("MONTH(created_at)"))->get();
+        $withdrawalShibaMonth->map(function ($dd) use ($report) {
+            $report['withdraw_month_shibainu']->push(getAmount($dd->withdrawAmount));
+        });
+
+
+
+        // WithdrawShiba Graph
+        $withdrawalshib = WithdrawShiba::where('created_at', '>=', \Carbon\Carbon::now()->subDays(30))->where('status', 1)
+            ->select(array(DB::Raw('sum(shibainu)   as totalAmount'), DB::Raw('DATE(created_at) day')))
+            ->groupBy('day')->get();
+        $withdrawalsShiba['per_day'] = collect([]);
+        $withdrawalsShiba['per_day_shibainu'] = collect([]);
+        $withdrawalshib->map(function ($ad) use ($withdrawalsShiba) {
+            $withdrawalsShiba['per_day']->push(date('d M', strtotime($ad->day)));
+            $withdrawalsShiba['per_day_shibainu']->push($ad->totalAmount + 0);
+        });
+
 
         $paymentWithdraw['withdraw_method'] = WithdrawMethod::count();
         $paymentWithdraw['total_withdraw_amount'] = Withdraw::where('status', 1)->sum('amount');
         $paymentWithdraw['total_withdraw_charge'] = Withdraw::where('status', 1)->sum('charge');
         $paymentWithdraw['total_withdraw_pending'] = Withdraw::where('status', 2)->count();
+
+        $paymentWithdrawShiba['total_withdraw_shiba_amount'] = WithdrawShiba::where('status', 1)->sum('shibainu');
+        $paymentWithdrawShiba['total_withdraw_shiba_pending'] = WithdrawShiba::where('status', 2)->count();
 
 
         $pv['pvLeft'] = UserExtra::sum('pv_left');
@@ -97,12 +113,15 @@ class AdminController extends Controller
             'widget',
             'report',
             'withdrawals',
+            'withdrawalsShiba',
             // 'chart',
             // 'payment',
             'paymentWithdraw',
+            'paymentWithdrawShiba',
             'latestUser',
             'pv',
             // 'depositsMonth',
+            'withdrawalShibaMonth',
             'withdrawalMonth'
         ));
     }

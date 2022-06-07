@@ -12,6 +12,8 @@ use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Withdraw;
 use App\Models\WithdrawMethod;
+use App\Models\WithdrawShiba;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -28,9 +30,11 @@ class UserController extends Controller
     {
         $data['total_ref'] = User::where('ref_id', auth()->id())->count();
         $data['totalWithdraw']   = Withdraw::where('user_id', auth()->id())->where('status', 1)->sum('amount');
-        $data['total_invest_pv'] = PvLog::where('user_id', auth()->id())->where('trx_type', '+')->sum('amount');
+        $data['totalWithdrawShiba']   = WithdrawShiba::where('user_id', auth()->id())->where('status', 1)->sum('shibainu');
         $data['roi'] = assignRoi(auth()->id());
-        $data['weeklyroi'] = seeWeeklyRoiEarned(auth()->id());
+        // $data['weeklyroi'] = seeWeeklyRoiEarned(auth()->id());
+        $data['weeklyroi'] = Roi::where('user_id', auth()->id())->whereDate('created_at', '>=', Carbon::now()->subDays(6))->sum('roi');
+
         return view($this->activeTemplate . 'user.dashboard', $data);
     }
 
@@ -306,11 +310,85 @@ class UserController extends Controller
         return redirect()->route('user.withdraw.history')->withNotify($notify);
     }
 
-    public function withdrawLog()
+    public function withdrawShiba(Request $request)
+    {
+        $general = GeneralSetting::first();
+        // $withdraw = WithdrawShiba::with('user')->where('trx', session()->get('wtrx'))->where('status', 0)->latest();
+
+        $rules = [];
+        $inputField = [];
+       
+        $this->validate($request, $rules);
+        $user = auth()->user();
+        // decrypt pin
+     $pin = Hash::check($request->pin, $user->pin);
+
+     if (!$pin) {
+         $notify[] = ['error', 'Invalid Pin'];
+         return back()->withNotify($notify);
+     }
+
+        if (getAmount($user->shibainu) == 0 && $request->shibainu > getAmount($user->shibainu)) {
+            $notify[] = ['error', 'Your Request Amount is Larger Then Your Current Balance.'];
+            return back()->withNotify($notify);
+        }
+        $withdraw = new WithdrawShiba();
+        $withdraw->user_id = $user->id;
+        $withdraw->shibainu = $request->shibainu;
+        $withdraw->trx = getTrx();
+        $withdraw->final_shibainu = $user->shibainu - $request->shibainu;
+        $withdraw->status = 2;
+        $withdraw->save();
+
+        $user->shibainu -= $withdraw->shibainu;
+        $user->save();
+
+
+
+        $transaction = new Transaction();
+        $transaction->user_id = $withdraw->user_id;
+        $transaction->amount = getAmount($withdraw->shibainu);
+        $transaction->post_balance = getAmount($user->shibainu);
+        $transaction->charge = 0;
+        $transaction->trx_type = '-';
+        $transaction->details = getAmount($withdraw->final_amount) . ' ' . "SHIB" . ' Withdraw Via ' . "Shiba";
+        $transaction->trx =  $withdraw->trx;
+        $transaction->save();
+
+        $adminNotification = new AdminNotification();
+        $adminNotification->user_id = $user->id;
+        $adminNotification->title = 'New withdraw request from ' . $user->username;
+        $adminNotification->click_url = route('admin.withdraw.details', $withdraw->id);
+        $adminNotification->save();
+
+        notify($user, 'WITHDRAW_REQUEST', [
+            'method_name' => "Shiba",
+            'method_currency' => "SHIB",
+            'method_amount' => getAmount($withdraw->final_shibainu),
+            'amount' => getAmount($withdraw->shibainu),
+            'charge' => 0,
+            'currency' => $general->cur_text,
+            'rate' => 0,
+            'trx' => $withdraw->trx,
+            'post_balance' => getAmount($user->shibainu),
+            'delay' => 0
+        ]);
+
+        $notify[] = ['success', 'Withdraw Request Successfully Send'];
+        return back()->withNotify($notify);
+    }
+
+    public function withdrawLog(Request $request)
     {
         $data['page_title'] = "Withdraw Log";
-        $data['withdraws'] = Withdraw::where('user_id', Auth::id())->where('status', '!=', 0)->with('method')->latest()->paginate(getPaginate());
-        $data['empty_message'] = "No Data Found!";
+        // if ($request->type) {
+        //     if ($request->type == 'withdrawShiba') {
+        //         $data['withdraws'] = WithdrawShiba::with('user')->where('user_id', auth()->user()->id)->latest()->paginate(20);
+        //     } else {
+                $data['withdraws'] = Withdraw::where('user_id', Auth::id())->where('status', '!=', 0)->with('method')->latest()->paginate(getPaginate());
+        //     }
+        // } 
+        $data['empty_message'] = 'No data found';
         return view($this->activeTemplate . 'user.withdraw.log', $data);
     }
 

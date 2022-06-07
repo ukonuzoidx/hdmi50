@@ -124,8 +124,12 @@ class PlanController extends Controller
             'trx' => $trx->trx,
             'post_balance' => getAmount($user->balance) . ' ' . $gnl->cur_text,
         ]);
+        $assigned_shiba = $gnl->shiba_bonus;
+
+        $shiba = $assigned_shiba * 0.05;
 
         $details = Auth::user()->username . ' Subscribed to ' . $plan->name . ' plan.';
+        $detailBinaryShibaCom = "You have received a commission bonus of $shiba shiba";
 
         $shiba = $gnl->shiba_bonus * 0.05;
 
@@ -135,6 +139,8 @@ class PlanController extends Controller
         referralComission($user->id, $details, $plan->id);
         if ($plan->tree_com > 0) {
             treeComission($user->id, $plan->tree_com, $details);
+
+            shibaBinaryComission($user->id, $shiba, $detailBinaryShibaCom);
 
         }
 
@@ -193,22 +199,5 @@ class PlanController extends Controller
         $data['page_title'] = "Binary Summery";
         $data['logs'] = UserExtra::where('user_id', auth()->id())->firstOrFail();
         return view($this->activeTemplate . 'user.binarySummary', $data);
-    }
-
-    public function placementList()
-    {
-       /**
-        * get all users who are placed under the current user
-        * and get their position in the tree
-        */
-        $data['page_title'] = "Placement List";
-        
-  
-        // dd($data);
-
-        return view($this->activeTemplate . '.user.placementList', $data);
-        // $data['page_title'] = "Placement List";
-        // $data['logs'] = User::where('ref_id', auth()->id())->latest()->paginate(10);
-        // return view($this->activeTemplate . 'user.placementList', $data);
     }
 }

@@ -73,7 +73,7 @@
                      <li><a class="slide-item" href="{{ route('user.my.tree') }}">Binary Tree</a>
                      </li>
                      <li><a class="slide-item" href="{{ route('user.my.ref') }}">Sponsor List</a></li>
-                     <li><a class="slide-item" href="{{ route('user.placement.list') }}">Placement List</a></li>
+                     <li><a class="slide-item" href="{{ route('user.binary.summary') }}">Placement List</a></li>
                  </ul>
              </li>
 

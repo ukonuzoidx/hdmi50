@@ -37,6 +37,14 @@
                  </a>
              </li>
              <li class="slide">
+                 <a class="side-menu__item" href="{{ route('admin.digital.assets.index') }}">
+                     <i class="side-menu__icon ti-light-bulb"></i>
+                     <span class="side-menu__label">
+                         Digital Assets
+                     </span>
+                 </a>
+             </li>
+             <li class="slide">
                  <a class="side-menu__item" data-toggle="slide" href="#">
                      <i class="side-menu__icon ti-book  menu-icons"></i>
                      <span class="side-menu__label">
@@ -92,6 +100,16 @@
                      <li><a class="slide-item" href="{{ route('admin.withdraw.rejected') }}">Rejected
                              Withdrawal</a></li>
                      <li><a class="slide-item" href="{{ route('admin.withdraw.log') }}">All Withdrawls</a></li>
+                     <li><a class="slide-item" href="{{ route('admin.withdraw.shiba.pending') }}">
+                             Pending Shiba
+
+                         </a>
+                     </li>
+                     <li><a class="slide-item" href="{{ route('admin.withdraw.shiba.approved') }}">Approved
+                             Shiba</a></li>
+                     <li><a class="slide-item" href="{{ route('admin.withdraw.shiba.rejected') }}">Rejected
+                             Shiba</a></li>
+                     <li><a class="slide-item" href="{{ route('admin.withdraw.shiba.log') }}">All Shiba Withdrawal</a></li>
                  </ul>
              </li>
 

@@ -239,7 +239,7 @@ class RegisterController extends Controller
         $user->status = 1;
         $user->address      = [
             'address' => '',
-            'state' => '',
+            'state' => isset($data['state']) ? $data['state'] : null,
             'country' => isset($data['country']) ? $data['country'] : null,
         ];
         $user->ev = 1;
@@ -274,6 +274,7 @@ class RegisterController extends Controller
 
         // calculate the referral commission
         $referralCommision = $signup_fee * 0.1334;
+        $refCom = $referralCommision - $general->tax_bonus;
         $refShibaCom = $assigned_shiba * 0.25;
 
         $shiba = $assigned_shiba * 0.05;
@@ -286,15 +287,15 @@ class RegisterController extends Controller
 
         // dd($sponsor);
         if ($sponsor) {
-            $detailRefCom = "You have received a commission bonus of $referralCommision from $username";
+            $detailRefCom = "You have received a commission bonus of $refCom from $username";
             $detailRefShibaCom = "You have received a commission bonus of $refShibaCom  shiba from $username";
-            $detailBinaryShibaCom = "You have received a commission bonus of $shiba shiba";
+            
             $detailPV = "You have received $binaryCommision PV from $username";
 
-            $amount = $referralCommision;
-            $sponsor->total_ref_com += $amount;
-            $sponsor->balance += $amount;
+            $sponsor->total_ref_com += $refCom;
+            $sponsor->balance += $refCom;
             $sponsor->total_ref_shiba += $assigned_shiba;
+            $sponsor->shibainu += $assigned_shiba;
 
 
             $sponsor->save();
@@ -313,10 +314,9 @@ class RegisterController extends Controller
             // matching bonus for sponsor in shiba
             matchingBonusShiba($sponsor->id, $shiba);
 
-            shibaBinaryComission($user->id, $shiba, $detailBinaryShibaCom);
 
             $sponsor->transactions()->create([
-                'amount' => $referralCommision,
+                'amount' => $refCom,
                 'charge' => 0,
                 'trx_type' => '+',
                 'details' => $detailRefCom,

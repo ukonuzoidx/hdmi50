@@ -295,6 +295,23 @@ class ManageUsersController extends Controller
         return view('admin.withdraw.withdrawals', compact('page_title', 'user', 'withdrawals', 'empty_message', 'userId'));
     }
 
+    public function withdrawalShiba(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        if ($request->search) {
+            $search = $request->search;
+            $page_title = 'Search User Shiba Withdrawals : ' . $user->username;
+            $withdrawals = $user->withdrawals()->where('trx', 'like', "%$search%")->latest()->paginate(getPaginate());
+            $empty_message = 'No Shiba withdrawals';
+            return view('admin.withdraw.withdrawalShiba', compact('page_title', 'user', 'search', 'withdrawals', 'empty_message'));
+        }
+        $page_title = 'User Shiba Withdrawals : ' . $user->username;
+        $withdrawals = $user->withdrawals()->latest()->paginate(getPaginate());
+        $empty_message = 'No Shiba withdrawals';
+        $userId = $user->id;
+        return view('admin.withdraw.withdrawalShiba', compact('page_title', 'user', 'withdrawals', 'empty_message', 'userId'));
+    }
+
     public  function withdrawalsViaMethod($method, $type, $userId)
     {
         $method = WithdrawMethod::findOrFail($method);

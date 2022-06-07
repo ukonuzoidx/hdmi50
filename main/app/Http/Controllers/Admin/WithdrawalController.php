@@ -8,6 +8,7 @@ use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Withdraw;
 use App\Models\WithdrawMethod;
+use App\Models\WithdrawShiba;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -45,6 +46,39 @@ class WithdrawalController extends Controller
         $withdrawals = Withdraw::where('status', '!=', 0)->with(['user', 'method'])->latest()->paginate(getPaginate());
         $empty_message = 'No withdrawal history';
         return view('admin.withdraw.withdrawals', compact('page_title', 'withdrawals', 'empty_message'));
+    }
+    public function shibaPending()
+    {
+        $page_title = 'Pending Shiba Withdrawals';
+        $withdrawals = WithdrawShiba::where('status', 2)->with(['user'])->latest()->paginate(getPaginate());
+        $empty_message = 'No withdrawal is pending';
+        $type = 'pending';
+        return view('admin.withdraw.withdrawalShiba', compact('page_title', 'withdrawals', 'empty_message', 'type'));
+    }
+    public function shibaApproved()
+    {
+        $page_title = 'Approved Shiba Withdrawals';
+        $withdrawals = WithdrawShiba::where('status', 1)->with(['user'])->latest()->paginate(getPaginate());
+        $empty_message = 'No withdrawal is approved';
+        $type = 'approved';
+        return view('admin.withdraw.withdrawalShiba', compact('page_title', 'withdrawals', 'empty_message', 'type'));
+    }
+
+    public function shibaRejected()
+    {
+        $page_title = 'Rejected Shiba Withdrawals';
+        $withdrawals = WithdrawShiba::where('status', 3)->with(['user'])->latest()->paginate(getPaginate());
+        $empty_message = 'No withdrawal is rejected';
+        $type = 'rejected';
+        return view('admin.withdraw.withdrawalShiba', compact('page_title', 'withdrawals', 'empty_message', 'type'));
+    }
+
+    public function shibaLog()
+    {
+        $page_title = 'Shiba Withdrawals Log';
+        $withdrawals = WithdrawShiba::where('status', '!=', 0)->with(['user'])->latest()->paginate(getPaginate());
+        $empty_message = 'No withdrawal history';
+        return view('admin.withdraw.withdrawalShiba', compact('page_title', 'withdrawals', 'empty_message'));
     }
 
 
@@ -163,6 +197,16 @@ class WithdrawalController extends Controller
 
         return view('admin.withdraw.detail', compact('page_title', 'withdrawal', 'details', 'methodImage'));
     }
+    public function shibaDetails($id)
+    {
+        $general = GeneralSetting::first();
+        $withdrawal = WithdrawShiba::where('id', $id)->where('status', '!=', 0)->with(['user'])->firstOrFail();
+        $page_title = $withdrawal->user->username . ' Withdraw Requested ' . getAmount($withdrawal->shibainu) . ' ' . 'SHIB';
+        $details = ($withdrawal->withdraw_information != null) ? json_encode($withdrawal->withdraw_information) : null;
+
+
+        return view('admin.withdraw.detailShiba', compact('page_title', 'withdrawal', 'details'));
+    }
 
     public function approve(Request $request)
     {
@@ -231,5 +275,67 @@ class WithdrawalController extends Controller
 
         $notify[] = ['success', 'Withdraw has been rejected.'];
         return redirect()->route('admin.withdraw.pending')->withNotify($notify);
+    }
+
+    public function shibaApprove(Request $request)
+    {
+        $request->validate(['id' => 'required|integer']);
+        $withdraw = WithdrawShiba::where('id', $request->id)->where('status', 2)->with('user')->firstOrFail();
+        $withdraw->admin_feedback = $request->details;
+        $withdraw->status = 1;
+        $withdraw->save();
+
+        $general = GeneralSetting::first();
+        notify($withdraw->user, 'WITHDRAW_APPROVE', [
+            'method_name' => "Shiba Withdraw",
+            'method_currency' => "SHIB",
+            'amount' => getAmount($withdraw->shibainu),
+            'currency' => "SHIB",
+            'trx' => $withdraw->trx,
+        ]);
+
+        $notify[] = ['success', 'Withdraw Shiba as Approved.'];
+        return redirect()->route('admin.withdraw.shiba.pending')->withNotify($notify);
+    }
+
+
+    public function shibaReject(Request $request)
+    {
+        $general = GeneralSetting::first();
+        $request->validate(['id' => 'required|integer']);
+        $withdraw = WithdrawShiba::where('id', $request->id)->where('status', 2)->firstOrFail();
+        $withdraw->admin_feedback = $request->details;
+        $withdraw->status = 3;  
+        $withdraw->save();
+
+        $user = User::find($withdraw->user_id);
+        $user->shibainu += getAmount($withdraw->shibainu);
+        $user->save();
+
+
+
+        $transaction = new Transaction();
+        $transaction->user_id = $withdraw->user_id;
+        $transaction->amount = $withdraw->shibainu;
+        $transaction->post_balance = getAmount($user->shibainu);
+        $transaction->charge = 0;
+        $transaction->trx_type = '+';
+        $transaction->details = getAmount($withdraw->shibainu) . ' ' . "SHIB" . ' Refunded from Withdraw Rejection';
+        $transaction->trx = $withdraw->trx;
+        $transaction->save();
+
+        notify($user, 'WITHDRAW_REJECT', [
+            'method_name' => "SHIBA Withdraw",
+            'method_currency' => "SHIBA",
+            'amount' => getAmount($withdraw->shibainu),
+            'charge' => getAmount($withdraw->charge),
+            'currency' => "SHIB",
+            'trx' => $withdraw->trx,
+            'post_balance' => getAmount($user->shibainu),
+            'admin_details' => $request->details
+        ]);
+
+        $notify[] = ['success', 'Shiba Withdrawal has been rejected.'];
+        return redirect()->route('admin.withdraw.shiba.pending')->withNotify($notify);
     }
 }
