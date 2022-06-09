@@ -30,7 +30,7 @@ return new class extends Migration
             $table->string('left_side')->default(0);
             $table->string('right_side')->default(0);
             $table->string('epin')->unique();
-            $table->string('pin')->unique()->nullable();
+            $table->string('pin')->nullable();
             $table->string('email');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

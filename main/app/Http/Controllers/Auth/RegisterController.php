@@ -147,7 +147,7 @@ class RegisterController extends Controller
             'firstname'     => 'sometimes|required|string|max:60',
             'lastname'      => 'sometimes|required|string|max:60',
             'email'         => 'required|string|email|max:160',
-            'phone'        => 'required|string|max:30|unique:users',
+            'phone'        => 'required|string|max:30',
             'password'      => 'required|string|min:6|confirmed',
             'username'      => 'required|alpha_num|unique:users|min:6',
             'country'  => 'required'
@@ -302,10 +302,11 @@ class RegisterController extends Controller
 
             $pv = $signup_fee;
 
-            // $shiba = $shibaUpline;
+
+        
 
 
-            updateRegPV($user->id, $pv, $detailPV);
+            updateRegPV($user->id, $pv, $assigned_shiba, $detailPV);
             // updateRegShiba($user->id, $shiba, $detailRefShibaCom);
 
             // check for matching bonus

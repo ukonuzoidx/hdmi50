@@ -32,8 +32,7 @@ class UserController extends Controller
         $data['totalWithdraw']   = Withdraw::where('user_id', auth()->id())->where('status', 1)->sum('amount');
         $data['totalWithdrawShiba']   = WithdrawShiba::where('user_id', auth()->id())->where('status', 1)->sum('shibainu');
         $data['roi'] = assignRoi(auth()->id());
-        // $data['weeklyroi'] = seeWeeklyRoiEarned(auth()->id());
-        $data['weeklyroi'] = Roi::where('user_id', auth()->id())->whereDate('created_at', '>=', Carbon::now()->subDays(6))->sum('roi');
+        $data['weeklyroi'] = Roi::where('user_id', auth()->id())->whereDate('created_at', Carbon::now()->subDays(9))->sum('roi');
 
         return view($this->activeTemplate . 'user.dashboard', $data);
     }
@@ -317,16 +316,16 @@ class UserController extends Controller
 
         $rules = [];
         $inputField = [];
-       
+
         $this->validate($request, $rules);
         $user = auth()->user();
         // decrypt pin
-     $pin = Hash::check($request->pin, $user->pin);
+        $pin = Hash::check($request->pin, $user->pin);
 
-     if (!$pin) {
-         $notify[] = ['error', 'Invalid Pin'];
-         return back()->withNotify($notify);
-     }
+        if (!$pin) {
+            $notify[] = ['error', 'Invalid Pin'];
+            return back()->withNotify($notify);
+        }
 
         if (getAmount($user->shibainu) == 0 && $request->shibainu > getAmount($user->shibainu)) {
             $notify[] = ['error', 'Your Request Amount is Larger Then Your Current Balance.'];
@@ -385,7 +384,7 @@ class UserController extends Controller
         //     if ($request->type == 'withdrawShiba') {
         //         $data['withdraws'] = WithdrawShiba::with('user')->where('user_id', auth()->user()->id)->latest()->paginate(20);
         //     } else {
-                $data['withdraws'] = Withdraw::where('user_id', Auth::id())->where('status', '!=', 0)->with('method')->latest()->paginate(getPaginate());
+        $data['withdraws'] = Withdraw::where('user_id', Auth::id())->where('status', '!=', 0)->with('method')->latest()->paginate(getPaginate());
         //     }
         // } 
         $data['empty_message'] = 'No data found';
@@ -531,91 +530,91 @@ class UserController extends Controller
     }
 
     // show auth user used epins
-    public function epinsUsed()
-    {
-        $data['page_title'] = "Used E-Pin";
-        $data['epins'] = Epin::used()->where('user_id', Auth::id())->latest()->paginate(getPaginate());
-        $data['empty_message'] = "No Data Found!";
-        return view($this->activeTemplate . 'user.epins', $data);
-    }
+    // public function epinsUsed()
+    // {
+    //     $data['page_title'] = "Used E-Pin";
+    //     $data['epins'] = Epin::used()->where('user_id', Auth::id())->latest()->paginate(getPaginate());
+    //     $data['empty_message'] = "No Data Found!";
+    //     return view($this->activeTemplate . 'user.epins', $data);
+    // }
 
     // show auth user sent epins
-    public function epinsSent()
-    {
-        $data['page_title'] = "Sent E-Pin";
-        $data['epins'] = Epin::where('sent_by', auth()->id())->latest()->paginate(getPaginate());
-        $data['empty_message'] = "No Data Found!";
-        return view($this->activeTemplate . 'user.epins', $data);
-    }
+    // public function epinsSent()
+    // {
+    //     $data['page_title'] = "Sent E-Pin";
+    //     $data['epins'] = Epin::where('sent_by', auth()->id())->latest()->paginate(getPaginate());
+    //     $data['empty_message'] = "No Data Found!";
+    //     return view($this->activeTemplate . 'user.epins', $data);
+    // }
 
     // show auth user received epins
-    public function epinsReceived()
-    {
-        $data['page_title'] = "Received E-Pin";
-        $data['epins'] = Epin::where('user_id', Auth::id())->where('received_by', auth()->id())->latest()->paginate(getPaginate());
-        $data['empty_message'] = "No Data Found!";
-        return view($this->activeTemplate . 'user.epins', $data);
-    }
+    // public function epinsReceived()
+    // {
+    //     $data['page_title'] = "Received E-Pin";
+    //     $data['epins'] = Epin::where('user_id', Auth::id())->where('received_by', auth()->id())->latest()->paginate(getPaginate());
+    //     $data['empty_message'] = "No Data Found!";
+    //     return view($this->activeTemplate . 'user.epins', $data);
+    // }
 
     // send epin from auth user to other user
-    public function epinSend(Request $request)
-    {
-        $this->validate($request, [
-            'username' => 'required',
-            'epin' => 'required',
-        ]);
+    // public function epinSend(Request $request)
+    // {
+    //     $this->validate($request, [
+    //         'username' => 'required',
+    //         'epin' => 'required',
+    //     ]);
 
-        $user = User::where('username', $request->username)->first();
+    //     $user = User::where('username', $request->username)->first();
 
-        if (!$user) {
-            $notify[] = ['error', 'User Not Found!'];
-            return back()->withNotify($notify);
-        }
+    //     if (!$user) {
+    //         $notify[] = ['error', 'User Not Found!'];
+    //         return back()->withNotify($notify);
+    //     }
 
-        $epin = Epin::where('epin', $request->epin)->where('user_id', Auth::id())->first();
+    //     $epin = Epin::where('epin', $request->epin)->where('user_id', Auth::id())->first();
 
-        if (!$epin) {
-            $notify[] = ['error', 'E-Pin Not Found!'];
-            return back()->withNotify($notify);
-        }
+    //     if (!$epin) {
+    //         $notify[] = ['error', 'E-Pin Not Found!'];
+    //         return back()->withNotify($notify);
+    //     }
 
-        if ($epin->status == 1) {
-            $notify[] = ['error', 'E-Pin Already Used!'];
-            return back()->withNotify($notify);
-        }
+    //     if ($epin->status == 1) {
+    //         $notify[] = ['error', 'E-Pin Already Used!'];
+    //         return back()->withNotify($notify);
+    //     }
 
-        //check if epin is unused the send it to user
-        if ($epin->status == 0) {
-            $epin->user_id = $user->id;
-            $epin->sent_by = Auth::id();
-            $epin->recieved_by = $user->id;
-            $epin->save();
-            $notify[] = ['success', 'E-Pin Sent Successfully!'];
-            return back()->withNotify($notify);
-        }
-
-
+    //     //check if epin is unused the send it to user
+    //     if ($epin->status == 0) {
+    //         $epin->user_id = $user->id;
+    //         $epin->sent_by = Auth::id();
+    //         $epin->recieved_by = $user->id;
+    //         $epin->save();
+    //         $notify[] = ['success', 'E-Pin Sent Successfully!'];
+    //         return back()->withNotify($notify);
+    //     }
 
 
-        // if ($user) {
-        //     $epin = Epin::find($request->epin);
-        //     if ($epin) {
-        //         if ($epin->status == 0) {
-        //             $epin->sent_by = Auth::id();
-        //             $epin->status = 1;
-        //             $epin->save();
-        //             $notify[] = ['success', 'E-Pin Sent Successfully.'];
-        //             return back()->withNotify($notify);
-        //         } else {
-        //             $notify[] = ['error', 'E-Pin Already Sent.'];
-        //             return back()->withNotify($notify);
-        //         }
-        //     } else {
-        //         $notify[] = ['error', 'E-Pin Not Found.'];
-        //         return back()->withNotify($notify);
-        //     }
 
-        // $notify[] = ['success', 'E-Pin Sent Successfully.'];
-        // return back()->withNotify($notify);
-    }
+
+    // if ($user) {
+    //     $epin = Epin::find($request->epin);
+    //     if ($epin) {
+    //         if ($epin->status == 0) {
+    //             $epin->sent_by = Auth::id();
+    //             $epin->status = 1;
+    //             $epin->save();
+    //             $notify[] = ['success', 'E-Pin Sent Successfully.'];
+    //             return back()->withNotify($notify);
+    //         } else {
+    //             $notify[] = ['error', 'E-Pin Already Sent.'];
+    //             return back()->withNotify($notify);
+    //         }
+    //     } else {
+    //         $notify[] = ['error', 'E-Pin Not Found.'];
+    //         return back()->withNotify($notify);
+    //     }
+
+    // $notify[] = ['success', 'E-Pin Sent Successfully.'];
+    // return back()->withNotify($notify);
+    // }
 }

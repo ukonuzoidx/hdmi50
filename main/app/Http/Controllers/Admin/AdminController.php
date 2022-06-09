@@ -76,7 +76,8 @@ class AdminController extends Controller
             ->orderBy('created_at')
             ->groupBy(DB::Raw("MONTH(created_at)"))->get();
         $withdrawalShibaMonth->map(function ($dd) use ($report) {
-            $report['withdraw_month_shibainu']->push(getAmount($dd->withdrawAmount));
+            // dd()
+            $report['withdraw_shiba_month_amount']->push(getAmount($dd->withdrawAmount));
         });
 
 

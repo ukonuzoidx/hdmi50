@@ -18,6 +18,7 @@
                 <h5 class="mb-0">
                     <span class="text-muted font-weight-bold">ID: {{ Auth::user()->user_id }}</span>
                 </h5>
+                <h6>GIB: 100000SHIB</h6>
                 <div class="d-flex">
                     <a href="/"><i class="mdi mdi-home text-muted hover-cursor"></i></a>
                     <p class="text-primary mb-0 hover-cursor">&nbsp;/&nbsp;Dashboard</p>
@@ -81,7 +82,7 @@
                             <span class="text--small">Total Earnings</span>
                         </div>
                         <div class="numbers">
-                            <span class="amount"> {{ $totalWithdraw }}</span>
+                            <span class="amount"> {{ getAmount($totalWithdraw) }}</span>
                             <span class="currency-sign">{{ $general->cur_text }}</span>
                         </div>
                         <a href="{{ route('user.report.transactions') }}"
@@ -226,7 +227,7 @@
                             <span class="text--small">Total Claimed Shiba</span>
                         </div>
                         <div class="numbers">
-                            <span class="amount">{{ $totalWithdrawShiba }} SHIB</span>
+                            <span class="amount">{{ getAmount($totalWithdrawShiba) }} SHIB</span>
                             {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
                         </div>
                         <a href="{{ route('user.report.transactions') }}"
@@ -244,12 +245,10 @@
                             <span class="text--small">Available Shiba</span>
                         </div>
                         <div class="numbers">
-                            @if (auth()->user()->shibainu == 0)
-                                <span class="amount">100000 SHIB</span>
-                            @else
-                                <span class="amount">{{ $available_shiba }} SHIB</span>
-                                {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
-                            @endif
+
+                            <span class="amount">{{ $available_shiba }} SHIB</span>
+                            {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
+
                         </div>
                         <a href="#withdrawShiba" data-toggle="modal"
                             class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('Claim Shiba')</a>
@@ -318,7 +317,7 @@
                 </div>
             </div>
             <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
-                <div class="dashboard-w1 bg--9 b-radius--10 box-shadow">
+                <div class="dashboard-w1 bg--2 b-radius--10 box-shadow">
                     <div class="icon">
                         <i class="las la-cloud-upload-alt"></i>
                     </div>
@@ -338,7 +337,7 @@
             </div>
 
             <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
-                <div class="dashboard-w1 bg--9 b-radius--10 box-shadow">
+                <div class="dashboard-w1 bg--1 b-radius--10 box-shadow">
                     <div class="icon">
                         <i class="las la-cloud-upload-alt"></i>
                     </div>
@@ -351,14 +350,14 @@
                             <span class="currency-sign">{{ $general->cur_text }}</span>
                         </div>
                         <a href="{{ route('user.report.withdraw') }}"
-                            class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('View All')</a>
+                            class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('Claim')</a>
 
                     </div>
                 </div>
             </div>
 
             <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
-                <div class="dashboard-w1 bg--9 b-radius--10 box-shadow">
+                <div class="dashboard-w1 bg--8 b-radius--10 box-shadow">
                     <div class="icon">
                         <i class="las la-cloud-upload-alt"></i>
                     </div>
@@ -371,7 +370,7 @@
                             <span class="currency-sign">{{ $general->cur_text }}</span>
                         </div>
                         <a href="{{ route('user.report.withdraw') }}"
-                            class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('View All')</a>
+                            class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('Claim')</a>
 
                     </div>
                 </div>

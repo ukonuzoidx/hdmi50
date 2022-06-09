@@ -139,6 +139,7 @@ class PlanController extends Controller
         referralComission($user->id, $details, $plan->id);
         if ($plan->tree_com > 0) {
             treeComission($user->id, $plan->tree_com, $details);
+            
 
             shibaBinaryComission($user->id, $shiba, $detailBinaryShibaCom);
 

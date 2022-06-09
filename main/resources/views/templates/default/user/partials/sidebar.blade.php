@@ -50,10 +50,10 @@
                      </span>
                      <i class="angle fe fe-chevron-down"></i></a>
                  <ul class="slide-menu">
-                     <li><a class="slide-item" href="{{ route('user.epins.used') }}">Used Epins</a>
+                     {{-- <li><a class="slide-item" href="{{ route('user.epins.used') }}">Used Epins</a> --}}
                      </li>
                      <li><a class="slide-item" href="{{ route('user.epins.unused') }}">Unused Epins</a></li>
-                     <li><a class="slide-item" href="{{ route('user.epins.sent') }}">Sent Epins</a></li>
+                     {{-- <li><a class="slide-item" href="{{ route('user.epins.sent') }}">Sent Epins</a></li> --}}
                  </ul>
              </li>
 

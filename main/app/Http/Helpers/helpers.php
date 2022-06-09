@@ -190,7 +190,8 @@ function updatePaidCount($id)
     }
 }
 
-function updateRegPV($id, $pv, $details)
+
+function updateRegPV($id, $pv, $shiba, $details)
 {
     while ($id != "" || $id != "0") {
         if (isUserExists($id)) {
@@ -203,13 +204,15 @@ function updateRegPV($id, $pv, $details)
             $pvlog = new PvLog();
             $pvlog->user_id = $posid;
 
+
+        
             if ($position == 1) {
                 $extra->pv_left += $pv;
-                $extra->shiba_left += $pv;
+                $extra->shiba_left += $shiba;
                 $pvlog->position = '1';
             } else {
                 $extra->pv_right += $pv;
-                $extra->shiba_right += $pv;
+                $extra->shiba_right += $shiba;
                 $pvlog->position = '2';
             }
             $extra->save();
@@ -444,6 +447,8 @@ function referralComission($user_id, $details, $planId)
         }
     }
 }
+
+
 
 
 
