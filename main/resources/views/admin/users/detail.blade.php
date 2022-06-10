@@ -94,7 +94,7 @@
                                 <span class="font-weight-bold">{{ $user->userExtra->paid_right }}</span>
                             </li>
                                 <li class="list-group-item rounded-0 d-flex justify-content-between">
-                                    <span>@lang('User ID')</span> {{ auth()->user()->user_id }}
+                                    <span>@lang('User ID')</span> {{ $user->user_id }}
                                 </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 @lang('Status')

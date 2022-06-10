@@ -124,24 +124,25 @@ class PlanController extends Controller
             'trx' => $trx->trx,
             'post_balance' => getAmount($user->balance) . ' ' . $gnl->cur_text,
         ]);
-        $assigned_shiba = $gnl->shiba_bonus;
+        // $assigned_shiba = $gnl->shiba_bonus;
 
-        $shiba = $assigned_shiba * 0.05;
+        // $shiba = $assigned_shiba * 0.05;
 
         $details = Auth::user()->username . ' Subscribed to ' . $plan->name . ' plan.';
-        $detailBinaryShibaCom = "You have received a commission bonus of $shiba shiba";
+        // $detailBinaryShibaCom = "You have received a commission bonus of $shiba shiba";
 
-        $shiba = $gnl->shiba_bonus * 0.05;
+        // $shiba = $gnl->shiba_bonus * 0.05;
 
         updatePV($user->id, $plan->pv, $details);
 
         
         referralComission($user->id, $details, $plan->id);
         if ($plan->tree_com > 0) {
-            treeComission($user->id, $plan->tree_com, $details);
+            treeComission($user->id, $plan->price, $details);
+            // treeComission($user->id, $plan->tree_com, $details);
             
 
-            shibaBinaryComission($user->id, $shiba, $detailBinaryShibaCom);
+            // shibaBinaryComission($user->id, $shiba, $detailBinaryShibaCom);
 
         }
 

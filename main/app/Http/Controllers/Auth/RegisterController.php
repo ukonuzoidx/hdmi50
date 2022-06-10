@@ -289,6 +289,7 @@ class RegisterController extends Controller
         if ($sponsor) {
             $detailRefCom = "You have received a commission bonus of $refCom from $username";
             $detailRefShibaCom = "You have received a commission bonus of $refShibaCom  shiba from $username";
+            $detailBinaryShibaCom = "You have received a commission bonus of $shiba shiba";
             
             $detailPV = "You have received $binaryCommision PV from $username";
 
@@ -302,9 +303,10 @@ class RegisterController extends Controller
 
             $pv = $signup_fee;
 
-
-        
-
+            //if sponsor have a left and right side
+            if ($sponsor->left_side != 0 && $sponsor->right_side != 0) {
+                shibaBinaryComission($user->id, $shiba, $detailBinaryShibaCom);
+            }
 
             updateRegPV($user->id, $pv, $assigned_shiba, $detailPV);
             // updateRegShiba($user->id, $shiba, $detailRefShibaCom);
@@ -314,6 +316,8 @@ class RegisterController extends Controller
 
             // matching bonus for sponsor in shiba
             matchingBonusShiba($sponsor->id, $shiba);
+
+
 
 
             $sponsor->transactions()->create([

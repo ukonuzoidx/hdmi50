@@ -205,7 +205,7 @@ function updateRegPV($id, $pv, $shiba, $details)
             $pvlog->user_id = $posid;
 
 
-        
+
             if ($position == 1) {
                 $extra->pv_left += $pv;
                 $extra->shiba_left += $shiba;
@@ -237,8 +237,13 @@ function matchingBonus($id, $pv, $placerId)
         // check if sponsor user exists and also check who is the placer user
         $user = User::find($id);
         $placer = User::find($placerId);
-
+        // dd($user);
         if ($user->left_side != 0 && $user->right_side != 0) {
+            $posid = getPositionId($id);
+            if ($posid == "0") {
+                break;
+            }
+            $posUser = User::find($posid);
 
             // check the left and right pv of sponsor
             $sponsor = UserExtra::where('user_id', $user->id)->first();
@@ -268,7 +273,7 @@ function matchingBonus($id, $pv, $placerId)
                 $pvlog->details = 'Matching Bonus from ' . $placer->username;
                 $pvlog->save();
             }
-            $id = $user->sponsor_id;
+            $id = $posid;
         } else {
             break;
         }
@@ -287,6 +292,7 @@ function matchingBonusShiba($id, $refShibaCom)
      * 
      */
     if ($user) {
+        // dd($user);
         if ($user->left_side != 0 && $user->right_side != 0) {
             $user->shibainu += $refShibaCom;
             $user->save();
