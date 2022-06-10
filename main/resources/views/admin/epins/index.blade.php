@@ -47,7 +47,7 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">@lang('Name')</th>
-                                        <th scope="col">@lang('Amount')</th>
+                                        <th scope="col">@lang('Used by')</th>
                                         <th scope="col">@lang('Status')</th>
                                         <th scope="col">@lang('Created At')</th>
                                         {{-- <th scope="col">@lang('Action')</th> --}}
@@ -57,7 +57,15 @@
                                     @forelse($epins as $epin)
                                         <tr>
                                             <td data-label="@lang('Email')">{{ $epin->epin }}</td>
-                                            <td data-label="@lang('Phone')">{{ getAmount($epin->amount) }} USD</td>
+
+                                            <td data-label="@lang('Used By')">
+                                                @if ($epin->user)
+                                                    <a
+                                                        href="{{ route('admin.users.detail', $epin->user->id) }}">{{ $epin->user->username }}</a>
+                                                @else
+                                                    @lang('Not Used')
+                                                @endif
+                                            </td>
                                             <td data-label="@lang('Status')">
                                                 @if ($epin->status == 1)
                                                     <span class="badge badge-danger">@lang('Used')</span>
@@ -104,7 +112,7 @@
 
                 </div>
                 <form method="post" action="{{ route('admin.epins.update', $epin->id) }}">
-                     @csrf
+                    @csrf
                     <div class="modal-body">
 
                         <input class="form-control epin_id" type="hidden" name="id">
@@ -153,11 +161,12 @@
                     @csrf
                     <div class="modal-body">
 
-                          <div class="form-row">
+                        <div class="form-row">
 
                             <div class="form-group col-md-12">
                                 <label class="font-weight-bold"> @lang('Sponsor ID:') </label>
-                                <input type="text" class="form-control" name="sponsorId" placeholder="Sponsor ID" required>
+                                <input type="text" class="form-control" name="sponsorId" placeholder="Sponsor ID"
+                                    required>
                             </div>
                             <div class="form-group col-md-12">
                                 <label class="font-weight-bold"> @lang('Epin Type') </label>
@@ -166,7 +175,7 @@
                                     <option value="1">@lang('Signup Amount')</option>
                                 </select>
                             </div>
-                                <div class="form-group col-md-12">
+                            <div class="form-group col-md-12">
                                 <label class="font-weight-bold"> @lang('Total Pin') </label>
                                 <input type="text" class="form-control" name="total" required>
                             </div>

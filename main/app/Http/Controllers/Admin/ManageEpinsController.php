@@ -12,7 +12,7 @@ class ManageEpinsController extends Controller
     {
         $page_title = 'Manage Epins';
         $empty_message = 'No epin found';
-        $epins = Epin::latest()->paginate(getPaginate());
+        $epins = Epin::with(['user'])->latest()->paginate(getPaginate());
         return view('admin.epins.index', compact('page_title', 'empty_message', 'epins'));
     }
 
@@ -20,7 +20,7 @@ class ManageEpinsController extends Controller
     {
         $page_title = 'Used Epins';
         $empty_message = 'No used epin found';
-        $epins = Epin::used()->latest()->paginate(getPaginate());
+        $epins = Epin::with('user')->used()->latest()->paginate(getPaginate());
         return view('admin.epins.index', compact('page_title', 'empty_message', 'epins'));
     }
 
@@ -28,7 +28,7 @@ class ManageEpinsController extends Controller
     {
         $page_title = 'Unused Epins';
         $empty_message = 'No unused epin found';
-        $epins = Epin::unused()->latest()->paginate(getPaginate());
+        $epins = Epin::with('user')->unused()->latest()->paginate(getPaginate());
         return view('admin.epins.index', compact('page_title', 'empty_message', 'epins'));
     }
 

@@ -11,6 +11,11 @@ class Epin extends Model
 
     protected $guarded = ['id'];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'used_by');
+    }
+
     public function scopeUsed()
     {
         return $this->where('status', 1);

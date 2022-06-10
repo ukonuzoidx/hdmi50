@@ -266,6 +266,7 @@ class RegisterController extends Controller
         $epin = Epin::where('epin', $data['epin'])->first();
         if ($epin) {
             $epin->status = 1;
+            $epin->used_by = $user->id;
             $epin->save();
         }
 

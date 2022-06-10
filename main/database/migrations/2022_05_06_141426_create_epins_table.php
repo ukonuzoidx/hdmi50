@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('type')->nullable()->comment('0: joining, 1: signup');
             $table->integer('sent_by')->nullable();
             $table->integer('recieved_by')->nullable();
+            $table->integer('used_by')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
         });
@@ -33,6 +34,7 @@ return new class extends Migration
             'epin' => '123456789',
             'status' => '1',
             'user_id' => 1,
+            'used_by' => 1,
 
         ]);
         $epins = Epin::create([
