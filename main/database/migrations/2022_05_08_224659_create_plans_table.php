@@ -24,7 +24,9 @@ return new class extends Migration
             $table->decimal('tree_com', 16, 8)->default(0.00000000);
             $table->decimal('price', 16, 8)->default(0.00000000);
             $table->decimal('roi', 18, 8)->default(0.00000000);
-            $table->tinyInteger('status')->default(1)->comment('0: Inactive, 1: Active');
+            $table->integer('total_product');
+            $table->integer('claim');
+                        $table->tinyInteger('status')->default(1)->comment('0: Inactive, 1: Active');
             $table->timestamps();
         });
 
@@ -36,6 +38,8 @@ return new class extends Migration
             'tree_com' => 20,
             'price' => '200',
             'roi' => '0.699',
+            'total_product' => '4',
+            'claim' => '1',
             'status' => 1,
         ]);
         $plans = Plan::create([
@@ -46,6 +50,8 @@ return new class extends Migration
             'tree_com' => 110,
             'price' => '1100',
             'roi' => '3.494',
+            'total_product' => '20',
+            'claim' => '5',
             'status' => 1,
         ]);
 
@@ -57,6 +63,8 @@ return new class extends Migration
             'tree_com' => 264,
             'price' => '3300',
             'roi' => '10.483',
+            'total_product' => '60',
+            'claim' => '15',
             'status' => 1,
         ]);
 
@@ -68,6 +76,8 @@ return new class extends Migration
             'tree_com' => 990,
             'price' => '9900',
             'roi' => '31.450',
+            'total_product' => '80',
+            'claim' => '30',
             'status' => 1,
         ]);
 
@@ -79,6 +89,8 @@ return new class extends Migration
             'tree_com' => 2970,
             'price' => '29700',
             'roi' => '94.350',
+            'total_product' => '540',
+            'claim' => '90',
             'status' => 1,
         ]);
 
@@ -90,6 +102,8 @@ return new class extends Migration
             'tree_com' => 8910,
             'price' => '89100',
             'roi' => '283.050',
+            'total_product' => '1620',
+            'claim' => '135',
             'status' => 1,
         ]);
 
@@ -101,8 +115,11 @@ return new class extends Migration
             'tree_com' => 26630,
             'price' => '266300',
             'roi' => '849.150',
+            'total_product' => '4860',
+            'claim' => '405',
             'status' => 1,
         ]);
+        
     }
 
 

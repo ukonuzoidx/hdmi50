@@ -417,6 +417,84 @@
         </div>
         <!-- /row -->
 
+        <div class="row row-sm">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header pb-0">
+                        <div class="d-flex justify-content-between">
+                            <h4 class="card-title mg-b-0">Digitial Products</h4>
+                            <i class="mdi mdi-dots-horizontal text-gray"></i>
+                        </div>
+                        {{-- <p class="tx-12 tx-gray-500 mb-2">Example ofXino Simple Table. <a href="">Learn more</a></p> --}}
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table text-md-nowrap" id="example1">
+                                <thead>
+                                    <tr>
+                                        <th class="wd-20p border-bottom-0">Name</th>
+                                        <th class="wd-15p border-bottom-0">Plan Name</th>
+                                        <th class="wd-15p border-bottom-0">Claim</th>
+                                        <th class="wd-15p border-bottom-0">Total Claim</th>
+                                        <th class="wd-10p border-bottom-0">Status</th>
+                                        <th class="wd-10p border-bottom-0">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($digital_assets as $key=>$data)
+                                        <tr>
+                                            <td>
+                                                {{ $data->user->full_name }}
+                                            </td>
+                                            <td>{{ $data->plan->name }}</td>
+                                            <td>{{ $data->claim }}</td>
+                                            <td>{{ $data->total_claim }}</td>
+                                            <td>
+                                                @if ($data->total_claim == $data->plan->claim)
+                                                    <span class="badge badge-success">@lang('Claimed')</span>
+                                                @else
+                                                    <span class="badge badge-info">@lang('Not Claimed')</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($data->total_claim == $data->plan->claim)
+                                                    <button type="submit" class="btn btn-sm btn-primary"
+                                                        disabled>@lang('Already claimed')</button>
+                                                @else
+                                                    <form action="{{ route('user.digital.claim') }}" method="post">
+                                                        @csrf
+                                                        <input type="hidden" name="digital_id"
+                                                            value="{{ $data->id }}" />
+                                                        <button type="submit"
+                                                            class="btn btn-sm btn-primary">@lang('Claim')</button>
+                                                    </form>
+                                                @endif
+                                            </td>
+
+
+
+
+
+                                        </tr>
+
+                                    @empty
+                                        <tr>
+                                            <td colspan="6" class="text-center">
+                                                {{ $empty_message }}
+                                            </td>
+                                        </tr>
+                                    @endforelse
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/div-->
+        </div>
+
+
     </div>
     <!-- /conatiner -->
 

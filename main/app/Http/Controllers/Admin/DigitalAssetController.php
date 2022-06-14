@@ -13,6 +13,7 @@ class DigitalAssetController extends Controller
     {
         $data['page_title'] = 'Digital Assets';
         $data['digital_assets'] = DigitalAssets::all();
+        $data['empty_message'] = 'No Digital Assets Found';
         return view('admin.digital_assets.index', $data);
     }
 

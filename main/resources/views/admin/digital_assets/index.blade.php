@@ -45,20 +45,36 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">@lang('Sl')</th>
-                                        <th scope="col">@lang('Name')</th>
+                                        <th scope="col">@lang('Type')</th>
                                         <th scope="col">@lang('Username')</th>
                                         <th scope="col">@lang('Plan')</th>
                                         <th scope="col">@lang('Current Price')</th>
                                         <th scope="col">@lang('Product')</th>
                                         <th scope="col">@lang('Claim')</th>
                                         <th scope="col">@lang('Total Claim')</th>
-                                        <th scope="col">@lang('Remarkk')</th>
-                                        <th scope="col">@lang('Action')</th>
+                                        <th scope="col">@lang('Status')</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                               
+                                    @foreach ($digital_assets as $key => $digital_asset)
+                                        <tr>
+                                            <td>{{ $key + 1 }}</td>
+                                            <td>{{ $digital_asset->name }}</td>
+                                            <td>{{ $digital_asset->user->username }}</td>
+                                            <td>{{ $digital_asset->plan->name }}</td>
+                                            <td>{{ $digital_asset->current_price }}</td>
+                                            <td>{{ $digital_asset->total_product }}</td>
+                                            <td>{{ $digital_asset->claim }}</td>
+                                            <td>{{ $digital_asset->total_claim }}</td>
+                                            <td>
+                                                @if ($digital_asset->total_claim == $digital_asset->plan->claim)
+                                                    <span class="badge badge-success">@lang('Claimed')</span>
+                                                @else
+                                                    <span class="badge badge-warning">@lang('Not yet Claimed')</span>
+                                                @endif
 
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table><!-- table end -->
                         </div>

@@ -317,6 +317,9 @@ Route::name('user.')->prefix('user')->group(
                 Route::post('/search-user', 'UserController@searchUser')->name('search.user');
                 Route::post('/check-pin', 'UserController@checkPin')->name('check.pin');
 
+                // claim digital product
+                Route::post('/claim', 'UserController@claim')->name('digital.claim');
+
                 // KYC
                 Route::get('/kyc', 'UserController@kyc')->name('kyc');
                 Route::post('/kyc', 'UserController@kycStore')->name('kyc.store');

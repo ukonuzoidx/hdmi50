@@ -233,52 +233,52 @@ function updateRegPV($id, $pv, $shiba, $details)
 
 function matchingBonus($id, $pv, $placerId)
 {
-    while ($id != "" || $id != "0") {
-        // check if sponsor user exists and also check who is the placer user
-        $user = User::find($id);
-        $placer = User::find($placerId);
-        // dd($user);
-        if ($user->left_side != 0 && $user->right_side != 0) {
+
+    // find user
+    $user = User::find($id);
+
+    // find user extra
+    $extra = UserExtra::where('user_id', $user->id)->first();
+
+    // check if paid left and right is equal
+    if ($extra->paid_left != 0 && $extra->paid_right != 0) {
+        // check if user is left or right
+        if ($extra->paid_left == $extra->paid_right) {
+            // check if user is left or right
             $posid = getPositionId($id);
-            if ($posid == "0") {
-                break;
-            }
+
             $posUser = User::find($posid);
 
-            // check the left and right pv of sponsor
-            $sponsor = UserExtra::where('user_id', $user->id)->first();
-
-            if ($sponsor->pv_left < $sponsor->pv_right) {
-                $sponsor->pv_left += $pv;
-                $sponsor->pv_right -= $pv;
-                $sponsor->save();
+            if ($extra->pv_left < $extra->pv_right) {
+                $extra->pv_left += $pv;
+                $extra->pv_right -= $pv;
+                $extra->save();
                 $user->balance += ($pv * 0.1);
                 $user->save();
                 $pvlog = new PvLog();
                 $pvlog->user_id = $user->id;
                 $pvlog->amount = $pv;
                 $pvlog->trx_type = '+';
-                $pvlog->details = 'Matching Bonus from ' . $placer->username;
+                $pvlog->details = 'Matching Bonus';
                 $pvlog->save();
-            } else if ($sponsor->pv_left > $sponsor->pv_right) {
-                $sponsor->pv_left -= $pv;
-                $sponsor->pv_right += $pv;
-                $sponsor->save();
+            } else if ($extra->pv_left > $extra->pv_right) {
+                $extra->pv_left -= $pv;
+                $extra->pv_right += $pv;
+                $extra->save();
                 $user->balance += ($pv * 0.1);
                 $user->save();
                 $pvlog = new PvLog();
                 $pvlog->user_id = $user->id;
                 $pvlog->amount = $pv;
                 $pvlog->trx_type = '+';
-                $pvlog->details = 'Matching Bonus from ' . $placer->username;
+                $pvlog->details = 'Matching Bonus';
                 $pvlog->save();
             }
             $id = $posid;
-        } else {
-            break;
         }
     }
 }
+
 
 
 function matchingBonusShiba($id, $refShibaCom)
@@ -292,10 +292,26 @@ function matchingBonusShiba($id, $refShibaCom)
      * 
      */
     if ($user) {
-        // dd($user);
-        if ($user->left_side != 0 && $user->right_side != 0) {
-            $user->shibainu += $refShibaCom;
-            $user->save();
+        // find user extra
+        $extra = UserExtra::where('user_id', $user->id)->first();
+
+        if ($extra->paid_left != 0 && $extra->paid_right != 0) {
+
+            // check if paid left and right is equal
+            if ($extra->paid_left == $extra->paid_right) {
+                // check if user is left or right
+                $detailBinaryShibaCom = "You have received a commission bonus of 10000 shiba";
+
+                shibaBinaryComission($user->id, "10000", $detailBinaryShibaCom);
+                $user->shibainu += $refShibaCom;
+                $user->save();
+                $pvlog = new PvLog();
+                $pvlog->user_id = $user->id;
+                $pvlog->amount = $refShibaCom;
+                $pvlog->trx_type = '+';
+                $pvlog->details = 'Matching Shiba Bonus from ' . $user->username;
+                $pvlog->save();
+            }
         }
     } else {
         return;
@@ -348,6 +364,147 @@ function updatePV($id, $pv, $details)
     }
 }
 
+
+
+// function treeRegCommission($id, $amount, $details)
+// {
+//     $user = User::find($id);
+//     $position = getPositionLocation($id);
+//     $posId = getPositionId($id);
+//     $posUser = User::find($posId);
+
+//     $extra = UserExtra::where('user_id', $user->id)->first();
+//     $shiba = 10000;
+
+
+//     $posUser = User::find($posId);
+//     // if ($posUser->plan_id != 0) {
+
+//     // check if how many generations the user has using array key as generation
+
+//     $res = array_fill_keys(array('b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o'), null);
+//     $res['a'] = User::find($id);
+
+//     /**
+//      * from the array we need to get the generation of the user
+//      *  if res['b'] and res['c'] is not null then the user has 1st generations
+//      * if res['d'] and res['e'] and res['f'] and res['g'] is not null then the user has 2nd generations
+//      * if res['h'] and res['i'] and res['j'] and res['k'] and res['l'] and res['m'] and res['n'] and res['o'] is not null then the user has 3rd generations
+//      * if all the generations is not null then the user has 4th generations
+//      * from the 4th generation till infinity
+//      */
+//     $res['b'] = getPositionUser($id, 1);
+//     if ($res['b']) {
+//         $res['d'] = getPositionUser($res['b']->id, 1);
+//         $res['e'] = getPositionUser($res['b']->id, 2);
+//     }
+//     if ($res['d']) {
+//         $res['h'] = getPositionUser($res['d']->id, 1);
+//         $res['i'] = getPositionUser($res['d']->id, 2);
+//     }
+//     if ($res['e']) {
+//         $res['j'] = getPositionUser($res['e']->id, 1);
+//         $res['k'] = getPositionUser($res['e']->id, 2);
+//     }
+//     $res['c'] = getPositionUser($id, 2);
+//     if ($res['c']) {
+//         $res['f'] = getPositionUser($res['c']->id, 1);
+//         $res['g'] = getPositionUser($res['c']->id, 2);
+//     }
+//     if ($res['f']) {
+//         $res['l'] = getPositionUser($res['f']->id, 1);
+//         $res['m'] = getPositionUser($res['f']->id, 2);
+//     }
+//     if ($res['g']) {
+//         $res['n'] = getPositionUser($res['g']->id, 1);
+//         $res['o'] = getPositionUser($res['g']->id, 2);
+//     }
+
+//     // do a loop to get the generation of the user from the array 
+
+//     $i = 0;
+//     for ($i; $i <= count($res); $i++) {
+//         $divider = pow(2, $i);
+//         $generation = $i;
+
+//         // loop to get the user from the array
+//         foreach ($res as $key => $value) {
+
+
+
+
+
+
+//         dd($res, $i, $divider, $generation);
+//     }
+
+
+
+//     // first generation commission
+
+
+
+
+
+
+//     // first gen users are $res['b'] and $res['c']
+//     if ($generation == 1) {
+//         $posUser->balance  += $amount * 0.1;
+//         $posUser->total_binary_com += $amount * 0.1;
+//         $posUser->shibainu  += $shiba;
+//         $posUser->total_binary_shiba += $shiba;
+//         $posUser->save();
+
+//         $posUser->transactions()->create([
+//             'amount' => $amount,
+//             'charge' => 0,
+//             'trx_type' => '+',
+//             'details' => $details,
+//             'remark' => 'binary_commission',
+//             'trx' => getTrx(),
+//             'post_balance' => getAmount($posUser->balance),
+//         ]);
+//     }
+//     // second gen users are $res['d'] and $res['e'] and $res['f'] and $res['g']
+//     if ($generation == 2) {
+//         $posUser->balance  += $amount * 0.75;
+//         $posUser->total_binary_com += $amount * 0.75;
+//         $posUser->shibainu  += $shiba;
+//         $posUser->total_binary_shiba += $shiba;
+//         $posUser->save();
+
+//         $posUser->transactions()->create([
+//             'amount' => $amount,
+//             'charge' => 0,
+//             'trx_type' => '+',
+//             'details' => $details,
+//             'remark' => 'binary_commission',
+//             'trx' => getTrx(),
+//             'post_balance' => getAmount($posUser->balance),
+//         ]);
+//     }
+//     // third gen users are $res['h'] and $res['i'] and $res['j'] and $res['k'] and $res['l'] and $res['m'] and $res['n'] and $res['o']
+//     if ($generation == 3) {
+//         $posUser->balance  += $amount * 0.5;
+//         $posUser->total_binary_com += $amount * 0.5;
+//         $posUser->shibainu  += $shiba;
+//         $posUser->total_binary_shiba += $shiba;
+//         $posUser->save();
+
+//         $posUser->transactions()->create([
+//             'amount' => $amount,
+//             'charge' => 0,
+//             'trx_type' => '+',
+//             'details' => $details,
+//             'remark' => 'binary_commission',
+//             'trx' => getTrx(),
+//             'post_balance' => getAmount($posUser->balance),
+//         ]);
+//     }
+// }
+
+
+
 // shiba binary commission
 function shibaBinaryComission($id, $amount, $details)
 {
@@ -382,19 +539,28 @@ function shibaBinaryComission($id, $amount, $details)
         }
     }
 }
+
+
+
+
+
+
+
+
 // tree and referral commission
-function treeComission($id, $amount, $details)
+function treeCommission($id, $amount, $details)
 {
     $fromUser = User::find($id);
 
+    // dd($fromUser, $id);
     while ($id != "" || $id != "0") {
         if (isUserExists($id)) {
             $posid = getPositionId($id);
             if ($posid == "0") {
                 break;
             }
-
             $posUser = User::find($posid);
+            // dd($posUser, $posid);
             // if ($posUser->plan_id != 0) {
 
             $posUser->balance  += $amount;
@@ -417,7 +583,7 @@ function treeComission($id, $amount, $details)
     }
 }
 
-function referralComission($user_id, $details, $planId)
+function referralCommission($user_id, $details, $planId)
 {
 
     $user = User::find($user_id);

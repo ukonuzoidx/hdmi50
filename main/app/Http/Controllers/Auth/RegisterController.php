@@ -104,12 +104,11 @@ class RegisterController extends Controller
                 }
             }
 
-           
+
             $getPos = $pos['position'];
-            if ($getPos == "left"){
+            if ($getPos == "left") {
                 $getPosition = "Left";
-            }
-            elseif ($getPos == "right"){
+            } elseif ($getPos == "right") {
                 $getPosition = "Right";
             }
 
@@ -158,11 +157,11 @@ class RegisterController extends Controller
         $this->validator($request->all())->validate();
 
 
-        $exist = User::where('phone', $request->full_phone)->first();
-        if ($exist) {
-            $notify[] = ['error', 'Mobile number already exist'];
-            return back()->withNotify($notify)->withInput();
-        }
+        // $exist = User::where('phone', $request->full_phone)->first();
+        // if ($exist) {
+        //     $notify[] = ['error', 'Mobile number already exist'];
+        //     return back()->withNotify($notify)->withInput();
+        // }
 
         $userCheck = User::where('user_id', $request->sponsor_id)->first();
         // dd($request->all());
@@ -204,10 +203,12 @@ class RegisterController extends Controller
         $general = GeneralSetting::first();
 
         $userCheck = User::where('user_id', $data['sponsor_id'])->first();
-        $placerCheck = User::where('user_id',
+        $placerCheck = User::where(
+            'user_id',
             $data['placer_id']
         )->first();
-        $pos = getPosition($placerCheck->id,
+        $pos = getPosition(
+            $placerCheck->id,
             $data['position']
         );
 
@@ -248,7 +249,7 @@ class RegisterController extends Controller
         $user->tv = 1;
         $user->save();
 
-    
+
         $posId = $user->user_id;
         $placerId = $placerCheck->user_id;
 
@@ -279,20 +280,21 @@ class RegisterController extends Controller
         $refShibaCom = $assigned_shiba * 0.25;
 
         $shiba = $assigned_shiba * 0.05;
-        
+
         $username = $data['username'];
 
         // commission bonus for sponsor 
         $sponsor = User::find($userCheck->id);
-      
+
 
         // dd($sponsor);
         if ($sponsor) {
             $detailRefCom = "You have received a commission bonus of $refCom from $username";
             $detailRefShibaCom = "You have received a commission bonus of $refShibaCom  shiba from $username";
-            $detailBinaryShibaCom = "You have received a commission bonus of $shiba shiba";
-            
+
             $detailPV = "You have received $binaryCommision PV from $username";
+
+            $detailsTreeCom = "You have received a tree commission bonus of $binaryCommision from $username";
 
             $sponsor->total_ref_com += $refCom;
             $sponsor->balance += $refCom;
@@ -304,23 +306,18 @@ class RegisterController extends Controller
 
             $pv = $signup_fee;
 
-            //if sponsor have a left and right side
-            if ($sponsor->left_side != 0 && $sponsor->right_side != 0) {
-                shibaBinaryComission($user->id, $shiba, $detailBinaryShibaCom);
-            }
-
+            
             updateRegPV($user->id, $pv, $assigned_shiba, $detailPV);
             // updateRegShiba($user->id, $shiba, $detailRefShibaCom);
-
+            
             // check for matching bonus
             matchingBonus($sponsor->id, $pv, $user->id);
-
+            
             // matching bonus for sponsor in shiba
             matchingBonusShiba($sponsor->id, $shiba);
-
-
-
-
+            
+            // treeRegCommission($user->id, $pv, $detailsTreeCom);
+            
             $sponsor->transactions()->create([
                 'amount' => $refCom,
                 'charge' => 0,
@@ -339,7 +336,6 @@ class RegisterController extends Controller
                 'trx' => getTrx(),
                 'post_balance' => getAmount($sponsor->shibainu),
             ]);
-
         }
 
         return $user;

@@ -50,6 +50,24 @@ return new class extends Migration
             'status' => '0',
 
         ]);
+        $epins = Epin::create([
+            // 'user_id' => 1,
+            'epin' => str_random(8),  // EPIN1
+            'status' => '0',
+
+        ]);
+        $epins = Epin::create([
+            // 'user_id' => 1,
+            'epin' => str_random(8),  // EPIN1
+            'status' => '0',
+
+        ]);
+        $epins = Epin::create([
+            // 'user_id' => 1,
+            'epin' => str_random(8),  // EPIN1
+            'status' => '0',
+
+        ]);
     
 
         

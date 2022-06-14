@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DigitalAssets;
 use App\Models\Epin;
 use App\Models\GeneralSetting;
 use App\Models\Plan;
@@ -127,24 +128,39 @@ class PlanController extends Controller
         // $assigned_shiba = $gnl->shiba_bonus;
 
         // $shiba = $assigned_shiba * 0.05;
+        $shiba = $gnl->shiba_bonus * 0.05;
 
         $details = Auth::user()->username . ' Subscribed to ' . $plan->name . ' plan.';
-        // $detailBinaryShibaCom = "You have received a commission bonus of $shiba shiba";
+        $detailBinaryShibaCom = "You have received a commission bonus of $shiba shiba";
 
-        // $shiba = $gnl->shiba_bonus * 0.05;
 
         updatePV($user->id, $plan->pv, $details);
 
-        
-        referralComission($user->id, $details, $plan->id);
         if ($plan->tree_com > 0) {
-            treeComission($user->id, $plan->price, $details);
-            // treeComission($user->id, $plan->tree_com, $details);
-            
+            // dd($plan->tree_com);
 
+            treeCommission($user->id, $plan->tree_com, $details);
             // shibaBinaryComission($user->id, $shiba, $detailBinaryShibaCom);
-
         }
+        referralCommission($user->id, $details, $plan->id);
+
+        // create the digital assets for the user
+
+        $digitalAssets = DigitalAssets::create([
+            'user_id' => $user->id,
+            'plan_id' => $plan->id,
+            'type' => 'plan',
+            'name' => $plan->name,
+            'description' => $plan->name,
+            'current_price' => $plan->price,
+            'total_product' => $plan->total_product,
+            'claim' => $plan->claim,
+        ]);
+       
+
+
+
+
 
         $notify[] = ['success', 'Purchased ' . $plan->name . ' Successfully'];
         return redirect()->route('user.home')->withNotify($notify);

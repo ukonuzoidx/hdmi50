@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AdminNotification;
+use App\Models\DigitalAssets;
 use App\Models\Epin;
 use App\Models\GeneralSetting;
 use App\Models\Kyc;
@@ -33,6 +34,10 @@ class UserController extends Controller
         $data['totalWithdrawShiba']   = WithdrawShiba::where('user_id', auth()->id())->where('status', 1)->sum('shibainu');
         $data['roi'] = assignRoi(auth()->id());
         $data['weeklyroi'] = Roi::where('user_id', auth()->id())->whereDate('created_at', Carbon::now()->subDays(9))->sum('roi');
+        $data['digital_assets'] = DigitalAssets::where('user_id', auth()->id())->get();
+
+        // dd($data);
+        $data['empty_message'] = 'No data found';
 
         return view($this->activeTemplate . 'user.dashboard', $data);
     }
@@ -529,92 +534,25 @@ class UserController extends Controller
         return view($this->activeTemplate . 'user.epins', $data);
     }
 
-    // show auth user used epins
-    // public function epinsUsed()
-    // {
-    //     $data['page_title'] = "Used E-Pin";
-    //     $data['epins'] = Epin::used()->where('user_id', Auth::id())->latest()->paginate(getPaginate());
-    //     $data['empty_message'] = "No Data Found!";
-    //     return view($this->activeTemplate . 'user.epins', $data);
-    // }
+    public function claim(Request $request)
+    {
+        // check if digitial id is valid
+        $digital_id = DigitalAssets::where('id', $request->digital_id)->first();
+        if ($digital_id == '') {
+            $notify[] = ['error', 'Not Available'];
+            return back()->withNotify($notify);
+        }
+        // check if digital id is claimed
+        $claimed = DigitalAssets::where('total_claim', $digital_id->plan->claim)->first();
+        if ($claimed != '') {
+            $notify[] = ['error', 'Already Claimed'];
+            return back()->withNotify($notify);
+        }
 
-    // show auth user sent epins
-    // public function epinsSent()
-    // {
-    //     $data['page_title'] = "Sent E-Pin";
-    //     $data['epins'] = Epin::where('sent_by', auth()->id())->latest()->paginate(getPaginate());
-    //     $data['empty_message'] = "No Data Found!";
-    //     return view($this->activeTemplate . 'user.epins', $data);
-    // }
+        $digital_id->total_claim++;
+        $digital_id->save();
 
-    // show auth user received epins
-    // public function epinsReceived()
-    // {
-    //     $data['page_title'] = "Received E-Pin";
-    //     $data['epins'] = Epin::where('user_id', Auth::id())->where('received_by', auth()->id())->latest()->paginate(getPaginate());
-    //     $data['empty_message'] = "No Data Found!";
-    //     return view($this->activeTemplate . 'user.epins', $data);
-    // }
-
-    // send epin from auth user to other user
-    // public function epinSend(Request $request)
-    // {
-    //     $this->validate($request, [
-    //         'username' => 'required',
-    //         'epin' => 'required',
-    //     ]);
-
-    //     $user = User::where('username', $request->username)->first();
-
-    //     if (!$user) {
-    //         $notify[] = ['error', 'User Not Found!'];
-    //         return back()->withNotify($notify);
-    //     }
-
-    //     $epin = Epin::where('epin', $request->epin)->where('user_id', Auth::id())->first();
-
-    //     if (!$epin) {
-    //         $notify[] = ['error', 'E-Pin Not Found!'];
-    //         return back()->withNotify($notify);
-    //     }
-
-    //     if ($epin->status == 1) {
-    //         $notify[] = ['error', 'E-Pin Already Used!'];
-    //         return back()->withNotify($notify);
-    //     }
-
-    //     //check if epin is unused the send it to user
-    //     if ($epin->status == 0) {
-    //         $epin->user_id = $user->id;
-    //         $epin->sent_by = Auth::id();
-    //         $epin->recieved_by = $user->id;
-    //         $epin->save();
-    //         $notify[] = ['success', 'E-Pin Sent Successfully!'];
-    //         return back()->withNotify($notify);
-    //     }
-
-
-
-
-    // if ($user) {
-    //     $epin = Epin::find($request->epin);
-    //     if ($epin) {
-    //         if ($epin->status == 0) {
-    //             $epin->sent_by = Auth::id();
-    //             $epin->status = 1;
-    //             $epin->save();
-    //             $notify[] = ['success', 'E-Pin Sent Successfully.'];
-    //             return back()->withNotify($notify);
-    //         } else {
-    //             $notify[] = ['error', 'E-Pin Already Sent.'];
-    //             return back()->withNotify($notify);
-    //         }
-    //     } else {
-    //         $notify[] = ['error', 'E-Pin Not Found.'];
-    //         return back()->withNotify($notify);
-    //     }
-
-    // $notify[] = ['success', 'E-Pin Sent Successfully.'];
-    // return back()->withNotify($notify);
-    // }
+        $notify[] = ['success', 'Digital Asset Claimed Successfully'];
+        return back()->withNotify($notify);
+    }
 }

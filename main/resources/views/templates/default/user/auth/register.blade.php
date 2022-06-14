@@ -197,7 +197,7 @@
                                 <div class="col-md-12">
                                     <div class="d-flex flex-wrap justify-content-between">
                                         <div class="checkgroup d-flex flex-wrap align-items-center">
-                                            <input type="checkbox" class="border-0" id="agree" name="agree">
+                                            <input type="checkbox" checked class="border-0" id="agree" name="agree">
                                             &nbsp;
                                             <label for="agree" class="m-0 pl-2 text-white">@lang('I agree with')&nbsp;</label>
                                             @foreach ($policyElements as $item)
