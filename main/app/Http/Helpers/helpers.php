@@ -254,7 +254,7 @@ function matchingBonus($id, $pv, $placerId)
                 $extra->pv_right -= $pv;
                 $extra->save();
                 $user->balance += ($pv * 0.1);
-                $user->total_binary_com += 13.5;
+                $user->total_binary_com += "13.5";
                 $user->save();
                 $pvlog = new PvLog();
                 $pvlog->user_id = $user->id;
@@ -267,7 +267,7 @@ function matchingBonus($id, $pv, $placerId)
                 $extra->pv_right += $pv;
                 $extra->save();
                 $user->balance += ($pv * 0.1);
-                $user->total_binary_com += 13.5;
+                $user->total_binary_com += "13.5";
                 $user->save();
                 $pvlog = new PvLog();
                 $pvlog->user_id = $user->id;
