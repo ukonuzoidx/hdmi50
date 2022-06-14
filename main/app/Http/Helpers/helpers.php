@@ -254,6 +254,7 @@ function matchingBonus($id, $pv, $placerId)
                 $extra->pv_right -= $pv;
                 $extra->save();
                 $user->balance += ($pv * 0.1);
+                $user->total_binary_com += 13.5;
                 $user->save();
                 $pvlog = new PvLog();
                 $pvlog->user_id = $user->id;
@@ -266,6 +267,7 @@ function matchingBonus($id, $pv, $placerId)
                 $extra->pv_right += $pv;
                 $extra->save();
                 $user->balance += ($pv * 0.1);
+                $user->total_binary_com += 13.5;
                 $user->save();
                 $pvlog = new PvLog();
                 $pvlog->user_id = $user->id;
@@ -302,8 +304,9 @@ function matchingBonusShiba($id, $refShibaCom)
                 // check if user is left or right
                 $detailBinaryShibaCom = "You have received a commission bonus of 10000 shiba";
 
-                shibaBinaryComission($user->id, "10000", $detailBinaryShibaCom);
+                // shibaBinaryComission($user->id, "10000", $detailBinaryShibaCom);
                 $user->shibainu += $refShibaCom;
+                $user->total_binary_shiba += "10000";
                 $user->save();
                 $pvlog = new PvLog();
                 $pvlog->user_id = $user->id;
@@ -363,7 +366,6 @@ function updatePV($id, $pv, $details)
         // }
     }
 }
-
 
 
 // function treeRegCommission($id, $amount, $details)

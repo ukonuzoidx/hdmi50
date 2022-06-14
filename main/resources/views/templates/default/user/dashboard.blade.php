@@ -451,16 +451,14 @@
                                             <td>{{ $data->total_claim }}</td>
                                             <td>
                                                 @if ($data->total_claim == $data->plan->claim)
-                                                    <span class="badge badge-success">@lang('Claimed')</span>
+                                                    <span class="badge badge-success">@lang('Already Claimed')</span>
                                                 @else
                                                     <span class="badge badge-info">@lang('Not Claimed')</span>
                                                 @endif
                                             </td>
                                             <td>
-                                                @if ($data->total_claim == $data->plan->claim)
-                                                    <button type="submit" class="btn btn-sm btn-primary"
-                                                        disabled>@lang('Already claimed')</button>
-                                                @else
+                                                @if ($data->total_claim != $data->plan->claim)
+                                                  
                                                     <form action="{{ route('user.digital.claim') }}" method="post">
                                                         @csrf
                                                         <input type="hidden" name="digital_id"

@@ -306,6 +306,10 @@ class RegisterController extends Controller
 
             $pv = $signup_fee;
 
+            updatePaidCount($user->id);
+
+    
+
             
             updateRegPV($user->id, $pv, $assigned_shiba, $detailPV);
             // updateRegShiba($user->id, $shiba, $detailRefShibaCom);
@@ -315,8 +319,9 @@ class RegisterController extends Controller
             
             // matching bonus for sponsor in shiba
             matchingBonusShiba($sponsor->id, $shiba);
-            
+
             // treeRegCommission($user->id, $pv, $detailsTreeCom);
+            treeRegCommission($sponsor->id);
             
             $sponsor->transactions()->create([
                 'amount' => $refCom,
@@ -345,7 +350,7 @@ class RegisterController extends Controller
         $user_extras = new UserExtra();
         $user_extras->user_id = $user->id;
         $user_extras->save();
-        updatePaidCount($user->id);
+     
         return redirect()->route('user.home');
     }
 }
