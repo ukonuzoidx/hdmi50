@@ -253,8 +253,8 @@ function matchingBonus($id, $pv, $placerId)
                 $userPlacer->total_balance += $extra->pv_left * 0.1;
                 $userPlacer->total_binary_com += $extra->pv_left * 0.1;
                 $userPlacer->save();
-                $extra->pv_left -= $extra->pv_left;
-                $extra->pv_right -= $extra->pv_left;
+                // $extra->pv_left -= $extra->pv_left;
+                // $extra->pv_right -= $extra->pv_left;
                 $extra->save();
                 $pvlog = new PvLog();
                 $pvlog->user_id = $user->id;
@@ -266,8 +266,8 @@ function matchingBonus($id, $pv, $placerId)
                 $userPlacer->balance += $extra->pv_left * 0.1;
                 $userPlacer->total_binary_com += $extra->pv_left * 0.1;
                 $userPlacer->save();
-                $extra->pv_left -= $extra->pv_right;
-                $extra->pv_right -= $extra->pv_right;
+                // $extra->pv_left -= $extra->pv_right;
+                // $extra->pv_right -= $extra->pv_right;
                 $extra->save();
                 $pvlog = new PvLog();
                 $pvlog->user_id = $user->id;
@@ -279,8 +279,8 @@ function matchingBonus($id, $pv, $placerId)
                 $userPlacer->balance += $extra->pv_left * 0.1;
                 $userPlacer->total_binary_com += $extra->pv_left * 0.1;
                 $userPlacer->save();
-                $extra->pv_left -= $extra->pv_left;
-                $extra->pv_right -= $extra->pv_right;
+                // $extra->pv_left -= $extra->pv_left;
+                // $extra->pv_right -= $extra->pv_right;
                 $extra->save();
                 $pvlog = new PvLog();
                 $pvlog->user_id = $user->id;
