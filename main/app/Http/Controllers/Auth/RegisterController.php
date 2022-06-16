@@ -285,6 +285,7 @@ class RegisterController extends Controller
 
         // commission bonus for sponsor 
         $sponsor = User::find($userCheck->id);
+        $placer = User::find($placerCheck->id);                                                                                                       
 
 
         // dd($sponsor);
@@ -315,7 +316,7 @@ class RegisterController extends Controller
             // updateRegShiba($user->id, $shiba, $detailRefShibaCom);
             
             // check for matching bonus
-            matchingBonus($sponsor->id, $pv, $placerId);
+            matchingBonus($sponsor->id, $pv, $placer->id);
             
             // matching bonus for sponsor in shiba
             matchingBonusShiba($sponsor->id, $shiba);
