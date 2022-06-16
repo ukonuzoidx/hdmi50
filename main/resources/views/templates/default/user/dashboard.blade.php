@@ -437,7 +437,6 @@
                                         <th class="wd-15p border-bottom-0">Claim</th>
                                         <th class="wd-15p border-bottom-0">Total Claim</th>
                                         <th class="wd-10p border-bottom-0">Status</th>
-                                        <th class="wd-10p border-bottom-0">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -449,16 +448,9 @@
                                             <td>{{ $data->plan->name }}</td>
                                             <td>{{ $data->claim }}</td>
                                             <td>{{ $data->total_claim }}</td>
-                                            <td>
-                                                @if ($data->total_claim == $data->plan->claim)
-                                                    <span class="badge badge-success">@lang('Already Claimed')</span>
-                                                @else
-                                                    <span class="badge badge-info">@lang('Not Claimed')</span>
-                                                @endif
-                                            </td>
+                                           
                                             <td>
                                                 @if ($data->total_claim != $data->plan->claim)
-                                                  
                                                     <form action="{{ route('user.digital.claim') }}" method="post">
                                                         @csrf
                                                         <input type="hidden" name="digital_id"
@@ -466,6 +458,8 @@
                                                         <button type="submit"
                                                             class="btn btn-sm btn-primary">@lang('Claim')</button>
                                                     </form>
+                                                @else
+                                                    <span class="badge badge-success">@lang('Already Claimed')</span>
                                                 @endif
                                             </td>
 

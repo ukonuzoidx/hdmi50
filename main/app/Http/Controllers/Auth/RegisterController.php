@@ -315,13 +315,12 @@ class RegisterController extends Controller
             // updateRegShiba($user->id, $shiba, $detailRefShibaCom);
             
             // check for matching bonus
-            matchingBonus($sponsor->id, $pv, $user->id);
+            matchingBonus($sponsor->id, $pv, $placerId);
             
             // matching bonus for sponsor in shiba
             matchingBonusShiba($sponsor->id, $shiba);
 
-            // treeRegCommission($user->id, $pv, $detailsTreeCom);
-            treeRegCommission($sponsor->id);
+         
             
             $sponsor->transactions()->create([
                 'amount' => $refCom,
