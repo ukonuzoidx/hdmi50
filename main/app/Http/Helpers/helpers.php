@@ -242,26 +242,26 @@ function matchingBonus($id, $pv, $placerId)
     $extra = UserExtra::where('user_id', $placerId)->first();
     $extraUser = UserExtra::where('user_id', $placerId)->first();
 
-    if ($extraUser->paid_left != 0 && $extraUser->paid_right != 0) {
-        // check if user is left or right
-        if ($extraUser->paid_left == $extraUser->paid_right) {
-            $user->balance += ($pv * 0.1);
-            $user->total_binary_com += ($pv * 0.1) - 1.5;
-            $user->save();
-
-            if ($extra->pv_left < $extra->pv_right) {
-                $userPlacer->total_balance += $extra->pv_left * 0.1;
-                $userPlacer->total_binary_com += $extra->pv_left * 0.1;
-                $userPlacer->save();
-                // $extra->pv_left -= $extra->pv_left;
-                // $extra->pv_right -= $extra->pv_left;
-                $extra->save();
-                $pvlog = new PvLog();
-                $pvlog->user_id = $user->id;
-                $pvlog->amount = $pv;
-                $pvlog->trx_type = '+';
-                $pvlog->details = 'Matching Bonus';
-                $pvlog->save();
+    // check if user is left or right
+    if ($extraUser->paid_left == $extraUser->paid_right) {
+        $user->balance += ($pv * 0.1);
+        $user->total_binary_com += ($pv * 0.1) - 1.5;
+        $user->save();
+    }
+    
+    if ($extra->pv_left < $extra->pv_right) {
+        $userPlacer->total_balance += $extra->pv_left * 0.1;
+        $userPlacer->total_binary_com += $extra->pv_left * 0.1;
+        $userPlacer->save();
+        // $extra->pv_left -= $extra->pv_left;
+        // $extra->pv_right -= $extra->pv_left;
+        $extra->save();
+        $pvlog = new PvLog();
+        $pvlog->user_id = $user->id;
+        $pvlog->amount = $pv;
+        $pvlog->trx_type = '+';
+        $pvlog->details = 'Matching Bonus';
+        $pvlog->save();
             } else if ($extra->pv_right < $extra->pv_left) {
                 $userPlacer->balance += $extra->pv_left * 0.1;
                 $userPlacer->total_binary_com += $extra->pv_left * 0.1;
@@ -290,7 +290,7 @@ function matchingBonus($id, $pv, $placerId)
                 $pvlog->save();
             }
         }
-    }
+    
 
     // // find user extra
     // if ($user || $userPlacer) {
