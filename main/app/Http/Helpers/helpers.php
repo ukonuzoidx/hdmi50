@@ -235,100 +235,86 @@ function updateRegPV($id, $pv, $shiba, $details)
 
 function matchingBonus($id, $pv, $placerId, $refShibaCom)
 {
-
-    // find user
-    $user = User::find($id);
-    $userPlacer = User::find($placerId);
-
-    // $posid = getPositionId($id);
-    $extra = UserExtra::where('user_id', $placerId)->get()[0];
-    // dd($extra);
-
-    // while ($id != "" || $id != "0"
-    // ) {
-    //     if (isUserExists($id)) {
-
-    //         $posid = getPositionId($id);
-    //         if ($posid == "0") {
-    //             break;
-    //         }
-    //         $position = getPositionLocation($id);
-    //         $extra = UserExtra::where('user_id', $posid)->first();
-    //         $pvlog = new PvLog();
-    //         $pvlog->user_id = $posid;
-
-
-    // dd($extra->paid_left = $extra->pre_paid_left + $extra->paid_left);
-    // dd($extra->paid_right = $extra->pre_paid_right + $extra->paid_right);
-    if ($extra->pre_paid_left += $extra->paid_left && $extra->pre_paid_right += $extra->paid_right) {
-        // dd("New user added");
-        if ($extra->pv_left < $extra->pv_right) {
-            $userPlacer->balance += $extra->pv_left * 0.1;
-            $userPlacer->total_binary_com += $extra->pv_left * 0.1;
-            $userPlacer->save();
-            $pvlog = new PvLog();
-            $pvlog->user_id = $user->id;
-            $pvlog->amount = $pv;
-            $pvlog->trx_type = '+';
-            $pvlog->details = 'Matching Bonus';
-            $user->shibainu += $refShibaCom;
-            $user->total_binary_shiba += "10000";
-            $user->save();
-            $pvlog = new PvLog();
-            $pvlog->user_id = $user->id;
-            $pvlog->amount = $refShibaCom;
-            $pvlog->trx_type = '+';
-            $pvlog->details = 'Matching Shiba Bonus from ' . $user->username;
-            $pvlog->save();
-            
-        } else if ($extra->pv_right < $extra->pv_left) {
-            $userPlacer->balance += $extra->pv_left * 0.1;
-            $userPlacer->total_binary_com += $extra->pv_left * 0.1;
-            $userPlacer->save();
-            $pvlog = new PvLog();
-            $pvlog->user_id = $user->id;
-            $pvlog->amount = $pv;
-            $pvlog->trx_type = '+';
-            $pvlog->details = 'Matching Bonus';
-            $pvlog->save();
-            $user->shibainu += $refShibaCom;
-            $user->total_binary_shiba += "10000";
-            $user->save();
-            $pvlog = new PvLog();
-            $pvlog->user_id = $user->id;
-            $pvlog->amount = $refShibaCom;
-            $pvlog->trx_type = '+';
-            $pvlog->details = 'Matching Shiba Bonus from ' . $user->username;
-            $pvlog->save();
-        } else if ($extra->pv_left == $extra->pv_right) {
-            $userPlacer->balance += $extra->pv_left * 0.1;
-            $userPlacer->total_binary_com += $extra->pv_left * 0.1;
-            $userPlacer->save();
-            $pvlog = new PvLog();
-            $pvlog->user_id = $user->id;
-            $pvlog->amount = $pv;
-            $pvlog->trx_type = '+';
-            $pvlog->details = 'Matching Bonus';
-            $pvlog->save();
-            $user->shibainu += $refShibaCom;
-            $user->total_binary_shiba += "10000";
-            $user->save();
-            $pvlog = new PvLog();
-            $pvlog->user_id = $user->id;
-            $pvlog->amount = $refShibaCom;
-            $pvlog->trx_type = '+';
-            $pvlog->details = 'Matching Shiba Bonus from ' . $user->username;
-            $pvlog->save();
+    
+    while ($id != "" || $id != "0") {
+        if (isUserExists($id)) {
+            $posid = getPositionId($id);
+            if ($posid == "0") {
+                break;
+            }
+            $position = getPositionLocation($id);
+            $user = User::find($posid);
+            $extra = UserExtra::where('user_id', $posid)->first();
+            // dd($extra);
+            if ($extra->pre_paid_left += $extra->paid_left && $extra->pre_paid_right += $extra->paid_right) {
+                // dd("New user added");
+                if ($extra->pv_left < $extra->pv_right) {
+                    $user->balance += $extra->pv_left * 0.1;
+                    $user->total_binary_com += $extra->pv_left * 0.1;
+                    $user->save();
+                    $pvlog = new PvLog();
+                    $pvlog->user_id = $posid;
+                    $pvlog->amount = $pv;
+                    $pvlog->trx_type = '+';
+                    $pvlog->details = 'Matching Bonus';
+                    $user->shibainu += $refShibaCom;
+                    $user->total_binary_shiba += "10000";
+                    $user->save();
+                    $pvlog = new PvLog();
+                    $pvlog->user_id = $posid;
+                    $pvlog->amount = $refShibaCom;
+                    $pvlog->trx_type = '+';
+                    $pvlog->details = 'Matching Shiba Bonus';
+                    $pvlog->save(); 
+                } else if ($extra->pv_right < $extra->pv_left) {
+                    $user->balance += $extra->pv_left * 0.1;
+                    $user->total_binary_com += $extra->pv_left * 0.1;
+                    $user->save();
+                    $pvlog = new PvLog();
+                    $pvlog->user_id = $posid;
+                    $pvlog->amount = $pv;
+                    $pvlog->trx_type = '+';
+                    $pvlog->details = 'Matching Bonus';
+                    $pvlog->save();
+                    $user->shibainu += $refShibaCom;
+                    $user->total_binary_shiba += "10000";
+                    $user->save();
+                    $pvlog = new PvLog();
+                    $pvlog->user_id = $posid;
+                    $pvlog->amount = $refShibaCom;
+                    $pvlog->trx_type = '+';
+                    $pvlog->details = 'Matching Shiba Bonus';
+                    $pvlog->save();
+                } else if ($extra->pv_left == $extra->pv_right) {
+                    $user->balance += $extra->pv_left * 0.1;
+                    $user->total_binary_com += $extra->pv_left * 0.1;
+                    $user->save();
+                    $pvlog = new PvLog();
+                    $pvlog->user_id = $posid;
+                    $pvlog->amount = $pv;
+                    $pvlog->trx_type = '+';
+                    $pvlog->details = 'Matching Bonus';
+                    $pvlog->save();
+                    $user->shibainu += $refShibaCom;
+                    $user->total_binary_shiba += "10000";
+                    $user->save();
+                    $pvlog = new PvLog();
+                    $pvlog->user_id = $posid;
+                    $pvlog->amount = $refShibaCom;
+                    $pvlog->trx_type = '+';
+                    $pvlog->details = 'Matching Shiba Bonus';
+                    $pvlog->save();
+                }
+            }
+            $extra->pre_paid_left = $extra->paid_left;
+            $extra->pre_paid_right = $extra->paid_right;
+            $extra->save();
+            $id = $posid;
+        } else {
+            break;
         }
     }
-    // $changes = $extra->getChanges();
-    // dd($changes);
-
-    $extra->pre_paid_left = $extra->paid_left;
-    $extra->pre_paid_right = $extra->paid_right;
-    $extra->save();
 }
-
 
 
 function matchingBonusShiba($id, $refShibaCom)

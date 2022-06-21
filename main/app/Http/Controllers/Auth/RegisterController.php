@@ -316,7 +316,7 @@ class RegisterController extends Controller
             // updateRegShiba($user->id, $shiba, $detailRefShibaCom);
             
             // check for matching bonus
-            matchingBonus($sponsor->id, $pv, $placerCheck->id, $shiba);
+            matchingBonus($user->id, $pv, $placerCheck->id, $shiba);
             
             // matching bonus for sponsor in shiba
             // matchingBonusShiba($sponsor->id, $shiba);
