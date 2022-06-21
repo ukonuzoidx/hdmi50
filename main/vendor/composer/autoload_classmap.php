@@ -12,6 +12,7 @@ return array(
     'App\\Http\\Controllers\\Admin\\Auth\\ForgotPasswordController' => $baseDir . '/app/Http/Controllers/Admin/Auth/ForgotPasswordController.php',
     'App\\Http\\Controllers\\Admin\\Auth\\LoginController' => $baseDir . '/app/Http/Controllers/Admin/Auth/LoginController.php',
     'App\\Http\\Controllers\\Admin\\Auth\\ResetPasswordController' => $baseDir . '/app/Http/Controllers/Admin/Auth/ResetPasswordController.php',
+    'App\\Http\\Controllers\\Admin\\DigitalAssetController' => $baseDir . '/app/Http/Controllers/Admin/DigitalAssetController.php',
     'App\\Http\\Controllers\\Admin\\EmailTemplateController' => $baseDir . '/app/Http/Controllers/Admin/EmailTemplateController.php',
     'App\\Http\\Controllers\\Admin\\FrontendController' => $baseDir . '/app/Http/Controllers/Admin/FrontendController.php',
     'App\\Http\\Controllers\\Admin\\GeneralSettingController' => $baseDir . '/app/Http/Controllers/Admin/GeneralSettingController.php',

@@ -178,9 +178,11 @@ function updatePaidCount($id)
             if ($position == 1) {
                 // $extra->free_left -= 1;
                 $extra->paid_left += 1;
+                // $extra->pre_paid_left += 1;
             } else {
                 // $extra->free_right -= 1;
                 $extra->paid_right += 1;
+                // $extra->pre_paid_right += 1;
             }
             $extra->save();
             $id = $posid;
@@ -239,88 +241,113 @@ function matchingBonus($id, $pv, $placerId)
     $userPlacer = User::find($placerId);
 
     //find the user extra from the placer user
-    $extra = UserExtra::where('user_id', $placerId)->first();
-    $extraUser = UserExtra::where('user_id', $placerId)->first();
-
-    // check if user is left or right
-    if ($extraUser->paid_left == $extraUser->paid_right) {
-        $user->balance += ($pv * 0.1);
-        $user->total_binary_com += ($pv * 0.1) - 1.5;
-        $user->save();
-    }
-    
-    if ($extra->pv_left < $extra->pv_right) {
-        $userPlacer->total_balance += $extra->pv_left * 0.1;
-        $userPlacer->total_binary_com += $extra->pv_left * 0.1;
-        $userPlacer->save();
-        // $extra->pv_left -= $extra->pv_left;
-        // $extra->pv_right -= $extra->pv_left;
-        $extra->save();
-        $pvlog = new PvLog();
-        $pvlog->user_id = $user->id;
-        $pvlog->amount = $pv;
-        $pvlog->trx_type = '+';
-        $pvlog->details = 'Matching Bonus';
-        $pvlog->save();
-            } else if ($extra->pv_right < $extra->pv_left) {
-                $userPlacer->balance += $extra->pv_left * 0.1;
-                $userPlacer->total_binary_com += $extra->pv_left * 0.1;
-                $userPlacer->save();
-                // $extra->pv_left -= $extra->pv_right;
-                // $extra->pv_right -= $extra->pv_right;
-                $extra->save();
-                $pvlog = new PvLog();
-                $pvlog->user_id = $user->id;
-                $pvlog->amount = $pv;
-                $pvlog->trx_type = '+';
-                $pvlog->details = 'Matching Bonus';
-                $pvlog->save();
-            } else if ($extra->pv_left == $extra->pv_right) {
-                $userPlacer->balance += $extra->pv_left * 0.1;
-                $userPlacer->total_binary_com += $extra->pv_left * 0.1;
-                $userPlacer->save();
-                // $extra->pv_left -= $extra->pv_left;
-                // $extra->pv_right -= $extra->pv_right;
-                $extra->save();
-                $pvlog = new PvLog();
-                $pvlog->user_id = $user->id;
-                $pvlog->amount = $pv;
-                $pvlog->trx_type = '+';
-                $pvlog->details = 'Matching Bonus';
-                $pvlog->save();
+    while ($id != "" || $id != "0") {
+        if (isUserExists($id)) {
+            $posid = getPositionId($id);
+            if (
+                $posid == "0"
+            ) {
+                break;
             }
+            $position = getPositionLocation($id);
+
+            $extra = UserExtra::where('user_id', $posid)->first();
+
+            if ($position == 1) {
+                // $extra->free_left -= 1;
+                $extra->paid_left += 1;
+                // $extra->pre_paid_left += 1;
+            } else {
+                // $extra->free_right -= 1;
+                $extra->paid_right += 1;
+                // $extra->pre_paid_right += 1;
+            }
+            $extra->save();
+            $id = $posid;
+        } else {
+            break;
         }
-    
+    }
 
-    // // find user extra
-    // if ($user || $userPlacer) {
-
-    //     $extra = UserExtra::where('user_id', $user->id)->first();
-    //     // check if paid left and right is equal
-    //     if ($extra->paid_left != 0 && $extra->paid_right != 0) {
-    //         // check if user is left or right
-    //         if ($extra->paid_left == $extra->paid_right) {
+    // $posid = getPositionId($id);
+    $position = getPositionLocation($placerId);
+    $extra = UserExtra::where('user_id', $placerId)->first();
 
 
-    //             // if ($extra->pv_left < $extra->pv_right) {
-    //             // $extra->pv_left += $pv;
-    //             // $extra->pv_right -= $pv;
-    //             // $extra->save();
-    //             $user->balance += ($pv * 0.1);
-    //             $user->total_binary_com += ($pv * 0.1) - 1.5;
-    //             $user->save();
-    // $pvlog = new PvLog();
-    // $pvlog->user_id = $user->id;
-    // $pvlog->amount = $pv;
-    // $pvlog->trx_type = '+';
-    // $pvlog->details = 'Matching Bonus';
-    // $pvlog->save();
+    // dd($extra->paid_left = $extra->pre_paid_left + $extra->paid_left);
+    // dd($extra->paid_right = $extra->pre_paid_right + $extra->paid_right);
+    if ($extra->pre_paid_left += $extra->paid_left && $extra->pre_paid_right += $extra->paid_right) {
+        // dd("New user added");
+        if ($extra->pv_left < $extra->pv_right) {
+            $userPlacer->balance += $extra->pv_left * 0.1;
+            $userPlacer->total_binary_com += $extra->pv_left * 0.1;
+            $userPlacer->save();
+            $pvlog = new PvLog();
+            $pvlog->user_id = $user->id;
+            $pvlog->amount = $pv;
+            $pvlog->trx_type = '+';
+            $pvlog->details = 'Matching Bonus';
+            $pvlog->save();
+        } else if ($extra->pv_right < $extra->pv_left) {
+            $userPlacer->balance += $extra->pv_left * 0.1;
+            $userPlacer->total_binary_com += $extra->pv_left * 0.1;
+            $userPlacer->save();
+            $pvlog = new PvLog();
+            $pvlog->user_id = $user->id;
+            $pvlog->amount = $pv;
+            $pvlog->trx_type = '+';
+            $pvlog->details = 'Matching Bonus';
+            $pvlog->save();
+        } else if ($extra->pv_left == $extra->pv_right) {
+            $userPlacer->balance += $extra->pv_left * 0.1;
+            $userPlacer->total_binary_com += $extra->pv_left * 0.1;
+            $userPlacer->save();
+            $pvlog = new PvLog();
+            $pvlog->user_id = $user->id;
+            $pvlog->amount = $pv;
+            $pvlog->trx_type = '+';
+            $pvlog->details = 'Matching Bonus';
+            $pvlog->save();
+        }
+    }
+    // $changes = $extra->getChanges();
+    // dd($changes);
 
-    //         }
-    //     }
-    // } else {
-    //     return;
-    // }
+    $extra->pre_paid_left = $extra->paid_left;
+    $extra->pre_paid_right = $extra->paid_right;
+    $extra->save();
+}
+
+
+// // find user extra
+// if ($user || $userPlacer) {
+
+//     $extra = UserExtra::where('user_id', $user->id)->first();
+//     // check if paid left and right is equal
+//     if ($extra->paid_left != 0 && $extra->paid_right != 0) {
+//         // check if user is left or right
+//         if ($extra->paid_left == $extra->paid_right) {
+
+
+//             // if ($extra->pv_left < $extra->pv_right) {
+//             // $extra->pv_left += $pv;
+//             // $extra->pv_right -= $pv;
+//             // $extra->save();
+//             $user->balance += ($pv * 0.1);
+//             $user->total_binary_com += ($pv * 0.1) - 1.5;
+//             $user->save();
+// $pvlog = new PvLog();
+// $pvlog->user_id = $user->id;
+// $pvlog->amount = $pv;
+// $pvlog->trx_type = '+';
+// $pvlog->details = 'Matching Bonus';
+// $pvlog->save();
+
+//         }
+//     }
+// } else {
+//     return;
+// }
 
 
 

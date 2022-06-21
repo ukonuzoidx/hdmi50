@@ -571,6 +571,7 @@ class ComposerStaticInit470e4d8b1a2fe5cce8b21c1eab380829
         'App\\Http\\Controllers\\Admin\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Auth/ForgotPasswordController.php',
         'App\\Http\\Controllers\\Admin\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Auth/LoginController.php',
         'App\\Http\\Controllers\\Admin\\Auth\\ResetPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Auth/ResetPasswordController.php',
+        'App\\Http\\Controllers\\Admin\\DigitalAssetController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/DigitalAssetController.php',
         'App\\Http\\Controllers\\Admin\\EmailTemplateController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/EmailTemplateController.php',
         'App\\Http\\Controllers\\Admin\\FrontendController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/FrontendController.php',
         'App\\Http\\Controllers\\Admin\\GeneralSettingController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/GeneralSettingController.php',

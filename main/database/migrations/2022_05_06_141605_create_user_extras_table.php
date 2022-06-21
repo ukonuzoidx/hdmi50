@@ -20,6 +20,8 @@ return new class extends Migration
             $table->integer('user_id');
             $table->integer('paid_left')->default(0);
             $table->integer('paid_right')->default(0);
+            $table->integer('pre_paid_left')->default(0);
+            $table->integer('pre_paid_right')->default(0);
             $table->decimal('pv_left', 16, 8)->default(0.00000000);
             $table->decimal('shiba_left', 16, 8)->default(0.00000000);
             $table->decimal('pv_right', 16, 8)->default(0.00000000);
@@ -30,6 +32,8 @@ return new class extends Migration
             'user_id' => 1,
             'paid_left' => 0,
             'paid_right' => 0,
+            'pre_paid_left' => 0,
+            'pre_paid_right' => 0,
             'pv_left' => 1000,
             'shiba_left' => 500,
             'pv_right' => 400,
