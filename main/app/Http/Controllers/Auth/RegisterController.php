@@ -236,7 +236,6 @@ class RegisterController extends Controller
         $user->total_binary_com = 0;
         $user->total_invest     = 0;
         $user->epin             = $data['epin'];
-        $user->kyc_status      = 0;
         $user->status = 1;
         $user->address      = [
             'address' => '',
@@ -316,7 +315,8 @@ class RegisterController extends Controller
             // updateRegShiba($user->id, $shiba, $detailRefShibaCom);
             
             // check for matching bonus
-            matchingBonus($user->id, $pv, $placerCheck->id, $shiba);
+            // matchingBonus($sponsor->id, $user->id, $pv, $placerCheck->id);
+            matchingBonus($user->id, $pv, $shiba);
             
             // matching bonus for sponsor in shiba
             // matchingBonusShiba($sponsor->id, $shiba);

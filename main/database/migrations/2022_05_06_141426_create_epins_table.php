@@ -39,32 +39,44 @@ return new class extends Migration
         ]);
         $epins = Epin::create([
             // 'user_id' => 1,
-            'epin' => str_random(8),  // EPIN1
+            'epin' =>"epin20",  // EPIN1
             'status' => '0',
 
         ]);
     
         $epins = Epin::create([
             // 'user_id' => 1,
-            'epin' => str_random(8),  // EPIN1
+            'epin' =>"epin8",  // EPIN1
             'status' => '0',
 
         ]);
         $epins = Epin::create([
             // 'user_id' => 1,
-            'epin' => str_random(8),  // EPIN1
+            'epin' => 'EPIN2',  // EPIN1
             'status' => '0',
 
         ]);
         $epins = Epin::create([
             // 'user_id' => 1,
-            'epin' => str_random(8),  // EPIN1
+            'epin' => 'Epin5',  // EPIN1
             'status' => '0',
 
         ]);
         $epins = Epin::create([
             // 'user_id' => 1,
-            'epin' => str_random(8),  // EPIN1
+            'epin' =>"epin10",  // EPIN1
+            'status' => '0',
+
+        ]);
+        $epins = Epin::create([
+            // 'user_id' => 1,
+            'epin' =>"epin9",  // EPIN1
+            'status' => '0',
+
+        ]);
+        $epins = Epin::create([
+            // 'user_id' => 1,
+            'epin' =>"epin6",  // EPIN1
             'status' => '0',
 
         ]);

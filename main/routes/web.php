@@ -331,6 +331,7 @@ Route::name('user.')->prefix('user')->group(
 Route::post('/check/sponsor', 'SiteController@CheckSponsor')->name('check.sponsor');
 Route::post('/check/placer', 'SiteController@CheckPlacer')->name('check.placer');
 Route::post('/check/epin', 'SiteController@CheckEpin')->name('check.epin');
+Route::post('/check/username', 'SiteController@checkUsername')->name('check.username');
 Route::post('/get/user/position', 'SiteController@userPosition')->name('get.user.position');
 Route::get('placeholder-image/{size}', 'SiteController@placeholderImage')->name('placeholderImage');
 

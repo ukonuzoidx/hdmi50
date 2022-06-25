@@ -41,28 +41,28 @@ class SiteController extends Controller
     public function CheckPlacer(Request $request)
     {
         $id = User::where('user_id', $request->placer)->first();
-
+        
         // dd($id);
-
+        
         if ($id == '') {
             return response()->json(['success' => false, 'msg' => "<span class='help-block'><strong class='text-danger'>Placer ID not found</strong></span>"]);
         } else {
             return response()->json(['success' => true, 'msg' => "<span class='help-block'><strong class='text-success'>$id->fullname</strong></span>
-                     <input type='hidden' id='placer_ref_id' value='$id->id' name='placer_ref_id'>"]);
+            <input type='hidden' id='placer_ref_id' value='$id->id' name='placer_ref_id'>"]);
         }
     }
-
+    
     public function CheckEpin(Request $request)
     {
         $id = Epin::where('epin', $request->epin)->first();
-
+        
         if ($id == '') {
             return response()->json(['success' => false, 'msg' => "<span class='help-block'><strong class='text-danger'>Epin not found</strong></span>"]);
         } else if ($id->status == 1) {
-            return response()->json(['success' => false, 'msg' => "<span class='help-block'><strong class='text-danger'>Epin already used</strong></span>"]);
+            return response()->json(['success' => false, 'msg' => "<span class='help-block'><strong class='text-danger'>Not Available</strong></span>"]);
         } else {
             return response()->json(['success' => true, 'msg' => "<span class='help-block'><strong class='text-success'>Epin is valid</strong></span>
-                     <input type='hidden' id='epin_ref' value='$id->epin' name='epin_ref'>"]);
+            <input type='hidden' id='epin_ref' value='$id->epin' name='epin_ref'>"]);
         }
     }
 

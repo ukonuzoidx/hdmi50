@@ -127,7 +127,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form--label-2" for="username">Phone</label>
+                                    <label class="form--label-2" for="phone">Phone</label>
                                     <input id="phone" class="form-control form--control-2" value="{{ old('phone') }}"
                                         name="phone" type="tel">
                                     <span id="valid-msg" class="hide">✓ Valid</span>
@@ -136,14 +136,14 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form--label-2" for="username">Country</label>
+                                    <label class="form--label-2" for="country">Country</label>
                                     <input type="text" readonly name="country" id="address-country" placeholder="Country"
                                         class="form-control form--control-2 country">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form--label-2" for="username">State</label>
+                                    <label class="form--label-2" for="state">State</label>
                                     <input type="text" name="state" id="state" value="{{ old('state') }}"
                                         placeholder="State" class="form-control form--control-2">
                                 </div>
@@ -311,6 +311,35 @@
                     }
                 });
             });
+
+            // show error if username is less than 6 characters
+            $(document).on('keyup', '#username', function() {
+                var username = $('#username').val();
+                if (username.length < 6) {
+                    $('#username_check').html('<span class="text-danger">Username must be at least 6 characters</span>');
+                } else {
+                    $('#username_check').html('');
+                }
+            });
+            
+
+
+            // //check usernname
+            // $(document).on('keyup', '#username', function() {
+            //     var username = $('#username').val();
+            //     var token = "{{ csrf_token() }}";
+            //     $.ajax({
+            //         type: "POST",
+            //         url: "{{ route('check.username') }}",
+            //         data: {
+            //             'username': username,
+            //             '_token': token
+            //         },
+            //         success: function(data) {
+            //             $("#username_check").html(data.msg);
+            //         }
+            //     });
+            // });
 
             $(document).on('change', '#position', function() {
                 updateHand();

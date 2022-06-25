@@ -25,8 +25,6 @@ return new class extends Migration
             $table->string('firstname');
             $table->string('lastname');
             $table->string('username');
-            // $table->string('sponsor_id');
-            // $table->string('placer_id');
             $table->string('left_side')->default(0);
             $table->string('right_side')->default(0);
             $table->string('epin')->unique();
@@ -49,11 +47,14 @@ return new class extends Migration
             $table->decimal('shibainu', 18, 8)->default(0.00000000);
             $table->decimal('total_ref_shiba', 18, 8)->default(0.00000000);
             $table->decimal('total_binary_shiba', 18, 8)->default(0.00000000);
+            // $table->string('unmarried')->nullable();
+            // $table->string('married_to')->nullable();
+            // $table->string('married_to_id')->nullable();
+
             $table->string('image')->nullable();
             $table->string('ver_code')->nullable()->comment('Verification Code');
             $table->string('ver_code_sent_at')->nullable()->comment('Verification Code Sent At');
             $table->tinyInteger('status')->comment('0: Inactive, 1: Active, 2: Banned');
-            $table->tinyInteger('kyc_status')->comment('0: Pending, 1:Completed');
             $table->tinyInteger('ev')->comment('0: email unverified, 1: email verified');
             $table->tinyInteger('sv')->comment('0: sms unverified, 1: sms verified');
             $table->tinyInteger('ts')->comment('0: 2fa off, 1: 2fa on');
@@ -84,7 +85,6 @@ return new class extends Migration
             'ver_code' => NULL,
             'ver_code_sent_at' => NULL,
             'status' => 1,
-            'kyc_status' => 0,
             'address' => [
                 'country' => 'Nigeria',
                 'state' => '',
