@@ -99,13 +99,27 @@
                  <h3>Invest and Finances</h3>
              </li>
 
-             <li class="slide">
+             {{-- <li class="slide">
                  <a class="side-menu__item" href="{{ route('user.plan') }}">
                      <i class="side-menu__icon ti-light-bulb "></i>
                      <span class="side-menu__label">
                          Investment
                      </span>
                  </a>
+             </li> --}}
+             <li class="slide">
+                 <a class="side-menu__item" data-toggle="slide" href="#">
+                     <i class="side-menu__icon ti-wallet  menu-icons"></i>
+                     <span class="side-menu__label">
+                         Investment
+                     </span>
+                     <i class="angle fe fe-chevron-down"></i></a>
+                 <ul class="slide-menu">
+                     <li><a class="slide-item" href="{{ route('user.plan') }}">Investments</a>
+                     </li>
+                     <li><a class="slide-item" href="{{ route('user.plan.fixed.investment') }}">Fixed Investments</a>
+                     </li>
+                 </ul>
              </li>
              <li class="slide">
                  <a class="side-menu__item" data-toggle="slide" href="#">

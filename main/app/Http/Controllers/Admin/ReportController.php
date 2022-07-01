@@ -88,7 +88,7 @@ class ReportController extends Controller
             $page_title = $user->username . ' - Binary Commission Logs';
             $transactions = Transaction::where('user_id', $user->id)->where('remark', 'binary_commission')->with('user')->latest()->paginate(getPaginate());
         } else {
-            $page_title = 'Referral Commission Logs';
+            $page_title = 'Binary Commission Logs';
             $transactions = Transaction::where('remark', 'binary_commission')->with('user')->latest()->paginate(getPaginate());
         }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DigitalAssets;
 use App\Models\Epin;
+use App\Models\FixedInvestment;
 use App\Models\GeneralSetting;
 use App\Models\Plan;
 use App\Models\PvLog;
@@ -12,6 +13,7 @@ use App\Models\SubscribedPlans;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\UserExtra;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -35,6 +37,14 @@ class PlanController extends Controller
 
         $data['page_title'] = "Plans";
         return view($this->activeTemplate . 'user.plans', $data);
+    }
+
+    public function fixedInvestment()
+    {
+        $data['fixedInvestment'] = FixedInvestment::whereStatus(1)->get();
+
+        $data['page_title'] = "Fixed Investment";
+        return view($this->activeTemplate . 'user.fixedInvestment', $data);
     }
     public function pvlog(Request $request)
     {
@@ -60,6 +70,70 @@ class PlanController extends Controller
 
         $data['empty_message'] = 'No data found';
         return view($this->activeTemplate . "user.pvlog", $data);
+    }
+
+    function fixedInvestmentStore(Request $request)
+    {
+        $this->validate($request, ['fixed_investment_id' => 'required|integer']);
+        $fixedInvestment = FixedInvestment::where('id', $request->fixed_investment_id)->where('status', 1)->firstOrFail();
+        $gnl = GeneralSetting::first();
+
+        $user = User::find(Auth::id());
+        // decrypt pin
+        $pin = Hash::check($request->pin, $user->pin);
+
+
+        if ($user->balance < $fixedInvestment->price) {
+            $notify[] = ['error', 'Insufficient Balance'];
+            return back()->withNotify($notify);
+        }
+        if (!$pin) {
+            $notify[] = ['error', 'Invalid Pin'];
+            return back()->withNotify($notify);
+        }
+
+
+        // $oldPlan = $user->plan_id;
+        $user->balance -= $fixedInvestment->price;
+        $user->total_invest += $fixedInvestment->price;
+        // $user->roi += $fixedInvestment->roi;
+        // $user->balance += $fixedInvestment->roi;
+        $user->save();
+
+
+        $roi = Roi::create([
+            'user_id' => $user->id,
+            'plan_id' => $fixedInvestment->id,
+            'roi' => $fixedInvestment->fixed_roi,
+            'remark' => 'fixed_investment',
+            // 'roi_last_paid' => date('Y-m-d H:i:s'),
+        ]);
+
+        $roi->roi_last_paid = Carbon::now()->addDays(400);
+        $roi->save();
+
+        $trx = $user->transactions()->create([
+            'amount' => $fixedInvestment->price,
+            'trx_type' => '-',
+            'details' => 'Purchased ' . $fixedInvestment->name,
+            'charge' => $fixedInvestment->charge,
+            'remark' => 'purchased_plan',
+            'trx' => getTrx(),
+            'post_balance' => getAmount($user->balance),
+        ]);
+
+        notify($user, 'plan_purchased', [
+            'plan' => $fixedInvestment->name,
+            'amount' => getAmount($fixedInvestment->price),
+            'currency' => $gnl->cur_text,
+            'trx' => $trx->trx,
+            'post_balance' => getAmount($user->balance) . ' ' . $gnl->cur_text,
+        ]);
+
+        $details = Auth::user()->username . ' Subscribed to ' . $fixedInvestment->name . ' plan.';
+
+        $notify[] = ['success', 'Purchased ' . $fixedInvestment->name . ' Successfully'];
+        return redirect()->route('user.home')->withNotify($notify);
     }
 
     function planStore(Request $request)
@@ -97,8 +171,8 @@ class PlanController extends Controller
         // $oldPlan = $user->plan_id;
         $user->balance -= $plan->price;
         $user->total_invest += $plan->price;
-        $user->roi += $plan->roi;
-        $user->balance += $plan->roi;
+        // $user->roi += $plan->roi;
+        // $user->balance += $plan->roi;
         $user->save();
 
 
@@ -106,6 +180,7 @@ class PlanController extends Controller
             'user_id' => $user->id,
             'plan_id' => $plan->id,
             'roi' => $plan->roi,
+            'remark' => 'plan_purchased',
             'roi_last_paid' => date('Y-m-d H:i:s'),
         ]);
 
@@ -143,6 +218,7 @@ class PlanController extends Controller
             // shibaBinaryComission($user->id, $shiba, $detailBinaryShibaCom);
         }
         referralCommission($user->id, $details, $plan->id);
+        matchingPVBonus($user->id, $plan->pv, $details);
 
         // create the digital assets for the user
 
@@ -156,7 +232,7 @@ class PlanController extends Controller
             'total_product' => $plan->total_product,
             'claim' => $plan->claim,
         ]);
-       
+
 
 
 
@@ -217,5 +293,55 @@ class PlanController extends Controller
         $data['page_title'] = "Binary Summery";
         $data['logs'] = UserExtra::where('user_id', auth()->id())->firstOrFail();
         return view($this->activeTemplate . 'user.binarySummary', $data);
+    }
+
+    public function claimRoi(Request $request)
+    {
+        $user = User::find(Auth::id());
+        $roi = Roi::where('user_id', $user->id)->where('remark', 'plan_purchased')->get();
+        $gnl = GeneralSetting::first();
+
+        // check the difference between current time and created time
+        // if the difference is less than 24 hours, then it is not possible to claim the roi
+        foreach ($roi as $key => $value) {
+            // $now = $gnl->roi_when_time;
+            // $diff = strtotime($value->roi_last_cron) - strtotime($value->roi_last_paid);
+            // $diff = $diff / (60 * 60);
+            // if ($value->roi_last_cron == null) {
+            //     // check the difference between current time and roi_last_paid if the difference is less than 24 hours, then it is not possible to claim the roi
+            $now = Carbon::now();
+            $diff = strtotime($now) - strtotime($value->roi_last_paid);
+            $diff = $diff / (60 * 60);
+
+            if ($diff > 24) {
+                $user->balance += $value->roi;
+                $user->roi += $value->roi;
+                $user->save();
+                $value->roi_last_paid = Carbon::now();
+                $value->save();
+                $notify[] = ['success', 'ROI Claimed Successfully'];
+                return  redirect()->route('user.home')->withNotify($notify);
+            } else {
+                $notify[] = ['error', 'You can not claim the ROI now!!'];
+                return redirect()->route('user.home')->withNotify($notify);
+            }
+        }
+    }
+    public function claimFixedRoi(Request $request)
+    {
+        $user = User::find(Auth::id());
+        $roi = Roi::where('user_id', $user->id)->where('remark', 'fixed_investment')->get();
+        $gnl = GeneralSetting::first();
+
+        // check the difference between current time and created time
+        // if the difference is less than 24 hours, then it is not possible to claim the roi
+        foreach ($roi as $key => $value) {
+            // get the difference between roi last paid and 400 days ago
+            // $date = Carbon::parse($value->roi_last_paid)->diffInDays(400);
+            $date = strtotime($value->roi_last_paid);
+            $date = $date - time();
+            $date = $date / (60 * 60 * 24);
+            // dd($date);
+        }
     }
 }

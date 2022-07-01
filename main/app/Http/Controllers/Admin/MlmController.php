@@ -117,7 +117,7 @@ class MlmController extends Controller
 
         $setting = GeneralSetting::first();
         if ($request->roi_bonus_time == 'daily') {
-            $when = $request->daily_time;
+            $when = $request->daily_time ;
         } elseif ($request->roi_bonus_time == 'weekly') {
             $when = $request->weekly_time;
         } elseif ($request->roi_bonus_time == 'monthly') {
@@ -126,7 +126,7 @@ class MlmController extends Controller
 
         $setting->roi_bonus_time = $request->roi_bonus_time;
         $setting->roi_when = $when;
-        $setting->roi_when_time = Carbon::parse($when)->format('Y-m-d H:i:s');
+        $setting->roi_when_time = Carbon::createFromFormat('H', $when)->format('Y-m-d H:i:s');
         $setting->save();
 
         $notify[] = ['success', 'ROI has been updated.'];

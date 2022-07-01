@@ -16,4 +16,8 @@ class Roi extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function investment()
+    {
+        return $this->belongsTo(FixedInvestment::class, 'plan_id');
+    }
 }

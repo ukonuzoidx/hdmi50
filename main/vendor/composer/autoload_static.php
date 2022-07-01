@@ -615,6 +615,7 @@ class ComposerStaticInit470e4d8b1a2fe5cce8b21c1eab380829
         'App\\Models\\EmailTemplate' => __DIR__ . '/../..' . '/app/Models/EmailTemplate.php',
         'App\\Models\\Epin' => __DIR__ . '/../..' . '/app/Models/Epin.php',
         'App\\Models\\Extension' => __DIR__ . '/../..' . '/app/Models/Extension.php',
+        'App\\Models\\FixedInvestment' => __DIR__ . '/../..' . '/app/Models/FixedInvestment.php',
         'App\\Models\\Frontend' => __DIR__ . '/../..' . '/app/Models/Frontend.php',
         'App\\Models\\GeneralSetting' => __DIR__ . '/../..' . '/app/Models/GeneralSetting.php',
         'App\\Models\\Page' => __DIR__ . '/../..' . '/app/Models/Page.php',

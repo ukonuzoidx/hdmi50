@@ -349,8 +349,12 @@
                             <span class="amount">{{ getAmount($roi) }}</span>
                             <span class="currency-sign">{{ $general->cur_text }}</span>
                         </div>
-                        <a href="{{ route('user.report.withdraw') }}"
-                            class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('Claim')</a>
+                        <form action="{{ route('user.claim.roi') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="user_id" value="{{ auth()->id() }}">
+                            <button type="submit"
+                                class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('Claim')</button>
+                        </form>
 
                     </div>
                 </div>
@@ -395,8 +399,8 @@
                                 @csrf
                                 <input type="text" name="shibainu" class="form-control mb-4"
                                     placeholder="@lang('Enter Anount of Shiba you want to withdraw')" />
-                                <input type="text" name="pin" class="form-control" placeholder="@lang('Enter your Transaction pin')"
-                                    required />
+                                <input type="text" name="pin" class="form-control"
+                                    placeholder="@lang('Enter your Transaction pin')" required />
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn--danger" data-dismiss="modal"><i
@@ -417,6 +421,68 @@
         </div>
         <!-- /row -->
 
+        <div class="row row-sm">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header pb-0">
+                        <div class="d-flex justify-content-between">
+                            <h4 class="card-title mg-b-0">Fixed Investments</h4>
+                            <i class="mdi mdi-dots-horizontal text-gray"></i>
+                        </div>
+                        {{-- <p class="tx-12 tx-gray-500 mb-2">Example ofXino Simple Table. <a href="">Learn more</a></p> --}}
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table text-md-nowrap" id="example1">
+                                <thead>
+                                    <tr>
+                                        <th class="wd-20p border-bottom-0">Name</th>
+                                        <th class="wd-15p border-bottom-0">Plan Name</th>
+                                        <th class="wd-15p border-bottom-0">Claim</th>
+                                        {{-- <th class="wd-10p border-bottom-0">Date to be Claimed</th> --}}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($investments as $key=>$data)
+                                        <tr>
+                                            <td>
+                                                {{ $data->user->fullname }}
+                                            </td>
+                                            <td>{{ $data->investment->name }}</td>
+                                            <td>
+                                                <form action="{{ route('user.claim.fixed.roi') }}" method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="user_id" value="{{ auth()->id() }}">
+                                                    <button type="submit"
+                                                        class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('Claim')</button>
+                                                </form>
+                                            </td>
+                                            {{-- countdown for date to be claimed --}}
+
+
+
+
+
+
+
+                                        </tr>
+
+                                    @empty
+                                        <tr>
+                                            <td colspan="6" class="text-center">
+                                                {{ $empty_message }}
+                                            </td>
+                                        </tr>
+                                    @endforelse
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/div-->
+        </div>
         <div class="row row-sm">
             <div class="col-xl-12">
                 <div class="card">
@@ -448,7 +514,7 @@
                                             <td>{{ $data->plan->name }}</td>
                                             <td>{{ $data->claim }}</td>
                                             <td>{{ $data->total_claim }}</td>
-                                           
+
                                             <td>
                                                 @if ($data->total_claim != $data->plan->claim)
                                                     <form action="{{ route('user.digital.claim') }}" method="post">

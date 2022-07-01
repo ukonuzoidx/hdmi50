@@ -274,11 +274,10 @@ function matchingBonus($id, $pv, $refShibaCom)
             $user = User::find($posid);
             $extra = UserExtra::where('user_id', $posid)->where('lpv', '>=', '150')->where('rpv', '>=', '150')->first();
             if ($extra) {
-
                 $lpv = $extra->lpv;
                 $rpv = $extra->rpv;
                 $weak = $lpv < $rpv ? $lpv : $rpv;
-                $bonus = 0.1 * 150;
+                $bonus = 0.1 * $pv;
                 //flush out the bonus
                 $extra->lpv -= $weak;
                 $extra->rpv -= $weak;
@@ -301,6 +300,15 @@ function matchingBonus($id, $pv, $refShibaCom)
                 $pvlog->trx_type = '+';
                 $pvlog->details = 'Matching Shiba Bonus';
                 $pvlog->save();
+                $user->transactions()->create([
+                    'amount' => $bonus,
+                    'charge' => 0,
+                    'trx_type' => '+',
+                    'details' => 'Matching Bonus',
+                    'remark' => 'binary_commission',
+                    'trx' => getTrx(),
+                    'post_balance' => getAmount($user->balance),
+                ]);
             }
 
 
@@ -410,55 +418,6 @@ function matchingBonus($id, $pv, $refShibaCom)
 // }
 
 
-function matchingBonusShiba($id, $refShibaCom)
-{
-    // find the user
-    $user = User::find($id);
-    /**
-     * check the left and right side of the user to see if there is any zero
-     * if there is zero then we need to give the user the shiba commission to the user
-     * and add bonus to the user 
-     * 
-     */
-    if ($user) {
-        // find user extra
-        $extra = UserExtra::where('user_id', $user->id)->first();
-
-        if ($extra->paid_left != 0 && $extra->paid_right != 0) {
-
-            // check if paid left and right is equal
-            if ($extra->paid_left == $extra->paid_right) {
-                // check if user is left or right
-                $detailBinaryShibaCom = "You have received a commission bonus of 10000 shiba";
-
-                // shibaBinaryComission($user->id, "10000", $detailBinaryShibaCom);
-                $user->shibainu += $refShibaCom;
-                $user->total_binary_shiba += "10000";
-                $user->save();
-                $pvlog = new PvLog();
-                $pvlog->user_id = $user->id;
-                $pvlog->amount = $refShibaCom;
-                $pvlog->trx_type = '+';
-                $pvlog->details = 'Matching Shiba Bonus from ' . $user->username;
-                $pvlog->save();
-            }
-        }
-    } else {
-        return;
-    }
-}
-
-
-/**
- * convert amount to shiba inu
- * where $1 = 10000 shiba inu
- */
-function convertToShibaInu($amount)
-{
-    return $amount * 10000;
-}
-
-
 function updatePV($id, $pv, $details)
 {
     while ($id != "" || $id != "0") {
@@ -467,8 +426,6 @@ function updatePV($id, $pv, $details)
             if ($posid == "0") {
                 break;
             }
-            $posUser = User::find($posid);
-            // if ($posUser->plan_id != 0) {
             $position = getPositionLocation($id);
             $extra = UserExtra::where('user_id', $posid)->first();
             $pvlog = new PvLog();
@@ -476,9 +433,11 @@ function updatePV($id, $pv, $details)
 
             if ($position == 1) {
                 $extra->pv_left += $pv;
+                $extra->lpv += $pv;
                 $pvlog->position = '1';
             } else {
                 $extra->pv_right += $pv;
+                $extra->rpv += $pv;
                 $pvlog->position = '2';
             }
             $extra->save();
@@ -486,11 +445,11 @@ function updatePV($id, $pv, $details)
             $pvlog->trx_type = '+';
             $pvlog->details = $details;
             $pvlog->save();
+
+            $id = $posid;
+        } else {
+            break;
         }
-        $id = $posid;
-        // } else {
-        //     break;
-        // }
     }
 }
 
@@ -541,7 +500,6 @@ function treeCommission($id, $amount, $details)
 {
     $fromUser = User::find($id);
 
-    // dd($fromUser, $id);
     while ($id != "" || $id != "0") {
         if (isUserExists($id)) {
             $posid = getPositionId($id);
@@ -549,9 +507,6 @@ function treeCommission($id, $amount, $details)
                 break;
             }
             $posUser = User::find($posid);
-            // dd($posUser, $posid);
-            // if ($posUser->plan_id != 0) {
-
             $posUser->balance  += $amount;
             $posUser->total_binary_com += $amount;
             $posUser->save();
@@ -609,7 +564,55 @@ function referralCommission($user_id, $details, $planId)
     }
 }
 
+function matchingPVBonus($id, $pv, $details)
+{
+    $fromUser = User::find($id);
 
+    while ($id != "" || $id != "0") {
+        if (isUserExists($id)) {
+            $posid = getPositionId($id);
+            if ($posid == "0") {
+                break;
+            }
+            $user = User::find($posid);
+            $extra = UserExtra::where('user_id', $posid)->where('lpv', '>=', '150')->where('rpv', '>=', '150')->first();
+            if ($extra) {
+                $lpv = $extra->lpv;
+                $rpv = $extra->rpv;
+                $weak = $lpv < $rpv ? $lpv : $rpv;
+                $bonus = 0.1 * $pv;
+                //flush out the bonus
+                $extra->lpv -= $weak;
+                $extra->rpv -= $weak;
+                $extra->save();
+
+                $pvlog = new PvLog();
+                $pvlog->user_id = $posid;
+                $pvlog->amount = $bonus;
+                $pvlog->trx_type = '+';
+                $pvlog->details = $details;
+                $pvlog->save();
+                $user->total_binary_com += $bonus;
+                $user->save();
+                $user->transactions()->create([
+                    'amount' => $bonus,
+                    'charge' => 0,
+                    'trx_type' => '+',
+                    'trx' => getTrx(),
+                    'details' => $details,
+                    'remark' => 'binary_commission',
+                    'trx' => getTrx(),
+                    'post_balance' => getAmount($user->balance),
+                ]);
+            }
+
+
+            $id = $posid;
+        } else {
+            break;
+        }
+    }
+}
 
 
 
@@ -1340,41 +1343,6 @@ function generateRandomInteger($length)
     return $randomString;
 }
 
-
-/**
- * Go through the general settings and see how long a roi is to be updated
- * add roi to the user if the time is up
- * @return bool
- * 
- */
-function assignRoi($id)
-{
-    // check if the user has a roi
-    $user = User::find($id);
-    $gnl = GeneralSetting::first();
-    $roi = Roi::where('user_id', $user->id)->first();
-
-    if ($roi) {
-        // check the genral settings and see the time to and when to update the roi
-        if ($gnl->roi_bonus_time == 'daily') {
-            // do a coundown timer for the roi
-            $day = Date('H');
-            if (strtolower($day) == $gnl->roi_when) {
-                $user->balance += $roi->roi;
-                $user->roi += $roi->roi;
-                $user->save();
-                $roi->roi_last_paid = Carbon::now();
-                $roi->save();
-                $roi = $user->roi;
-                return $roi;
-            } else {
-                return false;
-            }
-        }
-    } else {
-        return false;
-    }
-}
 
 /**
  * Go through the general settings and see how long a roi is to be updated

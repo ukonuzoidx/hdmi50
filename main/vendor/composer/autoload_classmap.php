@@ -56,6 +56,7 @@ return array(
     'App\\Models\\EmailTemplate' => $baseDir . '/app/Models/EmailTemplate.php',
     'App\\Models\\Epin' => $baseDir . '/app/Models/Epin.php',
     'App\\Models\\Extension' => $baseDir . '/app/Models/Extension.php',
+    'App\\Models\\FixedInvestment' => $baseDir . '/app/Models/FixedInvestment.php',
     'App\\Models\\Frontend' => $baseDir . '/app/Models/Frontend.php',
     'App\\Models\\GeneralSetting' => $baseDir . '/app/Models/GeneralSetting.php',
     'App\\Models\\Page' => $baseDir . '/app/Models/Page.php',

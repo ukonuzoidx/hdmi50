@@ -286,7 +286,11 @@ Route::name('user.')->prefix('user')->group(
                 // plans
                 Route::get("/plan", "PlanController@index")->name('plan');
                 Route::get("pv-log", "PlanController@pvlog")->name('pv.log');
+                Route::post("claimRoi", "PlanController@claimRoi")->name('claim.roi');
+                Route::post("claimFixedRoi", "PlanController@claimFixedRoi")->name('claim.fixed.roi');
                 Route::post('/plan', 'PlanController@planStore')->name('plan.purchase');
+                Route::get("/fixed-investment", "PlanController@fixedInvestment")->name('plan.fixed.investment');
+                Route::post('/fixed-investment/purchase', 'PlanController@fixedInvestmentStore')->name('plan.fixed.investment.purchase');
                 Route::get('/referrals', 'PlanController@myRefLog')->name('my.ref');
                 Route::get('/tree', 'PlanController@myTree')->name('my.tree');
                 Route::get('/tree/{user}', 'PlanController@otherTree')->name('other.tree');
