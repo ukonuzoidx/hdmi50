@@ -110,6 +110,7 @@ class PlanController extends Controller
         ]);
 
         $roi->roi_last_paid = Carbon::now()->addDays(400);
+        $roi->roi_last_cron = Carbon::now();
         $roi->save();
 
         $trx = $user->transactions()->create([
@@ -333,15 +334,60 @@ class PlanController extends Controller
         $roi = Roi::where('user_id', $user->id)->where('remark', 'fixed_investment')->get();
         $gnl = GeneralSetting::first();
 
-        // check the difference between current time and created time
-        // if the difference is less than 24 hours, then it is not possible to claim the roi
         foreach ($roi as $key => $value) {
-            // get the difference between roi last paid and 400 days ago
-            // $date = Carbon::parse($value->roi_last_paid)->diffInDays(400);
-            $date = strtotime($value->roi_last_paid);
-            $date = $date - time();
-            $date = $date / (60 * 60 * 24);
-            // dd($date);
+            $now = Carbon::now();
+            $diff = strtotime($now) - strtotime($value->roi_last_cron);
+            $diff = $diff / (60 * 60);
+
+            // dd($diff);
+
+            if ($diff > 24) {
+                $user->fixed_roi += $value->roi;
+                $user->save();
+                $value->roi_last_cron = Carbon::now();
+                $value->save();
+                $notify[] = ['success', 'Fixed ROI Claimed Successfully'];
+                return  redirect()->route('user.home')->withNotify($notify);
+            } else {
+                $notify[] = ['error', 'You can not claim the ROI now!!'];
+                return redirect()->route('user.home')->withNotify($notify);
+            }
+        }
+    }
+
+    public function withdrawFixedRoi(Request $request)
+    {
+        $user = User::find(Auth::id());
+        $roi = Roi::where('user_id', $user->id)->where('remark', 'fixed_investment')->get();
+        $gnl = GeneralSetting::first();
+
+        foreach ($roi as $key => $value) {
+            $now = Carbon::now();
+            $withdrawDate = Carbon::parse($value->roi_last_paid);
+            // $diff = strtotime($now) - strtotime($withdrawDate);
+            $diff = strtotime($withdrawDate) - strtotime($now);
+            $diff = $diff / (60 * 60);
+
+                        // dd($diff);
+
+            if ($diff > 9600) {
+                if ($user->fixed_roi < 0 ) {
+                    $notify[] = ['error', 'You have no Fixed ROI to withdraw!!'];
+                    return redirect()->route('user.home')->withNotify($notify);
+                } else {
+
+                    $user->balance += $user->fixed_roi;
+                    $user->save();
+                    $value->roi_last_cron = Carbon::now();
+                    $value->roi_last_paid = Carbon::now()->addDays(400);
+                    $value->save();
+                    $notify[] = ['success', 'Fixed ROI Withdrawn Successfully'];
+                }
+                return  redirect()->route('user.home')->withNotify($notify);
+            } else {
+                $notify[] = ['error', 'You can not withdraw the ROI now!!'];
+                return redirect()->route('user.home')->withNotify($notify);
+            }
         }
     }
 }

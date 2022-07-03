@@ -21,7 +21,7 @@ return new class extends Migration
             $table->decimal('roi', 18, 8)->default(0.00000000);
             $table->string('remark')->nullable();
             $table->timestamp('roi_last_paid')->nullable();
-            // $table->timestamp('roi_last_cron')->nullable();
+            $table->timestamp('roi_last_cron')->nullable();
             $table->timestamps();
         });
 

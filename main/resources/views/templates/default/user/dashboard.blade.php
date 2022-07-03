@@ -438,8 +438,11 @@
                                     <tr>
                                         <th class="wd-20p border-bottom-0">Name</th>
                                         <th class="wd-15p border-bottom-0">Plan Name</th>
-                                        <th class="wd-15p border-bottom-0">Claim</th>
-                                        {{-- <th class="wd-10p border-bottom-0">Date to be Claimed</th> --}}
+                                        <th class="wd-15p border-bottom-0">Claim Daily</th>
+                                        <th class="wd-15p border-bottom-0">Total Claimed</th>
+                                        <th class="wd-10p border-bottom-0">Withdraw</th>
+                                        <th class="wd-10p border-bottom-0">Time to be withdraw</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -457,7 +460,24 @@
                                                         class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('Claim')</button>
                                                 </form>
                                             </td>
+                                            <td>{{ $data->investment->fixed_roi }}</td>
                                             {{-- countdown for date to be claimed --}}
+                                            <td>
+                                                <form action="{{ route('user.withdraw.fixed.roi') }}" method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="user_id" value="{{ auth()->id() }}">
+                                                    <button type="submit"
+                                                        class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('Withdraw')</button>
+                                                </form>
+                                            </td>
+
+                                            <td>
+                                                <div id="clockdiv" class="d-flex">
+                                                    <span class="days"></span>
+                                                </div>
+                                                <div id="end_time" style="display: none;">{{ $data->roi_last_paid }}
+                                                </div>
+                                            </td>
 
 
 
@@ -557,3 +577,45 @@
     <!-- /conatiner -->
 
 @endsection
+
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+
+            function getTimeRemaining(endtime) {
+                var t = endtime - new Date().getTime();
+                var days = Math.floor(t / (1000 * 60 * 60 * 24));
+                return {
+                    'total': t,
+                    'days': days,
+                };
+            }
+
+            function initializeClock(id, endtime) {
+                var clock = document.getElementById(id);
+                var daysSpan = clock.querySelector('.days');
+
+                function updateClock() {
+                    var t = getTimeRemaining(endtime);
+
+                    daysSpan.innerHTML = t.days + ' Days left!';
+
+                    if (t.total <= 0) {
+                        clearInterval(timeinterval);
+                    }
+                }
+
+                updateClock();
+                var timeinterval = setInterval(updateClock, 1000);
+            }
+
+            // end time for countdown
+            var deadline = new Date(document.getElementById('end_time').innerHTML);
+
+            initializeClock('clockdiv', deadline);
+
+
+        });
+    </script>
+@endpush

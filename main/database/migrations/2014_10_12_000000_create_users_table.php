@@ -37,6 +37,7 @@ return new class extends Migration
             $table->date('dob')->nullable();
             $table->string('gender')->nullable();
             $table->string('martial_status')->nullable();
+            $table->decimal('fixed_roi', 18, 9)->default(0.00000000);
             $table->decimal('roi', 18, 9)->default(0.00000000);
             $table->json('address')->nullable()->comment('Contains full address');
             $table->decimal('subscribed_amount', 16, 8)->default(0.00000000);

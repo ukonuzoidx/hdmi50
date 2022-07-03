@@ -34,6 +34,7 @@ class UserController extends Controller
         $data['totalWithdrawShiba']   = WithdrawShiba::where('user_id', auth()->id())->where('status', 1)->sum('shibainu');
         // $data['roi'] = assignRoi(auth()->id());
         $data['roi'] = User::where('id', auth()->id())->first()->roi;
+        // $data['fixed_roi'] = assignFixedRoi(auth()->id());
 
         $data['weeklyroi'] = Roi::where('user_id', auth()->id())->whereDate('created_at', Carbon::now()->subDays(9))->sum('roi');
         $data['digital_assets'] = DigitalAssets::where('user_id', auth()->id())->get();
@@ -557,6 +558,4 @@ class UserController extends Controller
         $notify[] = ['success', 'Digital Asset Claimed Successfully'];
         return back()->withNotify($notify);
     }
-
-  
 }
