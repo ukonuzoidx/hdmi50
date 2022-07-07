@@ -22,6 +22,8 @@ return new class extends Migration
             $table->integer('paid_right')->default(0);
             $table->decimal('lpv', 16, 8)->default(0.00000000);
             $table->decimal('rpv', 16, 8)->default(0.00000000);
+            $table->decimal('mlpv', 16, 8)->default(0.00000000);
+            $table->decimal('mrpv', 16, 8)->default(0.00000000);
             $table->decimal('pv_left', 16, 8)->default(0.00000000);
             $table->decimal('shiba_left', 16, 8)->default(0.00000000);
             $table->decimal('pv_right', 16, 8)->default(0.00000000);
@@ -39,8 +41,6 @@ return new class extends Migration
             'pv_right' => 400,
             'shiba_right' => 400,
         ]);
-        
-
     }
 
     /**

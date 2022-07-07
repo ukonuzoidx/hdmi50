@@ -433,11 +433,11 @@ function updatePV($id, $pv, $details)
 
             if ($position == 1) {
                 $extra->pv_left += $pv;
-                $extra->lpv += $pv;
+                $extra->mlpv += $pv;
                 $pvlog->position = '1';
             } else {
                 $extra->pv_right += $pv;
-                $extra->rpv += $pv;
+                $extra->mrpv += $pv;
                 $pvlog->position = '2';
             }
             $extra->save();
@@ -575,15 +575,15 @@ function matchingPVBonus($id, $pv, $details)
                 break;
             }
             $user = User::find($posid);
-            $extra = UserExtra::where('user_id', $posid)->where('lpv', '>=', '150')->where('rpv', '>=', '150')->first();
+            $extra = UserExtra::where('user_id', $posid)->where('mlpv', '>=', '200')->where('mrpv', '>=', '200')->first();
             if ($extra) {
-                $lpv = $extra->lpv;
-                $rpv = $extra->rpv;
+                $lpv = $extra->mlpv;
+                $rpv = $extra->mrpv;
                 $weak = $lpv < $rpv ? $lpv : $rpv;
                 $bonus = 0.1 * $pv;
                 //flush out the bonus
-                $extra->lpv -= $weak;
-                $extra->rpv -= $weak;
+                $extra->mlpv -= $weak;
+                $extra->mrpv -= $weak;
                 $extra->save();
 
                 $pvlog = new PvLog();
