@@ -289,6 +289,7 @@ function matchingBonus($id, $pv, $refShibaCom)
                 $pvlog->trx_type = '+';
                 $pvlog->details = 'Matching Bonus';
                 $pvlog->save();
+                $user->balance += $bonus;
                 $user->total_binary_com += $bonus;
                 $user->save();
                 $user->shibainu += $refShibaCom;
@@ -590,8 +591,9 @@ function matchingPVBonus($id, $pv, $details)
                 $pvlog->user_id = $posid;
                 $pvlog->amount = $bonus;
                 $pvlog->trx_type = '+';
-                $pvlog->details = $details;
+                $pvlog->details = "Matching PV Bonus";
                 $pvlog->save();
+                $user->balance += $bonus;
                 $user->total_binary_com += $bonus;
                 $user->save();
                 $user->transactions()->create([
