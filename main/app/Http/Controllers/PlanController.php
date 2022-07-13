@@ -255,7 +255,7 @@ class PlanController extends Controller
             $roi = Roi::create([
                 'user_id' => $user->id,
                 'plan_id' => $plan->id,
-                'roi' => $plan->roi,
+                'roi' => 0.05 * $plan->pv,
                 'remark' => 'fixed_investment',
             ]);
             $roi->roi_last_paid = Carbon::now()->addDays(400);
