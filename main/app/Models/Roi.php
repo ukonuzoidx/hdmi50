@@ -18,6 +18,6 @@ class Roi extends Model
     }
     public function investment()
     {
-        return $this->belongsTo(FixedInvestment::class, 'plan_id');
+        return $this->belongsTo(Plan::class, 'plan_id');
     }
 }

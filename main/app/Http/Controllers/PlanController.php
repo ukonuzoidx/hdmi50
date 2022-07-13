@@ -144,95 +144,164 @@ class PlanController extends Controller
         $gnl = GeneralSetting::first();
 
         $user = User::find(Auth::id());
-        // decrypt pin
-        $pin = Hash::check($request->pin, $user->pin);
 
 
-        if ($user->balance < $plan->price) {
-            $notify[] = ['error', 'Insufficient Balance'];
-            return back()->withNotify($notify);
+        // dd($request->type);
+
+        if ($request->type == "flexible") {
+            // decrypt pin
+            $pin = Hash::check($request->pin, $user->pin);
+
+
+            if ($user->balance < $plan->price) {
+                $notify[] = ['error', 'Insufficient Balance'];
+                return back()->withNotify($notify);
+            }
+            if (!$pin) {
+                $notify[] = ['error', 'Invalid Pin'];
+                return back()->withNotify($notify);
+            }
+
+            $subscribed = SubscribedPlans::create([
+                'user_id'  => $user->id,
+                'plan_id'  => $plan->id,
+                'amount'   => $plan->price,
+                'pv'       => $plan->pv,
+                'ref_com'  => $plan->ref_com,
+                'tree_com' => $plan->tree_com,
+                'subscribed_at' => date('Y-m-d H:i:s'),
+                'expires_at' => date('Y-m-d H:i:s', strtotime('+12 months')),
+            ]);
+
+
+            $user->balance -= $plan->price;
+            $user->total_invest += $plan->price;
+            $user->save();
+
+
+            $roi = Roi::create([
+                'user_id' => $user->id,
+                'plan_id' => $plan->id,
+                'roi' => $plan->roi,
+                'remark' => 'plan_purchased',
+                'roi_last_paid' => date('Y-m-d H:i:s'),
+            ]);
+
+            $trx = $user->transactions()->create([
+                'amount' => $plan->price,
+                'trx_type' => '-',
+                'details' => 'Purchased ' . $plan->name,
+                'remark' => 'purchased_plan',
+                'trx' => getTrx(),
+                'post_balance' => getAmount($user->balance),
+            ]);
+
+            notify($user, 'plan_purchased', [
+                'plan' => $plan->name,
+                'amount' => getAmount($plan->price),
+                'currency' => $gnl->cur_text,
+                'trx' => $trx->trx,
+                'post_balance' => getAmount($user->balance) . ' ' . $gnl->cur_text,
+            ]);
+
+            $details = Auth::user()->username . ' Subscribed to ' . $plan->name . ' plan.';
+
+            updatePV($user->id, $plan->pv, $details);
+            referralCommission($user->id, $details, $plan->id);
+            matchingPVBonus($user->id, $plan->pv, $details);
+
+            // create the digital assets for the user
+
+            $digitalAssets = DigitalAssets::create([
+                'user_id' => $user->id,
+                'plan_id' => $plan->id,
+                'type' => 'plan',
+                'name' => $plan->name,
+                'description' => $plan->name,
+                'current_price' => $plan->price,
+                'total_product' => $plan->total_product,
+                'claim' => $plan->claim,
+            ]);
+        } else {
+            // decrypt pin
+            $pin = Hash::check($request->pin, $user->pin);
+
+
+            if ($user->balance < $plan->price) {
+                $notify[] = ['error', 'Insufficient Balance'];
+                return back()->withNotify($notify);
+            }
+            if (!$pin) {
+                $notify[] = ['error', 'Invalid Pin'];
+                return back()->withNotify($notify);
+            }
+
+            $subscribed = SubscribedPlans::create([
+                'user_id'  => $user->id,
+                'plan_id'  => $plan->id,
+                'amount'   => $plan->price,
+                'pv'       => $plan->pv,
+                'ref_com'  => $plan->ref_com,
+                'tree_com' => $plan->tree_com,
+                'subscribed_at' => date('Y-m-d H:i:s'),
+                'expires_at' => date('Y-m-d H:i:s', strtotime('+12 months')),
+            ]);
+
+            $user->balance -= $plan->price;
+            $user->total_invest += $plan->price;
+            $user->save();
+
+
+            $roi = Roi::create([
+                'user_id' => $user->id,
+                'plan_id' => $plan->id,
+                'roi' => $plan->roi,
+                'remark' => 'fixed_investment',
+            ]);
+            $roi->roi_last_paid = Carbon::now()->addDays(400);
+            $roi->roi_last_cron = Carbon::now();
+            $roi->save();
+
+            $trx = $user->transactions()->create([
+                'amount' => $plan->price,
+                'trx_type' => '-',
+                'details' => 'Purchased ' . $plan->name,
+                'remark' => 'purchased_plan',
+                'trx' => getTrx(),
+                'post_balance' => getAmount($user->balance),
+            ]);
+
+            notify($user, 'plan_purchased', [
+                'plan' => $plan->name,
+                'amount' => getAmount($plan->price),
+                'currency' => $gnl->cur_text,
+                'trx' => $trx->trx,
+                'post_balance' => getAmount($user->balance) . ' ' . $gnl->cur_text,
+            ]);
+
+            $details = Auth::user()->username . ' Subscribed to ' . $plan->name . ' plan.';
+
+            updatePV($user->id, $plan->pv, $details);
+            referralCommission($user->id, $details, $plan->id);
+            matchingPVBonus($user->id, $plan->pv, $details);
+
+            // create the digital assets for the user
+
+            $digitalAssets = DigitalAssets::create([
+                'user_id' => $user->id,
+                'plan_id' => $plan->id,
+                'type' => 'plan',
+                'name' => $plan->name,
+                'description' => $plan->name,
+                'current_price' => $plan->price,
+                'total_product' => $plan->total_product,
+                'claim' => $plan->claim,
+            ]);
         }
-        if (!$pin) {
-            $notify[] = ['error', 'Invalid Pin'];
-            return back()->withNotify($notify);
-        }
-
-        $subscribed = SubscribedPlans::create([
-            'user_id'  => $user->id,
-            'plan_id'  => $plan->id,
-            'amount'   => $plan->price,
-            'pv'       => $plan->pv,
-            'ref_com'  => $plan->ref_com,
-            'tree_com' => $plan->tree_com,
-            'subscribed_at' => date('Y-m-d H:i:s'),
-            'expires_at' => date('Y-m-d H:i:s', strtotime('+12 months')),
-        ]);
 
 
-        // $oldPlan = $user->plan_id;
-        $user->balance -= $plan->price;
-        $user->total_invest += $plan->price;
-        // $user->roi += $plan->roi;
-        // $user->balance += $plan->roi;
-        $user->save();
 
 
-        $roi = Roi::create([
-            'user_id' => $user->id,
-            'plan_id' => $plan->id,
-            'roi' => $plan->roi,
-            'remark' => 'plan_purchased',
-            'roi_last_paid' => date('Y-m-d H:i:s'),
-        ]);
-
-        $trx = $user->transactions()->create([
-            'amount' => $plan->price,
-            'trx_type' => '-',
-            'details' => 'Purchased ' . $plan->name,
-            'remark' => 'purchased_plan',
-            'trx' => getTrx(),
-            'post_balance' => getAmount($user->balance),
-        ]);
-
-        notify($user, 'plan_purchased', [
-            'plan' => $plan->name,
-            'amount' => getAmount($plan->price),
-            'currency' => $gnl->cur_text,
-            'trx' => $trx->trx,
-            'post_balance' => getAmount($user->balance) . ' ' . $gnl->cur_text,
-        ]);
-        // $assigned_shiba = $gnl->shiba_bonus;
-
-        // $shiba = $assigned_shiba * 0.05;
-        $shiba = $gnl->shiba_bonus * 0.05;
-
-        $details = Auth::user()->username . ' Subscribed to ' . $plan->name . ' plan.';
-        $detailBinaryShibaCom = "You have received a commission bonus of $shiba shiba";
-
-
-        updatePV($user->id, $plan->pv, $details);
-
-        if ($plan->tree_com > 0) {
-            // dd($plan->tree_com);
-
-            treeCommission($user->id, $plan->tree_com, $details);
-            // shibaBinaryComission($user->id, $shiba, $detailBinaryShibaCom);
-        }
-        referralCommission($user->id, $details, $plan->id);
-        matchingPVBonus($user->id, $plan->pv, $details);
-
-        // create the digital assets for the user
-
-        $digitalAssets = DigitalAssets::create([
-            'user_id' => $user->id,
-            'plan_id' => $plan->id,
-            'type' => 'plan',
-            'name' => $plan->name,
-            'description' => $plan->name,
-            'current_price' => $plan->price,
-            'total_product' => $plan->total_product,
-            'claim' => $plan->claim,
-        ]);
 
 
 
@@ -368,15 +437,15 @@ class PlanController extends Controller
             $diff = strtotime($withdrawDate) - strtotime($now);
             $diff = $diff / (60 * 60);
 
-                        // dd($diff);
+            // dd($diff);
 
             if ($diff > 9600) {
-                if ($user->fixed_roi < 0 ) {
+                if ($user->fixed_roi < 0) {
                     $notify[] = ['error', 'You have no Fixed ROI to withdraw!!'];
                     return redirect()->route('user.home')->withNotify($notify);
                 } else {
 
-                    $user->balance += $user->fixed_roi;
+                    $user->balance += $value->roi * 400;
                     $user->save();
                     $value->roi_last_cron = Carbon::now();
                     $value->roi_last_paid = Carbon::now()->addDays(400);
@@ -385,7 +454,8 @@ class PlanController extends Controller
                 }
                 return  redirect()->route('user.home')->withNotify($notify);
             } else {
-                $notify[] = ['error', 'You can not withdraw the ROI now!!'];
+
+                $notify[] = ['error', 'You can not withdraw the ROI till after 400 days!! '];
                 return redirect()->route('user.home')->withNotify($notify);
             }
         }

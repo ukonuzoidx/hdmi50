@@ -43,8 +43,8 @@
                                     <li>
                                         <i class="fas fa-check bg--success"></i>
                                         <span>@lang('Personal Volume (PV)'):
-                                            {{ getAmount($data->pv) }}</span> <span class="icon"
-                                            data-toggle="modal" data-target="#bvInfoModal">
+                                            {{ getAmount($data->pv) }}</span> <span class="icon" data-toggle="modal"
+                                            data-target="#bvInfoModal">
                                             <i class="fas fa-question-circle"></i>
                                         </span>
                                     </li>
@@ -100,8 +100,14 @@
                                     <input type="hidden" name="plan_id" value="{{ $data->id }}" />
                                     {{-- input epin --}}
                                     @csrf
-                                    <input type="text" name="pin" class="form-control" placeholder="@lang('Enter your Transaction pin')"
-                                        required />
+                                    {{-- create a select type for fixed or flexible --}}
+                                    <select name="type" class="form-control" required>
+                                        <option value="flexible">@lang('Flexible Investment')</option>
+                                        <option value="fixed">@lang('Fixed Investment')</option>
+                                    </select>
+                                    <br>
+                                    <input type="text" name="pin" class="form-control"
+                                        placeholder="@lang('Enter your Transaction pin')" required />
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn--danger" data-dismiss="modal"><i

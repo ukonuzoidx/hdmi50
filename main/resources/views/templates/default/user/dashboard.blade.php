@@ -438,29 +438,32 @@
                                     <tr>
                                         <th class="wd-20p border-bottom-0">Name</th>
                                         <th class="wd-15p border-bottom-0">Plan Name</th>
-                                        <th class="wd-15p border-bottom-0">Claim Daily</th>
-                                        <th class="wd-15p border-bottom-0">Total Claimed</th>
+                                        {{-- <th class="wd-15p border-bottom-0">Claim Daily</th> --}}
+                                        <th class="wd-15p border-bottom-0">Total to be Claimed <small>(After 400
+                                                days)</small> </th>
                                         <th class="wd-10p border-bottom-0">Withdraw</th>
-                                        <th class="wd-10p border-bottom-0">Time to be withdraw</th>
+                                        {{-- <th class="wd-10p border-bottom-0">Time to be withdraw</th> --}}
 
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @forelse ($investments as $key=>$data)
+                                        {{-- {{ dd($data->investment) }} --}}
                                         <tr>
                                             <td>
                                                 {{ $data->user->fullname }}
                                             </td>
                                             <td>{{ $data->investment->name }}</td>
-                                            <td>
+                                            {{-- <td>
                                                 <form action="{{ route('user.claim.fixed.roi') }}" method="POST">
                                                     @csrf
                                                     <input type="hidden" name="user_id" value="{{ auth()->id() }}">
                                                     <button type="submit"
                                                         class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('Claim')</button>
                                                 </form>
-                                            </td>
-                                            <td>{{ $data->investment->fixed_roi }}</td>
+                                            </td> --}}
+                                            <td>{{ $data->roi * 400 }}</td>
+                                            {{-- <td>{{ $data->investment->fixed_roi }}</td> --}}
                                             {{-- countdown for date to be claimed --}}
                                             <td>
                                                 <form action="{{ route('user.withdraw.fixed.roi') }}" method="POST">
@@ -471,13 +474,13 @@
                                                 </form>
                                             </td>
 
-                                            <td>
+                                            {{-- <td>
                                                 <div id="clockdiv" class="d-flex">
                                                     <span class="days"></span>
                                                 </div>
                                                 <div id="end_time" style="display: none;">{{ $data->roi_last_paid }}
                                                 </div>
-                                            </td>
+                                            </td> --}}
 
 
 

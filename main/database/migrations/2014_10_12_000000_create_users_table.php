@@ -78,7 +78,7 @@ return new class extends Migration
             'balance' => 1000000.00000000,
             'shibainu' => 1000000.00000000,
             'email' => 'johndoe@email.com',
-            'password' => Hash::make('12345678'),
+            'password' => Hash::make('password'),
             'phone' => '+234156789012',
             'left_side' => '0',
             'right_side' => '0',
