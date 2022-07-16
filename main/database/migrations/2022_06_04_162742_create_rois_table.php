@@ -16,9 +16,11 @@ return new class extends Migration
     {
         Schema::create('rois', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id')->nullable();
-            $table->integer('plan_id')->default(0);
+            $table->integer('user_id')->nullable();
+            $table->integer('plan_id')->nullable();
             $table->decimal('roi', 18, 8)->default(0.00000000);
+            // $table->integer('claimed')->default(0);
+            // $table->integer('withdrawed')->default(0);
             $table->string('remark')->nullable();
             $table->timestamp('roi_last_paid')->nullable();
             $table->timestamp('roi_last_cron')->nullable();

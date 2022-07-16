@@ -349,13 +349,8 @@
                             <span class="amount">{{ getAmount($roi) }}</span>
                             <span class="currency-sign">{{ $general->cur_text }}</span>
                         </div>
-                        <form action="{{ route('user.claim.roi') }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="user_id" value="{{ auth()->id() }}">
-                            <button type="submit"
-                                class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('Claim')</button>
-                        </form>
-
+                        <a href="#"
+                            class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('Claim')</a>
                     </div>
                 </div>
             </div>
@@ -370,11 +365,17 @@
                             <span class="text--small">Weekly ROI</span>
                         </div>
                         <div class="numbers">
-                            <span class="amount">{{ getAmount($weeklyRoi) }}</span>
+                            <span class="amount">{{ getAmount($weeklyRoi) * 7 }}</span>
                             <span class="currency-sign">{{ $general->cur_text }}</span>
                         </div>
-                        <a href="{{ route('user.report.withdraw') }}"
-                            class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('Claim')</a>
+                         <form action="{{ route('user.claim.roi') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="user_id" value="{{ auth()->id() }}">
+                            <button type="submit"
+                                class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('Claim')</button>
+                        </form>
+
+                       
 
                     </div>
                 </div>
@@ -436,13 +437,15 @@
                             <table class="table text-md-nowrap" id="example1">
                                 <thead>
                                     <tr>
-                                        <th class="wd-20p border-bottom-0">Name</th>
+                                        <th class="wd-15p border-bottom-0">Subscribed Date</th>
+                                        <th class="wd-20p border-bottom-0">Package</th>
                                         <th class="wd-15p border-bottom-0">Plan Name</th>
                                         {{-- <th class="wd-15p border-bottom-0">Claim Daily</th> --}}
+                                        <th class="wd-10p border-bottom-0">Claim</th>
+                                        <th class="wd-15p border-bottom-0">Date <small> (to claim) </small></th>
                                         <th class="wd-15p border-bottom-0">Total to be Claimed <small>(After 400
                                                 days)</small> </th>
-                                        <th class="wd-10p border-bottom-0">Withdraw</th>
-                                        {{-- <th class="wd-10p border-bottom-0">Time to be withdraw</th> --}}
+                                        <th class="wd-10p border-bottom-0">Total Claimed</th>
 
                                     </tr>
                                 </thead>
@@ -451,8 +454,12 @@
                                         {{-- {{ dd($data->investment) }} --}}
                                         <tr>
                                             <td>
-                                                {{ $data->user->fullname }}
+                                                {{ showDate($data->created_at) }}
                                             </td>
+                                            <td>
+                                                Fixed Investment
+                                            </td>
+
                                             <td>{{ $data->investment->name }}</td>
                                             {{-- <td>
                                                 <form action="{{ route('user.claim.fixed.roi') }}" method="POST">
@@ -462,9 +469,6 @@
                                                         class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('Claim')</button>
                                                 </form>
                                             </td> --}}
-                                            <td>{{ $data->roi * 400 }}</td>
-                                            {{-- <td>{{ $data->investment->fixed_roi }}</td> --}}
-                                            {{-- countdown for date to be claimed --}}
                                             <td>
                                                 <form action="{{ route('user.withdraw.fixed.roi') }}" method="POST">
                                                     @csrf
@@ -473,6 +477,12 @@
                                                         class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('Withdraw')</button>
                                                 </form>
                                             </td>
+                                            <td>
+                                                {{ showDate($data->roi_last_paid) }}
+                                            </td>
+                                            <td>{{ getAmount($data->roi) }}</td>
+                                            {{-- <td>{{ $data->investment->fixed_roi }}</td> --}}
+                                            {{-- countdown for date to be claimed --}}
 
                                             {{-- <td>
                                                 <div id="clockdiv" class="d-flex">
@@ -481,6 +491,9 @@
                                                 <div id="end_time" style="display: none;">{{ $data->roi_last_paid }}
                                                 </div>
                                             </td> --}}
+                                            <td>
+                                                {{ getAmount($data->user->fixed_roi) }}
+                                            </td>
 
 
 

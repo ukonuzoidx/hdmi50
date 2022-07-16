@@ -182,10 +182,14 @@ class PlanController extends Controller
             $roi = Roi::create([
                 'user_id' => $user->id,
                 'plan_id' => $plan->id,
-                'roi' => $plan->roi,
+                // 'roi' => $plan->roi,
+                'roi' => 0.005 * $plan->pv,
                 'remark' => 'plan_purchased',
-                'roi_last_paid' => date('Y-m-d H:i:s'),
             ]);
+            $roi->roi_last_paid = Carbon::now()->addDays(7);
+            $roi->roi_last_cron = Carbon::now();
+            $roi->save();
+
 
             $trx = $user->transactions()->create([
                 'amount' => $plan->price,
@@ -225,9 +229,11 @@ class PlanController extends Controller
         } else {
             // decrypt pin
             $pin = Hash::check($request->pin, $user->pin);
+            $amount = $plan->price + 25;
 
 
-            if ($user->balance < $plan->price) {
+
+            if ($user->balance < $amount) {
                 $notify[] = ['error', 'Insufficient Balance'];
                 return back()->withNotify($notify);
             }
@@ -247,7 +253,7 @@ class PlanController extends Controller
                 'expires_at' => date('Y-m-d H:i:s', strtotime('+12 months')),
             ]);
 
-            $user->balance -= $plan->price;
+            $user->balance -= $amount;
             $user->total_invest += $plan->price;
             $user->save();
 
@@ -255,7 +261,7 @@ class PlanController extends Controller
             $roi = Roi::create([
                 'user_id' => $user->id,
                 'plan_id' => $plan->id,
-                'roi' => 0.05 * $plan->pv,
+                'roi' => 3 * $plan->pv,
                 'remark' => 'fixed_investment',
             ]);
             $roi->roi_last_paid = Carbon::now()->addDays(400);
@@ -373,27 +379,35 @@ class PlanController extends Controller
 
         // check the difference between current time and created time
         // if the difference is less than 24 hours, then it is not possible to claim the roi
-        foreach ($roi as $key => $value) {
-            // $now = $gnl->roi_when_time;
-            // $diff = strtotime($value->roi_last_cron) - strtotime($value->roi_last_paid);
-            // $diff = $diff / (60 * 60);
-            // if ($value->roi_last_cron == null) {
-            //     // check the difference between current time and roi_last_paid if the difference is less than 24 hours, then it is not possible to claim the roi
-            $now = Carbon::now();
-            $diff = strtotime($now) - strtotime($value->roi_last_paid);
-            $diff = $diff / (60 * 60);
+        if ($roi->isEmpty()) {
 
-            if ($diff > 24) {
-                $user->balance += $value->roi;
-                $user->roi += $value->roi;
-                $user->save();
-                $value->roi_last_paid = Carbon::now();
-                $value->save();
-                $notify[] = ['success', 'ROI Claimed Successfully'];
-                return  redirect()->route('user.home')->withNotify($notify);
-            } else {
-                $notify[] = ['error', 'You can not claim the ROI now!!'];
-                return redirect()->route('user.home')->withNotify($notify);
+            $notify[] = ['error', 'You have not yet subscribed to any flexible plan!!'];
+            return redirect()->route('user.home')->withNotify($notify);
+        } else {
+            foreach ($roi as $key => $value) {
+                $diff = Carbon::parse($value->roi_last_paid)->diffInHours(Carbon::now());
+
+                // $now = Carbon::now();
+                // $diff = strtotime($now) - strtotime($value->roi_last_paid);
+                // $diff = $diff / (60 * 60 * 24);
+
+                //    dd($diff);
+
+                // check if $$value->roi exists in the user's balance
+
+
+                if ($diff >= 168) {
+                    $user->balance += $value->roi * 7;
+                    $user->roi += $value->roi * 7;
+                    $user->save();
+                    $value->roi_last_paid = Carbon::addDays(7);
+                    $value->save();
+                    $notify[] = ['success', 'ROI Claimed Successfully'];
+                    return  redirect()->route('user.home')->withNotify($notify);
+                } else {
+                    $notify[] = ['error', 'You can not claim the ROI now!!'];
+                    return redirect()->route('user.home')->withNotify($notify);
+                }
             }
         }
     }
@@ -440,18 +454,18 @@ class PlanController extends Controller
             // dd($diff);
 
             if ($diff > 9600) {
-                if ($user->fixed_roi < 0) {
-                    $notify[] = ['error', 'You have no Fixed ROI to withdraw!!'];
-                    return redirect()->route('user.home')->withNotify($notify);
-                } else {
+                // if ($user->fixed_roi < 0) {
+                //     $notify[] = ['error', 'You have no Fixed ROI to withdraw!!'];
+                //     return redirect()->route('user.home')->withNotify($notify);
+                // } else {
 
-                    $user->balance += $value->roi * 400;
-                    $user->save();
-                    $value->roi_last_cron = Carbon::now();
-                    $value->roi_last_paid = Carbon::now()->addDays(400);
-                    $value->save();
-                    $notify[] = ['success', 'Fixed ROI Withdrawn Successfully'];
-                }
+                $user->balance += $value->roi;
+                $user->fixed_roi += $value->roi;
+                $user->save();
+                $value->roi_last_cron = Carbon::now();
+                $value->roi_last_paid = Carbon::now()->addDays(400);
+                $value->save();
+                $notify[] = ['success', 'Fixed ROI Withdrawn Successfully'];
                 return  redirect()->route('user.home')->withNotify($notify);
             } else {
 

@@ -642,6 +642,13 @@ function showDateTime($date, $format = 'd M, Y h:i A')
     return Carbon::parse($date)->translatedFormat($format);
 }
 
+function showDate($date, $format = 'd M, Y')
+{
+    $lang = session()->get('lang');
+    Carbon::setlocale($lang);
+    return Carbon::parse($date)->translatedFormat($format);
+}
+
 function removeFile($path)
 {
     return file_exists($path) && is_file($path) ? @unlink($path) : false;

@@ -36,7 +36,10 @@ class UserController extends Controller
         $data['roi'] = User::where('id', auth()->id())->first()->roi;
         // $data['fixed_roi'] = assignFixedRoi(auth()->id());
 
-        $data['weeklyroi'] = Roi::where('user_id', auth()->id())->whereDate('created_at', Carbon::now()->subDays(9))->sum('roi');
+        // $data['weeklyroi'] = Roi::where('user_id', auth()->id())->whereDate('created_at', Carbon::now()->subDays(9))->sum('roi');
+        $data['weeklyroi'] = Roi::whereDate('created_at', '>=', Carbon::now()->subDays(9))->where('remark', 'plan_purchased')->sum('roi');
+
+
         $data['digital_assets'] = DigitalAssets::where('user_id', auth()->id())->get();
         $data['investments'] = Roi::where('user_id', auth()->id())->where('remark', 'fixed_investment')->get();
 
