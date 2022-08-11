@@ -52,7 +52,7 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">@lang('User')</th>
-                                        <th scope="col">@lang('Sponsor')</th>
+                                        {{-- <th scope="col">@lang('Sponsor')</th> --}}
                                         <th scope="col">@lang('Username')</th>
                                         <th scope="col">@lang('Email')</th>
                                         <th scope="col">@lang('Phone')</th>
