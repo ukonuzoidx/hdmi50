@@ -16,7 +16,7 @@ var errorMap = [
 
 // init plugin
 var iti = window.intlTelInput(input, {
-    initialCountry: "ng",
+    initialCountry: "us",
     hiddenInput: "full_phone",
     utilsScript: "../assets/plugins/intl/js/utils.js",
 });

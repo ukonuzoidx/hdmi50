@@ -147,8 +147,8 @@ class RegisterController extends Controller
             'lastname'      => 'sometimes|required|string|max:60',
             'email'         => 'required|string|email|max:160',
             'phone'        => 'required|string|max:30',
-            'password'      => 'required|string|min:6|confirmed',
-            'username'      => 'required|alpha_num|unique:users|min:6',
+            'password'      => 'required|string|min:4|confirmed',
+            'username'      => 'required|unique:users|min:2',
             'country'  => 'required'
         ]);
     }
@@ -247,6 +247,15 @@ class RegisterController extends Controller
         $user->ts = 0;
         $user->tv = 1;
         $user->save();
+        
+        sendEmail($user, 'WELCOME', [
+            'site_name' => $general->sitename,
+            'username' => $user->username,
+            'email' => $user->email,
+            'sponsor' => $userCheck->username,
+            
+        ]);
+
 
 
         $posId = $user->user_id;

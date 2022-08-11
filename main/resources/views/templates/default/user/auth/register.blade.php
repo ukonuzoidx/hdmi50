@@ -130,8 +130,8 @@
                                     <label class="form--label-2" for="phone">Phone</label>
                                     <input id="phone" class="form-control form--control-2" value="{{ old('phone') }}"
                                         name="phone" type="tel">
-                                    <span id="valid-msg" class="hide">✓ Valid</span>
-                                    <span id="error-msg" class="hide"></span>
+                                    {{-- <span id="valid-msg" class="hide">✓ Valid</span>
+                                    <span id="error-msg" class="hide"></span> --}}
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -315,8 +315,8 @@
             // show error if username is less than 6 characters
             $(document).on('keyup', '#username', function() {
                 var username = $('#username').val();
-                if (username.length < 6) {
-                    $('#username_check').html('<span class="text-danger">Username must be at least 6 characters</span>');
+                if (username.length < 2) {
+                    $('#username_check').html('<span class="text-danger">Username must be at least 2 characters</span>');
                 } else {
                     $('#username_check').html('');
                 }

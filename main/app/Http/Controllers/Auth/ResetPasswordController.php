@@ -8,6 +8,7 @@ use App\Models\PasswordReset;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Models\Frontend;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 
@@ -45,7 +46,7 @@ class ResetPasswordController extends Controller
         $content    = Frontend::where('data_keys', 'reset_password.content')->first();
         $email = session('fpass_email');
         $token = session()->has('token') ? session('token') : $token;
-        if (PasswordReset::where('token', $token)->where('email', $email)->count() != 1
+        if (PasswordReset::where('token', $token)->where('username', $email)->count() != 1
         ) {
             $notify[] = ['error', 'Invalid token'];
             return redirect()->route('user.password.request')->withNotify($notify);
@@ -57,6 +58,7 @@ class ResetPasswordController extends Controller
 
     public function reset(Request $request)
     {
+        // dd($request->all());
 
         session()->put('fpass_email', $request->email);
         $request->validate($this->rules(), $this->validationErrorMessages());
@@ -66,11 +68,22 @@ class ResetPasswordController extends Controller
             return redirect()->route('user.login')->withNotify($notify);
         }
 
-        $user = User::where('email', $reset->email)->first();
-        $user->password = bcrypt($request->password);
+        $user = User::where('username', $request->email)->first();
+        // dd($reset->email, $user);
+         $user->password = Hash::make($request->password);
+        // $user->password = bcrypt($request->password);
         $user->save();
 
         $general = GeneralSetting::first(['en', 'sn']);
+            $userIpInfo = getIpInfo();
+        $userBrowser = osBrowser();
+        sendEmail($user, 'PASS_RESET_DONE', [
+            'operating_system' => @$userBrowser['os_platform'],
+            'browser' => @$userBrowser['browser'],
+            'ip' => @$userIpInfo['ip'],
+            'time' => @$userIpInfo['time']
+        ]);
+
 
 
 
@@ -89,7 +102,7 @@ class ResetPasswordController extends Controller
     {
         return [
             'token' => 'required',
-            'email' => 'required|email',
+            'email' => 'required',
             'password' => 'required|confirmed|min:6',
         ];
     }

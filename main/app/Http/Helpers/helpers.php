@@ -1092,7 +1092,7 @@ function sendPhpMail($receiver_email, $receiver_name, $subject, $message)
 function sendSmtpMail($config, $receiver_email, $receiver_name, $subject, $message, $gnl)
 {
     $mail = new PHPMailer(true);
-    // dd($config);
+    // dd($config, $gnl->email_from, $receiver_email, $receiver_name, $subject, $message);
 
     try {
         //Server settings
@@ -1101,29 +1101,91 @@ function sendSmtpMail($config, $receiver_email, $receiver_name, $subject, $messa
         $mail->SMTPAuth   = true;
         $mail->Username   = $config->username;
         $mail->Password   = $config->password;
-        if ($config->encryption == 'ssl') {
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-        } else {
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        }
+        // if ($config->enc == 'ssl' || $config->enc = "tls") {
+        //     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        // } else {
+        //     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        // }
+        // $mail->SMTPDebug = true;
+        $mail->SMTPSecure = $config->enc;
         $mail->Port       = $config->port;
         $mail->CharSet = 'UTF-8';
         //Recipients
-        $mail->setFrom($gnl->email_from, $gnl->sitetitle);
+        $mail->setFrom("admin@hdmi50.io", $gnl->sitetitle);
         $mail->addAddress($receiver_email, $receiver_name);
         $mail->addReplyTo($gnl->email_from, $gnl->sitename);
-        // Content
         $mail->isHTML(true);
         $mail->Subject = $subject;
         $mail->Body    = $message;
+        // $mail->send();
+        
         $mail->send();
     } catch (Exception $e) {
+        // dd($e);
         throw new Exception($e);
     }
 }
 
 
 
+//moveable
+function osBrowser(){
+    $user_agent = $_SERVER['HTTP_USER_AGENT'];
+    $os_platform = "Unknown OS Platform";
+    $os_array = array(
+        '/windows nt 10/i' => 'Windows 10',
+        '/windows nt 6.3/i' => 'Windows 8.1',
+        '/windows nt 6.2/i' => 'Windows 8',
+        '/windows nt 6.1/i' => 'Windows 7',
+        '/windows nt 6.0/i' => 'Windows Vista',
+        '/windows nt 5.2/i' => 'Windows Server 2003/XP x64',
+        '/windows nt 5.1/i' => 'Windows XP',
+        '/windows xp/i' => 'Windows XP',
+        '/windows nt 5.0/i' => 'Windows 2000',
+        '/windows me/i' => 'Windows ME',
+        '/win98/i' => 'Windows 98',
+        '/win95/i' => 'Windows 95',
+        '/win16/i' => 'Windows 3.11',
+        '/macintosh|mac os x/i' => 'Mac OS X',
+        '/mac_powerpc/i' => 'Mac OS 9',
+        '/linux/i' => 'Linux',
+        '/ubuntu/i' => 'Ubuntu',
+        '/iphone/i' => 'iPhone',
+        '/ipod/i' => 'iPod',
+        '/ipad/i' => 'iPad',
+        '/android/i' => 'Android',
+        '/blackberry/i' => 'BlackBerry',
+        '/webos/i' => 'Mobile'
+    );
+    foreach ($os_array as $regex => $value) {
+        if (preg_match($regex, $user_agent)) {
+            $os_platform = $value;
+        }
+    }
+    $browser = "Unknown Browser";
+    $browser_array = array(
+        '/msie/i' => 'Internet Explorer',
+        '/firefox/i' => 'Firefox',
+        '/safari/i' => 'Safari',
+        '/chrome/i' => 'Chrome',
+        '/edge/i' => 'Edge',
+        '/opera/i' => 'Opera',
+        '/netscape/i' => 'Netscape',
+        '/maxthon/i' => 'Maxthon',
+        '/konqueror/i' => 'Konqueror',
+        '/mobile/i' => 'Handheld Browser'
+    );
+    foreach ($browser_array as $regex => $value) {
+        if (preg_match($regex, $user_agent)) {
+            $browser = $value;
+        }
+    }
+
+    $data['os_platform'] = $os_platform;
+    $data['browser'] = $browser;
+
+    return $data;
+}
 
 function notify($user, $type, $shortCodes = [])
 {

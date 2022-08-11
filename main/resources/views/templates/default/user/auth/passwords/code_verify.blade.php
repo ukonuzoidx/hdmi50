@@ -16,7 +16,8 @@
                 </div>
                 <form class="account--form g-4" method="post" action="{{ route('user.password.verify-code') }}">
                     @csrf
-                    <input type="hidden" name="email" value="{{ $email }}">
+                    {{-- <input type="hidden" name="email" value="{{ $email }}"> --}}
+                    <input type="hidden" name="username" value="{{ $username }}">
 
                     <div class="form-group">
                         <input type="text" name="code" pattern="[0-9]*" class="form-control" maxlength="6" required >

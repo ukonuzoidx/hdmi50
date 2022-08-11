@@ -16,16 +16,11 @@
                 </div>
                 <form class="account--form row g-4" method="post" action="{{ route('user.password.email') }}">
                     @csrf
+                
                     <div class="col-sm-12">
-                        <label for="username" class="form--label-2">@lang('Your Name')</label>
-                        <select class="form-control form--control-2" name="type">
-                            <option value="email">@lang('E-Mail Address')</option>
-                            <option value="username">@lang('Username')</option>
-                        </select>
-                    </div>
-                    <div class="col-sm-12">
-                        <label for="myInputThree" class="form--label-2 my_value">@lang('Type Here')</label>
-                        <input type="text" class=" @error('value') is-invalid @enderror form-control form--control-2 my_value" name="value" value="{{ old('value') }}" required autofocus="off" placeholder="@lang('Type Here...')">
+                        <label for="myInputThree" class="form--label-2 my_value">@lang('Enter your username')</label>
+                     
+                        <input type="text" name="username" class="form-control form--control-2" required autofocus placeholder="Username" />
                     </div>
 
                     <div class="col-sm-12">

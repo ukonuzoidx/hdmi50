@@ -277,7 +277,7 @@ class ManageUsersController extends Controller
         return view('admin.reports.transactions', compact('page_title', 'user', 'transactions', 'empty_message'));
     }
 
-    
+
     public function withdrawals(Request $request, $id)
     {
         $user = User::findOrFail($id);

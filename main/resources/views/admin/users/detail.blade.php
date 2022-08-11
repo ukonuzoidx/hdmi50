@@ -262,7 +262,7 @@
                                     <span class="amount">{{ getAmount($user->userExtra->pv_left) }}</span>
                                 </div>
                                 <div class="desciption">
-                                    <span>@lang('Left BV')</span>
+                                    <span>@lang('Left PV')</span>
                                 </div>
                             </div>
                         </div>
@@ -279,7 +279,7 @@
                                     <span class="amount">{{ getAmount($user->userExtra->pv_right) }}</span>
                                 </div>
                                 <div class="desciption">
-                                    <span>@lang('Right BV')</span>
+                                    <span>@lang('Right PV')</span>
                                 </div>
                             </div>
                         </div>
