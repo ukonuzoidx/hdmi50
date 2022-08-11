@@ -79,7 +79,7 @@
                                         <label class="form-control-label font-weight-bold">@lang('First Name') <span
                                                 class="text-danger">*</span></label>
                                         <input class="form-control form-control-lg" type="text" name="firstname"
-                                            value="{{ auth()->user()->firstname }}" required>
+                                            value="{{ auth()->user()->firstname }}" required readonly>
                                     </div>
                                 </div>
 
@@ -88,7 +88,7 @@
                                         <label class="form-control-label  font-weight-bold">@lang('Last Name') <span
                                                 class="text-danger">*</span></label>
                                         <input class="form-control form-control-lg" type="text" name="lastname"
-                                            value="{{ auth()->user()->lastname }}" required>
+                                            value="{{ auth()->user()->lastname }}" required readonly>
                                     </div>
                                 </div>
                             </div>
@@ -108,7 +108,7 @@
                                         <label class="form-control-label  font-weight-bold">@lang('Mobile Number')<span
                                                 class="text-danger">*</span></label>
                                         <input class="form-control form-control-lg" type="text" name="phone"
-                                            value="{{ auth()->user()->phone }}">
+                                            value="{{ auth()->user()->phone }}" readonly>
                                     </div>
                                 </div>
                                 <div class="col-md-12">

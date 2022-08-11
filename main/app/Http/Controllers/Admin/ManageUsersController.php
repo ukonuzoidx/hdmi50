@@ -134,13 +134,14 @@ class ManageUsersController extends Controller
         $request->validate([
             'firstname' => 'required|max:60',
             'lastname' => 'required|max:60',
-            'email' => 'required|email|max:160|unique:users,email,' . $user->id,
+            'username' => 'required|unique:users' . $user->id,
+            'email' => 'required|email|max:160',
         ]);
 
-        if ($request->email != $user->email && User::whereEmail($request->email)->whereId('!=', $user->id)->count() > 0) {
-            $notify[] = ['error', 'Email already exists.'];
-            return back()->withNotify($notify);
-        }
+        // if ($request->username != $user->username && User::where('username', $request->username)->whereId('!=', $user->id)->count() > 0) {
+        //     $notify[] = ['error', 'Email already exists.'];
+        //     return back()->withNotify($notify);
+        // }
         if ($request->phone != $user->phone && User::where('phone', $request->phone)->whereId('!=', $user->id)->count() > 0) {
             $notify[] = ['error', 'Phone number already exists.'];
             return back()->withNotify($notify);
@@ -151,6 +152,7 @@ class ManageUsersController extends Controller
         $user->lastname = $request->lastname;
         $user->lastname = $request->lastname;
         $user->email = $request->email;
+        $user->username = $request->username;
         $user->address = [
             'address' => $request->address,
             'state' => $request->state,

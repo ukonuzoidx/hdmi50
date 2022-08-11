@@ -339,6 +339,18 @@
                                 </div>
                             </div>
 
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group ">
+                                        <label class="form-control-label font-weight-bold">@lang('Username') <span
+                                                class="text-danger">*</span></label>
+                                        <input class="form-control" type="text" name="username"
+                                            value="{{ $user->username }}">
+                                    </div>
+                                </div>
+
+                            </div>
+
 
                             <div class="row mt-4">
                                 <div class="col-md-12">
