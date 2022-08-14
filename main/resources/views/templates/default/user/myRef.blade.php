@@ -21,7 +21,7 @@
         <!-- breadcrumb -->
         <div class="breadcrumb-header justify-content-between">
             <div class="left-content">
-              <h3 class="content-title mb-2">{{ $page_title }}</h3>
+                <h3 class="content-title mb-2">{{ $page_title }}</h3>
                 <div class="d-flex">
                     <a href="/"><i class="mdi mdi-home text-muted hover-cursor"></i></a>
                     <p class="text-primary mb-0 hover-cursor">&nbsp;/&nbsp;{{ $page_title }}</p>
@@ -45,48 +45,58 @@
                         </div>
                         {{-- <p class="tx-12 tx-gray-500 mb-2">Example ofXino Simple Table. <a href="">Learn more</a></p> --}}
                     </div>
+
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table text-md-nowrap" id="example1">
-                                <thead>
-                                    <tr>
-                                        <th class="wd-15p border-bottom-0">S/No</th>
-                                        <th class="wd-15p border-bottom-0">Username</th>
-                                        <th class="wd-20p border-bottom-0">Name</th>
-                                        <th class="wd-15p border-bottom-0">Email</th>
-                                        <th class="wd-10p border-bottom-0">Join Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse ($logs as $key=>$data)
-                                        <tr>
-                                            <td>{{ $logs->firstItem() + $key }}</td>
-                                            <td>
-                                                {{ $data->username }}
-                                            </td>
-                                            <td>
-                                                {{ $data->fullname }}
-                                            </td>
-                                            <td>{{ printEmail($data->email) }}</td>
-                                            <td>
-                                                @if ($data->created_at != '')
-                                                    {{ showDateTime($data->created_at) }}
-                                                @else
-                                                    @lang('Not Assign')
-                                                @endif
-                                            </td>
-                                        </tr>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card b-radius--10 overflow-hidden">
+                                    <div class="card-body p-0">
+                                        <div class="table-responsive--sm">
+                                            <table class="table table--light style--two">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="wd-15p border-bottom-0">S/No</th>
+                                                        <th class="wd-15p border-bottom-0">Username</th>
+                                                        <th class="wd-20p border-bottom-0">Name</th>
+                                                        <th class="wd-15p border-bottom-0">Email</th>
+                                                        <th class="wd-10p border-bottom-0">Join Date</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @forelse ($logs as $key=>$data)
+                                                        <tr>
+                                                            <td>{{ $logs->firstItem() + $key }}</td>
+                                                            <td>
+                                                                {{ $data->username }}
+                                                            </td>
+                                                            <td>
+                                                                {{ $data->fullname }}
+                                                            </td>
+                                                            <td>{{ printEmail($data->email) }}</td>
+                                                            <td>
+                                                                @if ($data->created_at != '')
+                                                                    {{ showDateTime($data->created_at) }}
+                                                                @else
+                                                                    @lang('Not Assign')
+                                                                @endif
+                                                            </td>
+                                                        </tr>
 
-                                    @empty
-                                        <tr>
-                                            <td colspan="6" class="text-center">
-                                                {{ $empty_message }}
-                                            </td>
-                                        </tr>
-                                    @endforelse
+                                                    @empty
+                                                        <tr>
+                                                            <td colspan="6" class="text-center">
+                                                                {{ $empty_message }}
+                                                            </td>
+                                                        </tr>
+                                                    @endforelse
 
-                                </tbody>
-                            </table>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>

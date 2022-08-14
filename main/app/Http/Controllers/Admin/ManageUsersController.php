@@ -10,6 +10,7 @@ use App\Models\WithdrawMethod;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\GeneralSetting;
+use Illuminate\Support\Facades\DB;
 
 class ManageUsersController extends Controller
 {
@@ -17,7 +18,10 @@ class ManageUsersController extends Controller
     {
         $page_title = 'Manage Users';
         $empty_message = 'No user found';
+        // $users = User::orderBy('created_at', 'desc')->get();
         $users = User::latest()->paginate(getPaginate());
+
+        // dd($users);
         return view('admin.users.list', compact('page_title', 'empty_message', 'users'));
     }
 

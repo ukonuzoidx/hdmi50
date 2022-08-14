@@ -12,7 +12,7 @@ class DigitalAssetController extends Controller
     public function index()
     {
         $data['page_title'] = 'Digital Assets';
-        $data['digital_assets'] = DigitalAssets::all();
+        $data['digital_assets'] = DigitalAssets::paginate(getPaginate());
         $data['empty_message'] = 'No Digital Assets Found';
         return view('admin.digital_assets.index', $data);
     }

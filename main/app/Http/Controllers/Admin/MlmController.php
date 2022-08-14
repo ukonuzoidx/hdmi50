@@ -17,7 +17,7 @@ class MlmController extends Controller
         $page_title = 'MLM Plans';
         $empty_message = 'No Plan found';
         // get all subscribed plans
-        $subscribed_plans = SubscribedPlans::all();
+        $subscribed_plans = SubscribedPlans::paginate(getPaginate());
         $subscribed = "Subscribed Plans List";
         $empty_subscribed_message = 'No Subscribed Plans Found';
         $plans = Plan::paginate(getPaginate());

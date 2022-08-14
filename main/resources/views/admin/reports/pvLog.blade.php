@@ -4,8 +4,8 @@
     {{ $page_title }}
 @endsection
 
-@push('css')
-    {{-- <link rel="stylesheet" href="{{ asset('assets/admin/css/apps.css') }}" /> --}}
+{{-- @push('css')
+    {{-- <link rel="stylesheet" href="{{ asset('assets/admin/css/apps.css') }}" /> -
     <!-- Internal  Data table css -->
     <link href="{{ asset('assets/admin/plugins/datatable/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/admin/plugins/datatable/css/buttons.bootstrap4.min.css') }}" rel="stylesheet">
@@ -13,7 +13,7 @@
     <link href="{{ asset('assets/admin/plugins/datatable/css/jquery.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/admin/plugins/datatable/css/responsive.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/admin/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
-@endpush
+@endpush --}}
 
 
 
@@ -56,72 +56,62 @@
         <!-- /breadcrumb -->
         <div class="row">
 
-            <div class="col-lg-12">
-                <div class="card b-radius--10 overflow-hidden">
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table text-md-nowrap" id="example1">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">@lang('Sl')</th>
-                                        <th scope="col">@lang('Username')</th>
-                                        <th scope="col">@lang('PV')</th>
-                                        <th scope="col">@lang('Position')</th>
-                                        <th scope="col">@lang('Detail')</th>
-                                        <th scope="col">@lang('Date')</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse($logs as $key=>$data)
-                                        <tr>
-                                            <td data-label="@lang('Sl')">{{ $logs->firstItem() + $key }}</td>
+        <div class="col-lg-12">
+            <div class="card b-radius--10 overflow-hidden">
+                <div class="card-body p-0">
+                    <div class="table-responsive--md table-responsive">
+                        <table class="table table--light style--two">
+                            <thead>
+                            <tr>
+                                <th scope="col">@lang('Sl')</th>
+                                <th scope="col">@lang('Username')</th>
+                                <th scope="col">@lang('BV')</th>
+                                <th scope="col">@lang('Position')</th>
+                                <th scope="col">@lang('Detail')</th>
+                                <th scope="col">@lang('Date')</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @forelse($logs as $key=>$data)
+                                <tr>
+                                    <td data-label="@lang('Sl')">{{$logs->firstItem()+$key}}</td>
 
-                                            <td data-label="@lang('Username')"><a
-                                                    href="{{ route('admin.users.detail', @$data->user_id) }}">{{ @$data->user->username }}</a>
-                                            </td>
+                                    <td data-label="@lang('Username')"><a href="{{ route('admin.users.detail', @$data->user_id) }}">{{ @$data->user->username }}</a></td>
 
-                                            <td data-label="@lang('PV')" class="budget">
-                                                <strong
-                                                    @if ($data->trx_type == '+') class="text-success"
-                                                @else class="text-danger" @endif>
-                                                    {{ $data->trx_type == '+' ? '+' : '-' }}
-                                                    {{ getAmount($data->amount) }}</strong>
-                                            </td>
+                                    <td data-label="@lang('BV')" class="budget">
+                                        <strong @if($data->trx_type == '+') class="text-success"
+                                                @else class="text-danger" @endif> {{($data->trx_type == '+') ? '+':'-'}} {{getAmount($data->amount)}}</strong>
+                                    </td>
 
-                                            <td data-label="@lang('Position')">
-                                                @if ($data->position == 1)
-                                                    <span class="badge badge--success">@lang('Left')</span>
-                                                @else
-                                                    <span class="badge badge--primary">@lang('Right')</span>
-                                                @endif
-                                            </td>
-                                            <td data-label="@lang('Detail')">{{ $data->details }}</td>
-                                            <td data-label="@lang('Date')">
-                                                {{ $data->created_at != '' ? date('d/m/y  g:i A', strtotime($data->created_at)) : __('Not Assign') }}
-                                            </td>
-                                        </tr>
+                                    <td data-label="@lang('Position')">
+                                        @if ($data->position == 1)<span class="badge badge--success">@lang('Left')</span>
+                                        @else
+                                            <span class="badge badge--primary">@lang('Right')</span>
+                                        @endif</td>
+                                    <td data-label="@lang('Detail')">{{$data->details}}</td>
+                                    <td data-label="@lang('Date')">{{$data->created_at != ''? date('d/m/y  g:i A',strtotime($data->created_at)): __('Not Assign')}}</td>
+                                </tr>
 
-                                    @empty
-                                        <tr>
-                                            <td class="text-muted text-center" colspan="100%">{{ __($empty_message) }}
-                                            </td>
-                                        </tr>
-                                    @endforelse
+                            @empty
+                                <tr>
+                                    <td class="text-muted text-center" colspan="100%">{{ __($empty_message) }}</td>
+                                </tr>
+                            @endforelse
 
-                                </tbody>
-                            </table>
-                        </div>
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="card-footer py-4">
-                        {{ $logs->links('admin.partials.paginate') }}
-                    </div>
+                </div>
+                <div class="card-footer py-4">
+                    {{ $logs->links('admin.partials.paginate') }}
                 </div>
             </div>
         </div>
     </div>
+    </div>
 @endsection
 
-@push('scripts')
+{{-- @push('scripts')
     <!-- Internal Data tables -->
     <script src="{{ asset('assets/admin/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/admin/plugins/datatable/js/dataTables.dataTables.min.js') }}"></script>
@@ -142,4 +132,4 @@
 
     <!-- Internal Datatable js -->
     <script src="{{ asset('assets/admin/js/table-data.js') }}"></script>
-@endpush
+@endpush --}}

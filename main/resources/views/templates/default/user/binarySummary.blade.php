@@ -35,19 +35,12 @@
             </div>
         </div>
         <!-- /breadcrumb -->
-        <div class="row row-sm">
-            <div class="col-xl-12">
-                <div class="card">
-                    <div class="card-header pb-0">
-                        <div class="d-flex justify-content-between">
-                            <h4 class="card-title mg-b-0">{{ $page_title }}</h4>
-                            <i class="mdi mdi-dots-horizontal text-gray"></i>
-                        </div>
-                        {{-- <p class="tx-12 tx-gray-500 mb-2">Example ofXino Simple Table. <a href="">Learn more</a></p> --}}
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table text-md-nowrap" id="example1">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card b-radius--10 overflow-hidden">
+                    <div class="card-body p-0">
+                        <div class="table-responsive--sm">
+                            <table class="table table--light style--two">
                                 <thead>
                                     <tr>
                                         <th scope="col">@lang('Paid left')</th>
@@ -72,8 +65,8 @@
                     </div>
                 </div>
             </div>
-            <!--/div-->
         </div>
+
 
 
     </div>

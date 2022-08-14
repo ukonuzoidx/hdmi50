@@ -74,13 +74,13 @@
                     </div><!-- widget-two end -->
                 </div>
             @endif
-            <div class="col-lg-12">
-                <div class="card b-radius--10 ">
-                    <div class="card-body p-0">
+              <div class="col-lg-12">
+            <div class="card b-radius--10 ">
+                <div class="card-body p-0">
 
-                        <div class="table-responsive">
-                            <table id="example1" class="table text-md-nowrap">
-                                <thead>
+                    <div class="table-responsive--sm table-responsive">
+                        <table class="table table--light style--two">
+                             <thead>
                                     <tr>
                                         <th scope="col">@lang('Date')</th>
                                         <th scope="col">@lang('Trx Number')</th>
@@ -162,12 +162,16 @@
                                     @endforelse
 
                                 </tbody>
-                            </table><!-- table end -->
-                        </div>
+                        </table><!-- table end -->
                     </div>
+                </div>
 
-                </div><!-- card end -->
-            </div>
+                <div class="card-footer py-4">
+                    {{ paginateLinks($withdrawals) }}
+                </div>
+            </div><!-- card end -->
+        </div>
+   
         </div>
     </div>
 

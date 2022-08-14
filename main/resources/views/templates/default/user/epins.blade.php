@@ -32,42 +32,45 @@
         </div>
         <!-- /breadcrumb -->
 
+
         <div class="row">
             <div class="col-lg-12">
-                <div class="card b-radius--10">
+                <div class="card b-radius--10 overflow-hidden">
                     <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table text-md-nowrap" id="example1">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">@lang('Name')</th>
-                                        <th scope="col">@lang('Status')</th>
-                                        <th scope="col">@lang('Created At')</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse($epins as $epin)
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table text-md-nowrap" id="example1">
+                                    <thead>
                                         <tr>
-                                            <td data-label="@lang('Email')">{{ $epin->epin }}</td>
-                                            <td data-label="@lang('Status')">
-                                                @if ($epin->status == 1)
-                                                    <span class="badge badge-danger">@lang('Used')</span>
-                                                @elseif($epin->status == 0)
-                                                    <span class="badge badge-success">@lang('Unused')</span>
-                                                @endif
-                                            <td data-label="@lang('Joined At')">{{ showDateTime($epin->created_at) }}
-                                            </td>
-
+                                            <th scope="col">@lang('Name')</th>
+                                            <th scope="col">@lang('Status')</th>
+                                            <th scope="col">@lang('Created At')</th>
                                         </tr>
-                                    @empty
-                                        <tr>
-                                            <td class="text-muted text-center" colspan="100%">{{ __($empty_message) }}
-                                            </td>
-                                        </tr>
-                                    @endforelse
+                                    </thead>
+                                    <tbody>
+                                        @forelse($epins as $epin)
+                                            <tr>
+                                                <td data-label="@lang('Email')">{{ $epin->epin }}</td>
+                                                <td data-label="@lang('Status')">
+                                                    @if ($epin->status == 1)
+                                                        <span class="badge badge-danger">@lang('Used')</span>
+                                                    @elseif($epin->status == 0)
+                                                        <span class="badge badge-success">@lang('Unused')</span>
+                                                    @endif
+                                                <td data-label="@lang('Joined At')">{{ showDateTime($epin->created_at) }}
+                                                </td>
 
-                                </tbody>
-                            </table><!-- table end -->
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td class="text-muted text-center" colspan="100%">{{ __($empty_message) }}
+                                                </td>
+                                            </tr>
+                                        @endforelse
+
+                                    </tbody>
+                                </table><!-- table end -->
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -97,7 +100,8 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label class="font-weight-bold"> @lang('Username') </label>
-                                    <input type="text" class="form-control" name="username" placeholder="Enter the username " required>
+                                    <input type="text" class="form-control" name="username"
+                                        placeholder="Enter the username " required>
                                 </div>
                             </div>
                         </div>
@@ -127,25 +131,6 @@
 
 @push('scripts')
     <!-- Internal Data tables -->
-    <script src="{{ asset('assets/admin/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/admin/plugins/datatable/js/dataTables.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/admin/plugins/datatable/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('assets/admin/plugins/datatable/js/responsive.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/admin/plugins/datatable/js/jquery.dataTables.js') }}"></script>
-    <script src="{{ asset('assets/admin/plugins/datatable/js/dataTables.bootstrap4.js') }}"></script>
-    <script src="{{ asset('assets/admin/plugins/datatable/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('assets/admin/plugins/datatable/js/buttons.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('assets/admin/plugins/datatable/js/jszip.min.js') }}"></script>
-    <script src="{{ asset('assets/admin/plugins/datatable/js/pdfmake.min.js') }}"></script>
-    <script src="{{ asset('assets/admin/plugins/datatable/js/vfs_fonts.js') }}"></script>
-    <script src="{{ asset('assets/admin/plugins/datatable/js/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('assets/admin/plugins/datatable/js/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('assets/admin/plugins/datatable/js/buttons.colVis.min.js') }}"></script>
-    <script src="{{ asset('assets/admin/plugins/datatable/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('assets/admin/plugins/datatable/js/responsive.bootstrap4.min.js') }}"></script>
-
-    <!-- Internal Datatable js -->
-    <script src="{{ asset('assets/admin/js/table-data.js') }}"></script>
     <script>
         "use strict";
         (function($) {

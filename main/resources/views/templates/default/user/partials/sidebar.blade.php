@@ -137,6 +137,7 @@
                  <li><a class="slide-item" href="{{ route('user.report.invest') }}">Invest History</a></li>
                  <li><a class="slide-item" href="{{ route('user.withdraw') }}">Withdraw Now</a></li>
                  <li><a class="slide-item" href="{{ route('user.balance.transfer') }}">P2P transfer</a></li>
+                 <li><a class="slide-item" href="{{ route('user.h_dshares') }}">HDShares</a></li>
                  {{-- <li><a class="slide-item" href="{{ route('user.report.refCom') }}">Referral Commission</a>
                      </li>
                      <li><a class="slide-item" href="{{ route('user.report.binaryCom') }}">Binary Commission</a> --}}

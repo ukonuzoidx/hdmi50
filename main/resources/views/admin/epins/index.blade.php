@@ -38,13 +38,13 @@
         </div>
         <!-- /breadcrumb -->
 
-        <div class="row">
+          <div class="row">
             <div class="col-lg-12">
-                <div class="card b-radius--10">
+                <div class="card">
                     <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table text-md-nowrap" id="example1">
-                                <thead>
+                        <div class="table-responsive--md table-responsive">
+                            <table class="table table--light style--two">
+                               <thead>
                                     <tr>
                                         <th scope="col">@lang('Name')</th>
                                         <th scope="col">@lang('Used by')</th>
@@ -94,6 +94,9 @@
                                 </tbody>
                             </table><!-- table end -->
                         </div>
+                    </div>
+                    <div class="card-footer py-4">
+                        {{ $epins->links('admin.partials.paginate') }}
                     </div>
                 </div>
             </div>

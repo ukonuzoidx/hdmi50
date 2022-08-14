@@ -75,7 +75,7 @@
     },
     "marketing_tool": {
         "builder": true,
-        "name": "Marketing Tool",
+        "name": "Opportunities ",
         "element": {
             "title": "text",
             "description": "textarea-nic",
@@ -166,7 +166,6 @@
             "modal": false
         }
     },
-
 
     "social_icon": {
         "builder": true,

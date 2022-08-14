@@ -4,16 +4,6 @@
     {{ $page_title }}
 @endsection
 
-@push('css')
-    {{-- <link rel="stylesheet" href="{{ asset('assets/admin/css/apps.css') }}" /> --}}
-    <!-- Internal  Data table css -->
-    <link href="{{ asset('assets/admin/plugins/datatable/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/admin/plugins/datatable/css/buttons.bootstrap4.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/admin/plugins/datatable/css/responsive.bootstrap4.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/admin/plugins/datatable/css/jquery.dataTables.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/admin/plugins/datatable/css/responsive.dataTables.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/admin/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
-@endpush
 
 
 
@@ -36,12 +26,13 @@
             </a>
         </div>
         <!-- /breadcrumb -->
+
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table text-md-nowrap" id="example1">
+                        <div class="table-responsive--md table-responsive">
+                            <table class="table table--light style--two">
                                 <thead>
                                     <tr>
                                         <th scope="col">@lang('Sl')</th>
@@ -80,15 +71,16 @@
                         </div>
                     </div>
                     <div class="card-footer py-4">
-                        {{-- {{ $plans->links('admin.partials.paginate') }} --}}
+                        {{ $digital_assets->links('admin.partials.paginate') }}
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 @endsection
 
-@push('scripts')
+{{-- @push('scripts')
     <!-- Internal Data tables -->
     <script src="{{ asset('assets/admin/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/admin/plugins/datatable/js/dataTables.dataTables.min.js') }}"></script>
@@ -109,4 +101,4 @@
 
     <!-- Internal Datatable js -->
     <script src="{{ asset('assets/admin/js/table-data.js') }}"></script>
-@endpush
+@endpush --}}

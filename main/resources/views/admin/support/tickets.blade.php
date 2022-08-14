@@ -30,10 +30,10 @@
         <!-- /breadcrumb -->
         <div class="row">
             <div class="col-lg-12">
-                <div class="card b-radius--10 ">
+                <div class="card">
                     <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table text-md-nowarp" id="example1">
+                        <div class="table-responsive--md table-responsive">
+                            <table class="table table--light style--two">
                                 <thead>
                                     <tr>
                                         <th scope="col">@lang('Subject')</th>
@@ -97,15 +97,16 @@
                     </div>
                     <div class="card-footer py-4">
                         {{ paginateLinks($items) }}
+
                     </div>
-                </div><!-- card end -->
+                </div>
             </div>
         </div>
     </div>
 @endsection
-@push('scripts')
-    <!-- Internal Data tables -->
-    <script src="{{ asset('assets/admin/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
+{{-- @push('scripts')
+        <!-- Internal Data tables -->
+        <script src="{{ asset('assets/admin/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/admin/plugins/datatable/js/dataTables.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/admin/plugins/datatable/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('assets/admin/plugins/datatable/js/responsive.dataTables.min.js') }}"></script>
@@ -124,4 +125,4 @@
 
     <!-- Internal Datatable js -->
     <script src="{{ asset('assets/admin/js/table-data.js') }}"></script>
-@endpush
+@endpush --}}

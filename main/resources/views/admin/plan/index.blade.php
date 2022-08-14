@@ -37,21 +37,21 @@
         </div>
         <!-- /breadcrumb -->
 
+    
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table text-md-nowrap" id="example1">
+                        <div class="table-responsive--md table-responsive">
+                            <table class="table table--light style--two">
                                 <thead>
                                     <tr>
                                         <th scope="col">@lang('Sl')</th>
                                         <th scope="col">@lang('Name')</th>
                                         <th scope="col">@lang('Price')</th>
-                                        <th scope="col">@lang('Personal Volume (PV)')</th>
+                                        <th scope="col">@lang('Business Volume (BV)')</th>
                                         <th scope="col">@lang('Referral Commission')</th>
                                         <th scope="col">@lang('Tree Commission')</th>
-                                        <th scope="col">@lang('ROI')</th>
                                         <th scope="col">@lang('Status')</th>
                                         <th scope="col">@lang('Action')</th>
                                     </tr>
@@ -63,15 +63,12 @@
                                             <td data-label="@lang('Name')">{{ __($plan->name) }}</td>
                                             <td data-label="@lang('Price')">{{ getAmount($plan->price) }}
                                                 {{ $general->cur_text }}</td>
-                                            <td data-label="@lang('Pv')">{{ $plan->pv }}</td>
+                                            <td data-label="@lang('Bv')">{{ $plan->bv }}</td>
                                             <td data-label="@lang('Referral Commission')"> {{ getAmount($plan->ref_com) }}
                                                 {{ $general->cur_text }}</td>
 
                                             <td data-label="@lang('Tree Commission')">
                                                 {{ getAmount($plan->tree_com) }} {{ $general->cur_text }}
-                                            </td>
-                                            <td data-label="@lang('ROI')">
-                                                {{ $general->cur_sym }} {{ getAmount($plan->roi) }}
                                             </td>
                                             <td data-label="@lang('Status')">
                                                 @if ($plan->status == 1)
@@ -87,9 +84,9 @@
                                                 <button type="button" class="icon-btn edit" data-toggle="tooltip"
                                                     data-id="{{ $plan->id }}" data-name="{{ $plan->name }}"
                                                     data-status="{{ $plan->status }}" data-pv="{{ $plan->pv }}"
+                                                    data-roi="{{ getAmount($plan->roi) }}"
                                                     data-price="{{ getAmount($plan->price) }}"
                                                     data-ref_com="{{ getAmount($plan->ref_com) }}"
-                                                    data-roi="{{ getAmount($plan->roi) }}"
                                                     data-tree_com="{{ getAmount($plan->tree_com) }}"
                                                     data-original-title="Edit">
                                                     <i class="la la-pencil"></i>
@@ -108,25 +105,19 @@
                         </div>
                     </div>
                     <div class="card-footer py-4">
-                        {{-- {{ $plans->links('admin.partials.paginate') }} --}}
+                        {{ $plans->links('admin.partials.paginate') }}
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row row-sm">
-            <div class="col-xl-12">
+        
+        <div class="row">
+            <div class="col-lg-12">
                 <div class="card">
-                    <div class="card-header pb-0">
-                        <div class="d-flex justify-content-between">
-                            <h4 class="card-title mg-b-0">{{ $subscribed }}</h4>
-                            <i class="mdi mdi-dots-horizontal text-gray"></i>
-                        </div>
-                        {{-- <p class="tx-12 tx-gray-500 mb-2">Example ofXino Simple Table. <a href="">Learn more</a></p> --}}
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table text-md-nowrap" id="example1">
-                                <thead>
+                    <div class="card-body p-0">
+                        <div class="table-responsive--md table-responsive">
+                            <table class="table table--light style--two">
+                                 <thead>
                                     <tr>
                                         <th class="wd-20p border-bottom-0">Name</th>
                                         <th class="wd-15p border-bottom-0">Email</th>
@@ -194,13 +185,16 @@
                                     @endforelse
 
                                 </tbody>
-                            </table>
+                            </table><!-- table end -->
                         </div>
+                    </div>
+                    <div class="card-footer py-4">
+                        {{ $subscribed_plans->links('admin.partials.paginate') }}
                     </div>
                 </div>
             </div>
-            <!--/div-->
         </div>
+
     </div>
 
 
@@ -231,7 +225,8 @@
                                 <label class="font-weight-bold"> @lang('Price') </label>
                                 <div class="input-group">
                                     <div class="input-group-prepend"><span class="input-group-text">$ </span></div>
-                                    <input type="text" class="form-control price" id="priceEdit" name="price" required>
+                                    <input type="text" class="form-control price" id="priceEdit" name="price"
+                                        required>
                                 </div>
                             </div>
                         </div>
@@ -246,8 +241,8 @@
                             <label class="font-weight-bold">@lang('Referral Commission')</label>
                             <div class="input-group">
                                 <div class="input-group-prepend"><span class="input-group-text">$ </span></div>
-                                <input type="text" class="form-control ref_com" id="refComEdit" name="ref_com" readonly
-                                    required>
+                                <input type="text" class="form-control ref_com" id="refComEdit" name="ref_com"
+                                    readonly required>
                             </div>
                             <small class="text--red">@lang('If a user who subscribed to this plan, refers someone and if the referred user buys a plan, then he will get this amount.')</small>
                         </div>
@@ -257,8 +252,8 @@
                             <label class="font-weight-bold">@lang('Tree Commission')</label>
                             <div class="input-group">
                                 <div class="input-group-prepend"><span class="input-group-text">$ </span></div>
-                                <input type="text" class="form-control tree_com" name="tree_com" id="treeComEdit" readonly
-                                    required>
+                                <input type="text" class="form-control tree_com" name="tree_com" id="treeComEdit"
+                                    readonly required>
                             </div>
                             <small class="small text--red">@lang('When someone buys this plan, all of his ancestors will get this amount.')</small>
                         </div>
@@ -317,7 +312,8 @@
                         </div>
                         <div class="form-group">
                             <label class="font-weight-bold"> @lang('Personal Volume (PV)')</label>
-                            <input class="form-control" id="pv" type="number" min="0" name="pv" readonly required>
+                            <input class="form-control" id="pv" type="number" min="0" name="pv"
+                                readonly required>
 
                             <small class="text--red">@lang('If a user who subscribed to this plan, refers someone and if the referred user buys a plan, then he will get this amount.')</small>
                         </div>
@@ -325,7 +321,8 @@
                             <label class="font-weight-bold"> @lang('Referral Commission')</label>
                             <div class="input-group ">
                                 <div class="input-group-prepend"><span class="input-group-text">$ </span></div>
-                                <input type="text" class="form-control" id="refCom" name="ref_com" readonly required>
+                                <input type="text" class="form-control" id="refCom" name="ref_com" readonly
+                                    required>
                             </div>
                             <small class="small text--red">@lang('If a user who subscribed to this plan, refers someone and if the referred user buys a plan, then he will get this amount.')</small>
                         </div>
@@ -333,7 +330,8 @@
                             <label class="font-weight-bold"> @lang('Tree Commission')</label>
                             <div class="input-group">
                                 <div class="input-group-prepend"><span class="input-group-text">$ </span></div>
-                                <input type="text" class="form-control" id="treeCom" name="tree_com" readonly required>
+                                <input type="text" class="form-control" id="treeCom" name="tree_com" readonly
+                                    required>
                             </div>
                             <small class="small text--red">@lang('When someone buys this plan, all of his uplines will get this amount.')</small>
                         </div>
@@ -341,7 +339,8 @@
                             <label class="font-weight-bold"> @lang('ROI')</label>
                             <div class="input-group">
                                 <div class="input-group-prepend"><span class="input-group-text">$ </span></div>
-                                <input type="text" class="form-control" id="roiCom" name="roi" readonly required>
+                                <input type="text" class="form-control" id="roiCom" name="roi" readonly
+                                    required>
                             </div>
                         </div>
 
@@ -367,7 +366,7 @@
 
 @push('scripts')
     <!-- Internal Data tables -->
-    <script src="{{ asset('assets/admin/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/admin/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/admin/plugins/datatable/js/dataTables.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/admin/plugins/datatable/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('assets/admin/plugins/datatable/js/responsive.dataTables.min.js') }}"></script>
@@ -385,7 +384,7 @@
     <script src="{{ asset('assets/admin/plugins/datatable/js/responsive.bootstrap4.min.js') }}"></script>
 
     <!-- Internal Datatable js -->
-    <script src="{{ asset('assets/admin/js/table-data.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/table-data.js') }}"></script> --}}
     <script>
         "use strict";
         (function($) {

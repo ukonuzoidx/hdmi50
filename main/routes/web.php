@@ -100,6 +100,11 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
         Route::post('epins/update/{id}', 'ManageEpinsController@epinUpdate')->name('epins.update');
         Route::post('epins/store', 'ManageEpinsController@epinStore')->name('epins.store');
 
+        Route::get('hdshares', 'HDSharesController@index')->name('hdshares');
+        Route::post('hdshares/lock', 'HDSharesController@lockShares')->name('hdshares.lock');
+        Route::post('hdshares/open', 'HDSharesController@openShares')->name('hdshares.open');
+
+
 
 
 
@@ -307,6 +312,9 @@ Route::name('user.')->prefix('user')->group(
                 Route::get('report/withdraw/log', 'UserReportController@withdrawLog')->name('report.withdraw');
                 Route::get('report/referral/commission', 'UserReportController@refCom')->name('report.refCom');
                 Route::get('report/binary/commission', 'UserReportController@binaryCom')->name('report.binaryCom');
+                Route::get('h_dshares', 'HDSharesController@index')->name('h_dshares');
+                Route::post('h_dshares/buy-shares', 'HDSharesController@buyShares')->name('h_dshares.buy');
+                Route::post('h_dshares/sell-shares', 'HDSharesController@sellShares')->name('h_dshares.sell');
 
                 // Withdraw
                 Route::get('/withdraw', 'UserController@withdrawMoney')->name('withdraw');

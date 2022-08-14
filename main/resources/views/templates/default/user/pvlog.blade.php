@@ -48,9 +48,13 @@
                         {{-- <p class="tx-12 tx-gray-500 mb-2">Example ofXino Simple Table. <a href="">Learn more</a></p> --}}
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table text-md-nowrap" id="example1">
-                                <thead>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card b-radius--10 overflow-hidden">
+                <div class="card-body p-0">
+                    <div class="table-responsive--sm">
+                        <table class="table table--light style--two">
+                               <thead>
                                     <tr>
                                         <th class="wd-15p border-bottom-0">S/No</th>
                                         <th class="wd-15p border-bottom-0">PV</th>
@@ -90,8 +94,14 @@
                                     @endforelse
 
                                 </tbody>
-                            </table>
-                        </div>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+
+                     
                     </div>
                 </div>
             </div>
