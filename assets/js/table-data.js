@@ -2,10 +2,14 @@ $(function (e) {
     
 	$("#example1").DataTable({
 		// responsive: true,
-        language: {
-            searchPlaceholder: "Search...",
-            sSearch: "",
-            lengthMenu: "_MENU_",
-        },
+        'aoColumnDefs': [{
+        'bSortable': false,
+        'aTargets': ['nosort']
+    }],
+        // language: {
+        //     searchPlaceholder: "Search...",
+        //     sSearch: "",
+        //     lengthMenu: "_MENU_",
+        // },
     });
 });
