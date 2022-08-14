@@ -6,10 +6,11 @@
                  class="main-logo" alt="logo"></a>
          <a class=" desktop-logo logo-dark" href="index.html"><img src="{{ asset('assets/img/brand/logo-white.png') }}"
                  class="main-logo dark-theme" alt="logo"></a>
-         <a class="logo-icon mobile-logo icon-light" href="index.html"><img src="{{ asset('assets/img/brand/favicon.png') }}"
-                 class="logo-icon" alt="logo"></a>
-         <a class="logo-icon mobile-logo icon-dark" href="index.html"><img src="{{ asset('assets/img/brand/favicon-white.png') }}"
-                 class="logo-icon dark-theme" alt="logo"></a>
+         <a class="logo-icon mobile-logo icon-light" href="index.html"><img
+                 src="{{ asset('assets/img/brand/favicon.png') }}" class="logo-icon" alt="logo"></a>
+         <a class="logo-icon mobile-logo icon-dark" href="index.html"><img
+                 src="{{ asset('assets/img/brand/favicon-white.png') }}" class="logo-icon dark-theme"
+                 alt="logo"></a>
      </div>
      <div class="main-sidebar-body circle-animation ">
 
@@ -65,8 +66,7 @@
                      <li><a class="slide-item" href="{{ route('admin.users.emailUnverified') }}">
                              Email Unverified
                              @if ($email_unverified_users_count)
-                                 <span
-                                     class="badge badge-danger side-badge">{{ $email_unverified_users_count }}</span>
+                                 <span class="badge badge-danger side-badge">{{ $email_unverified_users_count }}</span>
                              @endif
                          </a></li>
                      <li><a class="slide-item" href="{{ route('admin.users.smsUnverified') }}">
@@ -109,7 +109,8 @@
                              Shiba</a></li>
                      <li><a class="slide-item" href="{{ route('admin.withdraw.shiba.rejected') }}">Rejected
                              Shiba</a></li>
-                     <li><a class="slide-item" href="{{ route('admin.withdraw.shiba.log') }}">All Shiba Withdrawal</a></li>
+                     <li><a class="slide-item" href="{{ route('admin.withdraw.shiba.log') }}">All Shiba Withdrawal</a>
+                     </li>
                  </ul>
              </li>
 
@@ -172,6 +173,14 @@
 
                  </ul>
              </li>
+             <li class="slide">
+                 <a class="side-menu__item" href="{{ route('admin.hdshares') }}">
+                     <i class="side-menu__icon fa fa-book"></i>
+                     <span class="side-menu__label">
+                         Manage HDShares
+                     </span>
+                 </a>
+             </li>
              <li>
                  <h3>Referrals & My Tree</h3>
              </li>
@@ -192,7 +201,7 @@
                  </a>
              </li>
 
-               <li class="slide">
+             <li class="slide">
                  <a class="side-menu__item" href="{{ route('admin.seo') }}">
                      <i class="side-menu__icon fa fa-tree"></i>
                      <span class="side-menu__label">
@@ -227,7 +236,7 @@
                  </ul>
              </li>
 
-           
+
              <li class="slide">
                  <a class="side-menu__item" href="{{ route('admin.frontend.templates') }}">
                      <i class="side-menu__icon fa fa-tree"></i>
