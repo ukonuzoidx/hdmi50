@@ -44,7 +44,7 @@
                                         <th scope="col">@lang('Type')</th>
                                         <th scope="col">@lang('Unit bought')</th>
                                         <th scope="col">@lang('Date bought/sold')</th>
-                                        <th scope="col">@lang('Actions')</th>
+                                        {{-- <th scope="col">@lang('Actions')</th> --}}
 
                                     </tr>
                                 </thead>
@@ -54,6 +54,7 @@
                                             <td data-label="@lang('Type')">{{ $value->name }}</td>
                                             <td data-label="@lang('Unit bought')">{{ $value->units }}</td>
                                             <td data-label="@lang('Date bought/sold')">{{ $value->created_at }}</td>
+
 
                                         </tr>
 
