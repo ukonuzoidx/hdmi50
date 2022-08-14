@@ -47,8 +47,9 @@
                                         <th scope="col">@lang('Type')</th>
                                         <th scope="col">@lang('Unit bought')</th>
                                         <th scope="col">@lang('Date bought/sold')</th>
-                                        <th scope="col">@lang('Actions')</th>
-
+                                        @if ($settings->h_dshares == 0)
+                                            <th scope="col">@lang('Actions')</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
