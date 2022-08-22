@@ -11,11 +11,11 @@
                             href="mailto:{{ @$contact->data_values->email_address }}"
                             class="text--base">{{ @$contact->data_values->email_address }}</a>
                     </li>
-                    <li>
+                    {{-- <li>
                         <span class="name">@lang('Call Us'): </span><a
                             href="tel:{{ @$contact->data_values->contact_number }}"
                             class="text--base">{{ @$contact->data_values->contact_number }}</a>
-                    </li>
+                    </li> --}}
                 </ul>
                 {{-- <ul class="social-icons">
                     @foreach ($socials as $social)
@@ -121,13 +121,13 @@
                 <div class="copyright">
                     {{ __(@$footer->data_values->copyright) }}
                 </div>
-                <ul class="social-icons">
+                {{-- <ul class="social-icons">
                     @foreach ($socials as $social)
                         <li><a href="{{ @$social->data_values->url }}" target="_blank"
                                 title="{{ @$social->data_values->title }}">@php echo @$social->data_values->social_icon; @endphp</a>
                         </li>
                     @endforeach
-                </ul>
+                </ul> --}}
             </div>
         </div>
     </footer>
