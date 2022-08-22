@@ -34,13 +34,16 @@ class HDSharesController extends Controller
         $this->validate($request, [
             'price' => 'required|integer|min:1',
         ]);
+
+        $settings = GeneralSetting::first();
         /**
          * each share cost $1/10 units
          */
         $user = Auth::user();
         $price = $request->price;
         $userId = $user->id;
-        $units = $price * 10;
+        $units = $price * $settings->unitspercapital;
+        // dd($units);
 
 
 
@@ -69,6 +72,7 @@ class HDSharesController extends Controller
             $user->balance -= $price;
             $user->save();
             $hd_share->units += $units;
+            $hd_share->capital += $price;
             $hd_share->save();
         } else {
             $user->balance -= $price;
@@ -78,6 +82,7 @@ class HDSharesController extends Controller
             $hd_share->user_id = $userId;
             $hd_share->name = "Bought";
             $hd_share->units = $units;
+            $hd_share->capital += $price;
             $hd_share->save();
         }
 
@@ -97,6 +102,7 @@ class HDSharesController extends Controller
          * if 75% sell 75% of shares and update the balance
          * if 100% sell 100% of shares and update the balance
          */
+        $settings = GeneralSetting::first();
         $user = Auth::user();
         $id = $request->id;
         $userId = $user->id;
@@ -114,7 +120,7 @@ class HDSharesController extends Controller
         }
 
         $units_sold = $hd_share->units * $units;
-        $units_user_sold = $hd_share->units / 10 * $units;
+        $units_user_sold = $hd_share->units / $settings->unitscapital * $units;
         // dd($units_sold);
         $hd_share->units -= $units_sold;
         $hd_share->save();

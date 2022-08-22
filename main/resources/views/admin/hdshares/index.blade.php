@@ -19,6 +19,7 @@
                     <p class="text-primary mb-0 hover-cursor">&nbsp;/&nbsp;{{ $page_title }}</p>
                 </div>
             </div>
+
             @if ($settings->h_dshares == 0)
                 <a href="javascript:void(0)" class="btn mb-4 btn--danger lock-shares">
 
@@ -41,21 +42,33 @@
                             <table class="table table--light style--two">
                                 <thead>
                                     <tr>
-                                        <th scope="col">@lang('Type')</th>
-                                        <th scope="col">@lang('Unit bought')</th>
-                                        <th scope="col">@lang('Date bought/sold')</th>
-                                        {{-- <th scope="col">@lang('Actions')</th> --}}
+                                        <th scope="col">@lang('NAME')</th>
+                                        <th scope="col">@lang('ID')</th>
+                                        <th scope="col">@lang('TYPE')</th>
+                                        <th scope="col">@lang('UNIT')</th>
+                                        <th scope="col">@lang('CAPITAL')</th>
+                                        <th scope="col">@lang('TRANSACTION DATE')</th>
+                                        <th scope="col">@lang('PNL')</th>
+                                        <th scope="col">@lang('NEW CAPITAL')</th>
+                                        <th scope="col">@lang('ACTIONS')</th>
 
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @forelse($hdshares as $key => $value)
                                         <tr>
+                                            <td data-label="@lang('Type')">{{ $value->user->fullname }}</td>
+                                            <td data-label="@lang('Type')">{{ $value->user->user_id }}</td>
                                             <td data-label="@lang('Type')">{{ $value->name }}</td>
                                             <td data-label="@lang('Unit bought')">{{ $value->units }}</td>
-                                            <td data-label="@lang('Date bought/sold')">{{ $value->created_at }}</td>
-
-
+                                            <td data-label="@lang('Capital')">${{ $value->capital }}</td>
+                                            <td data-label="@lang('Transaction Date')">{{ $value->created_at }}</td>
+                                            <td data-label="@lang('PNL')">
+                                                ${{ ($value->capital * $general->pnl) / 100 }}
+                                            </td>
+                                            <td data-label="@lang('New Captial')">
+                                                ${{ $value->capital + ($value->capital * $general->pnl) / 100 }}</td>
+                                            <td data-label="Actions">SELL</td>
                                         </tr>
 
                                     @empty

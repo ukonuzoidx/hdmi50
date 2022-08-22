@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::table('general_settings', function (Blueprint $table) {
             $table->integer('h_dshares')->default(0);
+            $table->integer('unitspercapital')->nullable();
+            $table->integer('pnl')->nullable();
         
         });
     }

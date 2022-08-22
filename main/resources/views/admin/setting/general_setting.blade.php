@@ -66,8 +66,8 @@
                                             <input type='text' class="form-control  form-control-lg colorPicker"
                                                 value="{{ $general->base_color }}" />
                                         </span>
-                                        <input type="text" class="form-control form-control-lg colorCode" name="base_color"
-                                            value="{{ $general->base_color }}" />
+                                        <input type="text" class="form-control form-control-lg colorCode"
+                                            name="base_color" value="{{ $general->base_color }}" />
                                     </div>
                                 </div>
 
@@ -83,18 +83,33 @@
                                 <div class="col-md-4">
                                     <div class="form-group ">
                                         <label class="form-control-label font-weight-bold">@lang('Balance transfer Percent charge')</label>
-                                        <input class="form-control  form-control-lg" type="text" name="bal_trans_per_charge"
+                                        <input class="form-control  form-control-lg" type="text"
+                                            name="bal_trans_per_charge"
                                             value="{{ getAmount($general->bal_trans_per_charge) }}">
                                     </div>
                                 </div>
-                                 <div class="col-md-4">
+                                <div class="col-md-4">
                                     <div class="form-group ">
                                         <label class="form-control-label font-weight-bold">@lang('Signup Bonus')</label>
                                         <input class="form-control  form-control-lg" type="text" name="signup_bonus"
                                             value="{{ getAmount($general->signup_bonus) }}">
                                     </div>
                                 </div>
-                                 <div class="col-md-4">
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label class="form-control-label font-weight-bold">@lang('Units Per Capital')</label>
+                                        <input class="form-control  form-control-lg" type="text" name="unitspercapital"
+                                            value="{{ $general->unitspercapital }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label class="form-control-label font-weight-bold">@lang('Profit & Loss (PNL)')</label>
+                                        <input class="form-control  form-control-lg" type="text" name="pnl"
+                                            value="{{ $general->pnl }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
                                     <div class="form-group ">
                                         <label class="form-control-label font-weight-bold">@lang('Email From')</label>
                                         <input class="form-control  form-control-lg" type="text" name="email_from"
@@ -114,10 +129,10 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-control-label font-weight-bold">@lang('User Registration')</label>
-                                        <input type="checkbox" data-width="100%" data-size="large" data-onstyle="-success"
-                                            data-offstyle="-danger" data-toggle="toggle" data-on="@lang('Enable')"
-                                            data-off="@lang('Disabled')" name="registration"
-                                            @if ($general->registration) checked @endif>
+                                        <input type="checkbox" data-width="100%" data-size="large"
+                                            data-onstyle="-success" data-offstyle="-danger" data-toggle="toggle"
+                                            data-on="@lang('Enable')" data-off="@lang('Disabled')"
+                                            name="registration" @if ($general->registration) checked @endif>
                                     </div>
                                 </div>
 
@@ -143,29 +158,34 @@
                                     <label class="form-control-label font-weight-bold">@lang('Email Verification')</label>
                                     <input type="checkbox" data-width="100%" data-size="large" data-onstyle="-success"
                                         data-offstyle="-danger" data-toggle="toggle" data-on="@lang('Enable')"
-                                        data-off="Disable" name="ev" @if ($general->ev) checked @endif>
+                                        data-off="Disable" name="ev"
+                                        @if ($general->ev) checked @endif>
                                 </div>
                                 <div class="form-group col-lg-3 col-sm-6 col-md-4">
                                     <label class="form-control-label font-weight-bold">@lang('Email Notification')</label>
                                     <input type="checkbox" data-width="100%" data-size="large" data-onstyle="-success"
                                         data-offstyle="-danger" data-toggle="toggle" data-on="@lang('Enable')"
-                                        data-off="Disable" name="en" @if ($general->en) checked @endif>
+                                        data-off="Disable" name="en"
+                                        @if ($general->en) checked @endif>
                                 </div>
                                 <div class="form-group col-lg-3 col-sm-6 col-md-4">
                                     <label class="form-control-label font-weight-bold">@lang('SMS Verification')</label>
                                     <input type="checkbox" data-width="100%" data-size="large" data-onstyle="-success"
                                         data-offstyle="-danger" data-toggle="toggle" data-on="@lang('Enable')"
-                                        data-off="Disable" name="sv" @if ($general->sv) checked @endif>
+                                        data-off="Disable" name="sv"
+                                        @if ($general->sv) checked @endif>
                                 </div>
                                 <div class="form-group col-lg-3 col-sm-6 col-md-4">
                                     <label class="form-control-label font-weight-bold">@lang('SMS Notification')</label>
                                     <input type="checkbox" data-width="100%" data-size="large" data-onstyle="-success"
                                         data-offstyle="-danger" data-toggle="toggle" data-on="@lang('Enable')"
-                                        data-off="Disable" name="sn" @if ($general->sn) checked @endif>
+                                        data-off="Disable" name="sn"
+                                        @if ($general->sn) checked @endif>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="btn btn--primary btn-block btn-lg">@lang('Update')</button>
+                                <button type="submit"
+                                    class="btn btn--primary btn-block btn-lg">@lang('Update')</button>
                             </div>
                         </form>
                     </div>
@@ -247,7 +267,8 @@
                         </div>
                         <div class="card-footer">
                             <div class="form-group col-md-12 text-center">
-                                <button type="submit" class="btn btn--primary btn-block btn-lg">@lang('Update')</button>
+                                <button type="submit"
+                                    class="btn btn--primary btn-block btn-lg">@lang('Update')</button>
                             </div>
                         </div>
 
@@ -282,7 +303,6 @@
         .sp-dd {
             display: none;
         }
-
     </style>
 @endpush
 
