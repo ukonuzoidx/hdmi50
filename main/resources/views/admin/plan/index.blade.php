@@ -37,7 +37,7 @@
         </div>
         <!-- /breadcrumb -->
 
-    
+
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -110,14 +110,14 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body p-0">
                         <div class="table-responsive--md table-responsive">
                             <table class="table table--light style--two">
-                                 <thead>
+                                <thead>
                                     <tr>
                                         <th class="wd-20p border-bottom-0">Name</th>
                                         <th class="wd-15p border-bottom-0">Email</th>

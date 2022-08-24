@@ -71,7 +71,7 @@
                                 </td>
                                 <td data-label="@lang('Username')"><a href="{{ route('admin.users.detail', $user->id) }}">{{ $user->username }}</a></td>
                                 <td data-label="@lang('Email')">{{ $user->email }}</td>
-                                <td data-label="@lang('Phone')">{{ $user->mobile }}</td>
+                                <td data-label="@lang('Phone')">{{ $user->phone }}</td>
                                 <td data-label="@lang('Joined At')">{{ showDateTime($user->created_at) }}</td>
                                 <td data-label="@lang('Action')">
                                     <a href="{{ route('admin.users.detail', $user->id) }}" class="icon-btn" data-toggle="tooltip" data-original-title="@lang('Details')">
