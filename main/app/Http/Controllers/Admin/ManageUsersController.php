@@ -136,21 +136,25 @@ class ManageUsersController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
-        $request->validate([
-            'firstname' => 'required|max:60',
-            'lastname' => 'required|max:60',
-            'username' => 'required|unique:users' . $user->id,
-            'email' => 'required|email|max:160',
-        ]);
+
+        // validate request
+        // $this->validate($request, [
+        //     'firstname' => 'required|max:60',
+        //     'lastname' => 'required|max:60',
+        //     'username' => 'required|unique:users' . $user->id,
+        //     'email' => 'required|email|max:160',
+    
+        // ]);
+        // dd($user);
 
         // if ($request->username != $user->username && User::where('username', $request->username)->whereId('!=', $user->id)->count() > 0) {
         //     $notify[] = ['error', 'Email already exists.'];
         //     return back()->withNotify($notify);
         // }
-        if ($request->phone != $user->phone && User::where('phone', $request->phone)->whereId('!=', $user->id)->count() > 0) {
-            $notify[] = ['error', 'Phone number already exists.'];
-            return back()->withNotify($notify);
-        }
+        // if ($request->phone != $user->phone && User::where('phone', $request->phone)->whereId('!=', $user->id)->count() > 0) {
+        //     $notify[] = ['error', 'Phone number already exists.'];
+        //     return back()->withNotify($notify);
+        // }
 
         $user->phone = $request->phone;
         $user->firstname = $request->firstname;
