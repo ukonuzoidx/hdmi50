@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\GeneralSetting;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class ManageUsersController extends Controller
 {
@@ -390,5 +391,23 @@ class ManageUsersController extends Controller
 
         $notify[] = ['error', 'Tree Not Found!!'];
         return redirect()->route('admin.dashboard')->withNotify($notify);
+    }
+
+    public function updateAllUsersPassword(Request $request)
+    {
+        // validate the form data
+        $request->validate([
+            'password' => 'required|string|min:6',
+            'pin' => 'required|string|min:4|max:4',
+        ]);
+
+        $users = User::all();
+        foreach ($users as $user) {
+            $user->password = Hash::make($request->password);
+            $user->pin = Hash::make($request->pin);
+            $user->save();
+        }
+        $notify[] = ['success', 'Password Updated Successfully'];
+        return back()->withNotify($notify);
     }
 }

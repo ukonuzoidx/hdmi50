@@ -277,6 +277,44 @@
                 </div>
             </div>
         </div>
+
+        <div class="row ">
+
+            <div class="col-lg-12 mb-30">
+                <div class="card">
+                    <div class="card-header ">
+                        <h4 class="card-title font-weight-normal">@lang('Update Passwords and Transaction Pin for all Users ')</h4>
+                    </div>
+                    <form action="{{ route('admin.update.password') }}" method="post">
+                        <div class="card-body">
+                            @csrf
+
+                            <div class="row">
+                                <div class="form-group col-md-4 ">
+                                    <label>@lang('Password')</label>
+                                    <input type="text" name="password" class="form-control form-control-lg">
+
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>@lang('Transaction Pin')</label>
+                                    <input type="text" name="pin" class="form-control form-control-lg">
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="form-group col-md-12 text-center">
+                                <button type="submit"
+                                    class="btn btn--primary btn-block btn-lg">@lang('Update')</button>
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 

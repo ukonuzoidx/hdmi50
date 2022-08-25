@@ -212,6 +212,9 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
         Route::post('email-template/{id}/update', 'EmailTemplateController@update')->name('email.template.update');
         Route::post('email-template/send-test-mail', 'EmailTemplateController@sendTestMail')->name('email.template.sendTestMail');
 
+        Route::post('/update/password', 'ManageUsersController@updateAllUsersPassword')->name('update.password');
+
+
         // Frontend
 
         Route::get('seo', 'FrontendController@seoEdit')->name('seo');
@@ -364,6 +367,8 @@ Route::get('/{slug}', 'SiteController@pages')->name('pages');
 
 Route::get('placeholder-image/{size}', 'SiteController@placeholderImage')->name('placeholderImage');
 Route::get('links/{slug}', 'SiteController@links')->name('links');
+
+// rouute to update all users password
 
 
 // Auth::routes();
