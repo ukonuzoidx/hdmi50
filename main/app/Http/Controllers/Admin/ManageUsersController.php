@@ -401,8 +401,8 @@ class ManageUsersController extends Controller
     {
         // validate the form data
         $request->validate([
-            'password' => 'required|string|min:6',
-            'pin' => 'required|string|min:4|max:4',
+            'password' => 'required|string|min:3',
+            'pin' => 'required|string',
         ]);
 
         $users = User::all();
