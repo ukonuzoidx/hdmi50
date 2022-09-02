@@ -22,7 +22,7 @@
             </div>
             <div class="d-flex align-items-end flex-wrap my-auto right-content breadcrumb-right">
                 <button class="btn btn-primary mt-2 mt-xl-0">Current Rank<br>
-                    <span class="badge badge-light">NIL</span>
+                    <span class="badge badge-light">Member</span>
                     {{-- <span class="badge badge-light">{{ auth()->user()->rank }}</span> --}}
                 </button>
             </div>
@@ -39,7 +39,7 @@
                                 <h2 class="package-name mb-20 text-"><strong>@lang($data->name)</strong></h2>
                                 <span class="price text--white font-weight-bold d-block">$
                                     {{ getAmount($data->price) }}</span>
-                       
+
                             </div>
                             {{-- @if (Auth::user()->plan_id != $data->id) --}}
                             <a href="#confBuyModal{{ $data->id }}" data-toggle="modal"

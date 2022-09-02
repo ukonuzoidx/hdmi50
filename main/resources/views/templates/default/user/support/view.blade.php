@@ -29,7 +29,7 @@
             </div>
             <div class="d-flex align-items-end flex-wrap my-auto right-content breadcrumb-right">
                 <button class="btn btn-primary mt-2 mt-xl-0">Current Rank<br>
-                    <span class="badge badge-light">NIL</span>
+                    <span class="badge badge-light">Member</span>
                     {{-- <span class="badge badge-light">{{ auth()->user()->rank }}</span> --}}
                 </button>
             </div>
@@ -64,8 +64,8 @@
                                 <div class="row justify-content-between">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <textarea name="message" class="form-control" id="inputMessage" placeholder="@lang('Your Reply') ..." rows="4" cols="10"
-                                                required></textarea>
+                                            <textarea name="message" class="form-control" id="inputMessage" placeholder="@lang('Your Reply') ..." rows="4"
+                                                cols="10" required></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -95,8 +95,8 @@
                                 </div>
 
 
-                                <button type="submit" class="btn btn--success btn-block" name="replayTicket" value="1"><i
-                                        class="fa fa-reply"></i> @lang('Reply')</button>
+                                <button type="submit" class="btn btn--success btn-block" name="replayTicket"
+                                    value="1"><i class="fa fa-reply"></i> @lang('Reply')</button>
                             </form>
                         @elseif ($my_ticket->status == 3)
                             <div class="alert alert-danger p-4">
@@ -181,7 +181,8 @@
                             <button type="button" class="btn btn--dark btn-sm" data-dismiss="modal">
                                 @lang('No')
                             </button>
-                            <button type="submit" class="btn btn--success btn-sm" name="replayTicket" value="2"></i>
+                            <button type="submit" class="btn btn--success btn-sm" name="replayTicket"
+                                value="2"></i>
                                 @lang('Yes')
                             </button>
                         </div>

@@ -22,7 +22,7 @@
             </a>
             <div class="d-flex align-items-end flex-wrap my-auto right-content breadcrumb-right">
                 <button class="btn btn-primary mt-2 mt-xl-0">Current Rank<br>
-                    <span class="badge badge-light">NIL</span>
+                    <span class="badge badge-light">Member</span>
                     {{-- <span class="badge badge-light">{{ auth()->user()->rank }}</span> --}}
                 </button>
             </div>
@@ -151,8 +151,9 @@
                                 <div class="col-xl-4 col-md-6">
                                     <div class="form-group ">
                                         <label class="form-control-label font-weight-bold">@lang('Date of Birth')</label>
-                                        <input class="form-control form-control-lg" type="date" id="dob" name="dob"
-                                            placeholder="@lang('Date of Birth')" value="{{ auth()->user()->dob }}">
+                                        <input class="form-control form-control-lg" type="date" id="dob"
+                                            name="dob" placeholder="@lang('Date of Birth')"
+                                            value="{{ auth()->user()->dob }}">
 
                                     </div>
                                 </div>
@@ -184,14 +185,14 @@
                                     </div>
                                 </div>
                                 {{-- @if (auth()->user()->pin == '' || auth()->user()->pin == null) --}}
-                                    <div class="col-xl-4 col-md-6">
-                                        <div class="form-group ">
-                                            <label class="form-control-label font-weight-bold">@lang('Transaction Pin')</label>
-                                            <input class="form-control form-control-lg" type="text" id="pin" name="pin"
-                                                placeholder="@lang('Enter your Transaction pin')">
+                                <div class="col-xl-4 col-md-6">
+                                    <div class="form-group ">
+                                        <label class="form-control-label font-weight-bold">@lang('Transaction Pin')</label>
+                                        <input class="form-control form-control-lg" type="text" id="pin"
+                                            name="pin" placeholder="@lang('Enter your Transaction pin')">
 
-                                        </div>
                                     </div>
+                                </div>
                                 {{-- @endif --}}
                                 <div class="col-xl-4 col-md-6">
                                     <div class="form-group ">
@@ -258,6 +259,5 @@
         .form-control[readonly] {
             background-color: transparent !important;
         }
-
     </style>
 @endpush

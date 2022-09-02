@@ -46,7 +46,7 @@
 
             <div class="d-flex align-items-end flex-wrap my-auto right-content breadcrumb-right">
                 <button class="btn btn-primary mt-2 mt-xl-0">Current Rank<br>
-                    <span class="badge badge-light">NIL</span>
+                    <span class="badge badge-light">Member</span>
                     {{-- <span class="badge badge-light">{{ auth()->user()->rank }}</span> --}}
                 </button>
             </div>
@@ -521,7 +521,7 @@
             </div>
             <!--/div-->
         </div>
-        <div class="row row-sm">
+        {{-- <div class="row row-sm">
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-header pb-0">
@@ -529,7 +529,7 @@
                             <h4 class="card-title mg-b-0">Digitial Products</h4>
                             <i class="mdi mdi-dots-horizontal text-gray"></i>
                         </div>
-                        {{-- <p class="tx-12 tx-gray-500 mb-2">Example ofXino Simple Table. <a href="">Learn more</a></p> --}}
+                        {{-- <p class="tx-12 tx-gray-500 mb-2">Example ofXino Simple Table. <a href="">Learn more</a></p> 
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -588,7 +588,7 @@
                 </div>
             </div>
             <!--/div-->
-        </div>
+        </div> --}}
 
 
     </div>

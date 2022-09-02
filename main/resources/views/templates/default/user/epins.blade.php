@@ -24,7 +24,7 @@
 
             <div class="d-flex align-items-end flex-wrap my-auto right-content breadcrumb-right">
                 <button class="btn btn-primary mt-2 mt-xl-0">Current Rank<br>
-                    <span class="badge badge-light">NIL</span>
+                    <span class="badge badge-light">Member</span>
                     {{-- <span class="badge badge-light">{{ auth()->user()->rank }}</span> --}}
                 </button>
             </div>

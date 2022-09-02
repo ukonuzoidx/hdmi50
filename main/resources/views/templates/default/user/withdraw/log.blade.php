@@ -40,7 +40,7 @@
             </form>
             <div class="d-flex align-items-end flex-wrap my-auto right-content breadcrumb-right">
                 <button class="btn btn-primary mt-2 mt-xl-0">Current Rank<br>
-                    <span class="badge badge-light">NIL</span>
+                    <span class="badge badge-light">Member</span>
                     {{-- <span class="badge badge-light">{{ auth()->user()->rank }}</span> --}}
                 </button>
             </div>
@@ -138,69 +138,69 @@
                             {{ $withdraws->appends($_GET)->links() }}
                         </div>
                     </div>
-                    </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        {{-- Detail MODAL --}}
-        <div id="detailModal" class="modal fade" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">@lang('Details')</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
+    {{-- Detail MODAL --}}
+    <div id="detailModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@lang('Details')</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
 
-                        <div class="withdraw-detail"></div>
+                    <div class="withdraw-detail"></div>
 
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">@lang('Close')</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">@lang('Close')</button>
                 </div>
             </div>
         </div>
-    @endsection
+    </div>
+@endsection
 
-    @push('scripts')
-        <script>
-            'use strict';
-            (function($) {
-                $('.approveBtn').on('click', function() {
-                    var modal = $('#detailModal');
-                    var feedback = $(this).data('admin_feedback');
+@push('scripts')
+    <script>
+        'use strict';
+        (function($) {
+            $('.approveBtn').on('click', function() {
+                var modal = $('#detailModal');
+                var feedback = $(this).data('admin_feedback');
 
-                    modal.find('.withdraw-detail').html(`<p> ${feedback} </p>`);
-                    modal.modal('show');
-                });
-            })(jQuery)
-        </script>
-    @endpush
+                modal.find('.withdraw-detail').html(`<p> ${feedback} </p>`);
+                modal.modal('show');
+            });
+        })(jQuery)
+    </script>
+@endpush
 
 
-    @push('scripts')
-        <!-- Internal Data tables -->
-        <script src="{{ asset('assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
-        <script src="{{ asset('assets/plugins/datatable/js/dataTables.dataTables.min.js') }}"></script>
-        <script src="{{ asset('assets/plugins/datatable/js/dataTables.responsive.min.js') }}"></script>
-        <script src="{{ asset('assets/plugins/datatable/js/responsive.dataTables.min.js') }}"></script>
-        <script src="{{ asset('assets/plugins/datatable/js/jquery.dataTables.js') }}"></script>
-        <script src="{{ asset('assets/plugins/datatable/js/dataTables.bootstrap4.js') }}"></script>
-        <script src="{{ asset('assets/plugins/datatable/js/dataTables.buttons.min.js') }}"></script>
-        <script src="{{ asset('assets/plugins/datatable/js/buttons.bootstrap4.min.js') }}"></script>
-        <script src="{{ asset('assets/plugins/datatable/js/jszip.min.js') }}"></script>
-        <script src="{{ asset('assets/plugins/datatable/js/pdfmake.min.js') }}"></script>
-        <script src="{{ asset('assets/plugins/datatable/js/vfs_fonts.js') }}"></script>
-        <script src="{{ asset('assets/plugins/datatable/js/buttons.html5.min.js') }}"></script>
-        <script src="{{ asset('assets/plugins/datatable/js/buttons.print.min.js') }}"></script>
-        <script src="{{ asset('assets/plugins/datatable/js/buttons.colVis.min.js') }}"></script>
-        <script src="{{ asset('assets/plugins/datatable/js/dataTables.responsive.min.js') }}"></script>
-        <script src="{{ asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js') }}"></script>
+@push('scripts')
+    <!-- Internal Data tables -->
+    <script src="{{ asset('assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatable/js/dataTables.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatable/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatable/js/responsive.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatable/js/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatable/js/dataTables.bootstrap4.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatable/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatable/js/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatable/js/jszip.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatable/js/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatable/js/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatable/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatable/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatable/js/buttons.colVis.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatable/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js') }}"></script>
 
-        <!-- Internal Datatable js -->
-        <script src="{{ asset('assets/js/table-data.js') }}"></script>
-    @endpush
+    <!-- Internal Datatable js -->
+    <script src="{{ asset('assets/js/table-data.js') }}"></script>
+@endpush

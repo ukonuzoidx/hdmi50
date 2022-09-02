@@ -23,7 +23,7 @@
             </a>
             <div class="d-flex align-items-end flex-wrap my-auto right-content breadcrumb-right">
                 <button class="btn btn-primary mt-2 mt-xl-0">Current Rank<br>
-                    <span class="badge badge-light">NIL</span>
+                    <span class="badge badge-light">Member</span>
                     {{-- <span class="badge badge-light">{{ auth()->user()->rank }}</span> --}}
                 </button>
             </div>
@@ -57,20 +57,18 @@
                                 </div>
                                 <div class="col-12 form-group">
                                     <label for="inputMessage">@lang('Message')</label>
-                                    <textarea name="message" id="inputMessage" rows="6"
-                                        class="form-control form-control-lg">{{ old('message') }}</textarea>
+                                    <textarea name="message" id="inputMessage" rows="6" class="form-control form-control-lg">{{ old('message') }}</textarea>
                                 </div>
                             </div>
 
                             <div class="form-group mb-0">
                                 <span for="inputAttachments text-white">@lang('Attachments')</span>
-                              
+
                                 <div class="custom-file">
                                     <input name="attachments[]" type="file" id="customFile" class="custom-file-input"
                                         accept=".jpg,.jpeg,.png,.pdf">
 
-                                    <label class="custom-file-label"
-                                        for="custmFile">@lang('Choose file')</label>
+                                    <label class="custom-file-label" for="custmFile">@lang('Choose file')</label>
                                 </div>
                             </div>
 
@@ -124,4 +122,3 @@
         })(jQuery)
     </script>
 @endpush
-

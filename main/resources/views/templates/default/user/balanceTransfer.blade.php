@@ -19,7 +19,7 @@
             </div>
             <div class="d-flex align-items-end flex-wrap my-auto right-content breadcrumb-right">
                 <button class="btn btn-primary mt-2 mt-xl-0">Current Rank<br>
-                    <span class="badge badge-light">NIL</span>
+                    <span class="badge badge-light">Member</span>
                     {{-- <span class="badge badge-light">{{ auth()->user()->rank }}</span> --}}
                 </button>
             </div>
@@ -49,8 +49,8 @@
                                     <label>
                                         <h5> @lang('Username To Send Amount') <span class="text-danger">*</span> </h5>
                                     </label>
-                                    <input type="text" class="form-control form-control-lg" id="username" name="username"
-                                        placeholder="@lang('username')" required autocomplete="off">
+                                    <input type="text" class="form-control form-control-lg" id="username"
+                                        name="username" placeholder="@lang('username')" required autocomplete="off">
                                     <span id="position-test"></span>
                                 </div>
                                 <div class="form-group col-md-12">
@@ -58,8 +58,9 @@
                                         <h5>@lang('Transfer Amount') <span class="text-danger">*</span> </h5>
                                     </label>
                                     <input onkeyup="this.value = this.value.replace (/^\.|[^\d\.]/g, '')"
-                                        class="form-control form-control-lg" autocomplete="off" id="amount" name="amount"
-                                        placeholder="@lang('Amount') {{ __($general->cur_text) }}" required>
+                                        class="form-control form-control-lg" autocomplete="off" id="amount"
+                                        name="amount" placeholder="@lang('Amount') {{ __($general->cur_text) }}"
+                                        required>
                                     <span id="balance-message"></span>
                                 </div>
                                 <div class="form-group col-md-12">

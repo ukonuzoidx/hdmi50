@@ -21,7 +21,7 @@
         <!-- breadcrumb -->
         <div class="breadcrumb-header justify-content-between">
             <div class="left-content">
-             <h3 class="content-title mb-2">{{ $page_title }}</h3>
+                <h3 class="content-title mb-2">{{ $page_title }}</h3>
                 <div class="d-flex">
                     <a href="/"><i class="mdi mdi-home text-muted hover-cursor"></i></a>
                     <p class="text-primary mb-0 hover-cursor">&nbsp;/&nbsp;{{ $page_title }}</p>
@@ -29,7 +29,7 @@
             </div>
             <div class="d-flex align-items-end flex-wrap my-auto right-content breadcrumb-right">
                 <button class="btn btn-primary mt-2 mt-xl-0">Current Rank<br>
-                    <span class="badge badge-light">NIL</span>
+                    <span class="badge badge-light">Member</span>
                     {{-- <span class="badge badge-light">{{ auth()->user()->rank }}</span> --}}
                 </button>
             </div>
@@ -48,87 +48,90 @@
                         {{-- <p class="tx-12 tx-gray-500 mb-2">Example ofXino Simple Table. <a href="">Learn more</a></p> --}}
                     </div>
                     <div class="card-body">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card b-radius--10 overflow-hidden">
-                <div class="card-body p-0">
-                    <div class="table-responsive--sm">
-                        <table class="table table--light style--two">
-                               <thead>
-                                    <tr>
-                                        <th class="wd-15p border-bottom-0">S/No</th>
-                                        <th class="wd-15p border-bottom-0">PV</th>
-                                        <th class="wd-20p border-bottom-0">Position</th>
-                                        <th class="wd-15p border-bottom-0">Detail</th>
-                                        <th class="wd-10p border-bottom-0">Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse ($logs as $key=>$data)
-                                        <tr>
-                                            <td>{{ $logs->firstItem() + $key }}</td>
-                                            <td>
-                                                <strong
-                                                    @if ($data->trx_type == '+') class="text-success" @else class="text-danger" @endif>
-                                                    {{ $data->trx_type == '+' ? '+' : '-' }}
-                                                    {{ getAmount($data->amount) }}
-                                                </strong>
-                                            </td>
-                                            <td>
-                                                @if ($data->position == 1)
-                                                    <span class="badge badge--warning">@lang('Left')</span>
-                                                @else
-                                                    <span class="badge badge--success">@lang('Right')</span>
-                                                @endif
-                                            </td>
-                                            <td>{{$data->details}}</td>
-                                            <td>{{$data->created_at != ''? date('d/m/y  g:i A',strtotime($data->created_at)): __('Not Assign')}}</td>
-                                        </tr>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card b-radius--10 overflow-hidden">
+                                    <div class="card-body p-0">
+                                        <div class="table-responsive--sm">
+                                            <table class="table table--light style--two">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="wd-15p border-bottom-0">S/No</th>
+                                                        <th class="wd-15p border-bottom-0">PV</th>
+                                                        <th class="wd-20p border-bottom-0">Position</th>
+                                                        <th class="wd-15p border-bottom-0">Detail</th>
+                                                        <th class="wd-10p border-bottom-0">Date</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @forelse ($logs as $key=>$data)
+                                                        <tr>
+                                                            <td>{{ $logs->firstItem() + $key }}</td>
+                                                            <td>
+                                                                <strong
+                                                                    @if ($data->trx_type == '+') class="text-success" @else class="text-danger" @endif>
+                                                                    {{ $data->trx_type == '+' ? '+' : '-' }}
+                                                                    {{ getAmount($data->amount) }}
+                                                                </strong>
+                                                            </td>
+                                                            <td>
+                                                                @if ($data->position == 1)
+                                                                    <span
+                                                                        class="badge badge--warning">@lang('Left')</span>
+                                                                @else
+                                                                    <span
+                                                                        class="badge badge--success">@lang('Right')</span>
+                                                                @endif
+                                                            </td>
+                                                            <td>{{ $data->details }}</td>
+                                                            <td>{{ $data->created_at != '' ? date('d/m/y  g:i A', strtotime($data->created_at)) : __('Not Assign') }}
+                                                            </td>
+                                                        </tr>
 
-                                    @empty
-                                        <tr>
-                                            <td colspan="6" class="text-center">
-                                                {{ $empty_message }}
-                                            </td>
-                                        </tr>
-                                    @endforelse
+                                                    @empty
+                                                        <tr>
+                                                            <td colspan="6" class="text-center">
+                                                                {{ $empty_message }}
+                                                            </td>
+                                                        </tr>
+                                                    @endforelse
 
-                                </tbody>
-                        </table>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
                     </div>
                 </div>
+                <!--/div-->
             </div>
-            </div>
-
-
-                     
-                    </div>
-                </div>
-            </div>
-            <!--/div-->
         </div>
-    </div>
-@endsection
+    @endsection
 
-@push('scripts')
-    <!-- Internal Data tables -->
-    <script src="{{ asset('assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatable/js/dataTables.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatable/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatable/js/responsive.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatable/js/jquery.dataTables.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatable/js/dataTables.bootstrap4.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatable/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatable/js/buttons.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatable/js/jszip.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatable/js/pdfmake.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatable/js/vfs_fonts.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatable/js/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatable/js/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatable/js/buttons.colVis.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatable/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js') }}"></script>
+    @push('scripts')
+        <!-- Internal Data tables -->
+        <script src="{{ asset('assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('assets/plugins/datatable/js/dataTables.dataTables.min.js') }}"></script>
+        <script src="{{ asset('assets/plugins/datatable/js/dataTables.responsive.min.js') }}"></script>
+        <script src="{{ asset('assets/plugins/datatable/js/responsive.dataTables.min.js') }}"></script>
+        <script src="{{ asset('assets/plugins/datatable/js/jquery.dataTables.js') }}"></script>
+        <script src="{{ asset('assets/plugins/datatable/js/dataTables.bootstrap4.js') }}"></script>
+        <script src="{{ asset('assets/plugins/datatable/js/dataTables.buttons.min.js') }}"></script>
+        <script src="{{ asset('assets/plugins/datatable/js/buttons.bootstrap4.min.js') }}"></script>
+        <script src="{{ asset('assets/plugins/datatable/js/jszip.min.js') }}"></script>
+        <script src="{{ asset('assets/plugins/datatable/js/pdfmake.min.js') }}"></script>
+        <script src="{{ asset('assets/plugins/datatable/js/vfs_fonts.js') }}"></script>
+        <script src="{{ asset('assets/plugins/datatable/js/buttons.html5.min.js') }}"></script>
+        <script src="{{ asset('assets/plugins/datatable/js/buttons.print.min.js') }}"></script>
+        <script src="{{ asset('assets/plugins/datatable/js/buttons.colVis.min.js') }}"></script>
+        <script src="{{ asset('assets/plugins/datatable/js/dataTables.responsive.min.js') }}"></script>
+        <script src="{{ asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js') }}"></script>
 
-    <!-- Internal Datatable js -->
-    <script src="{{ asset('assets/js/table-data.js') }}"></script>
-@endpush
+        <!-- Internal Datatable js -->
+        <script src="{{ asset('assets/js/table-data.js') }}"></script>
+    @endpush
