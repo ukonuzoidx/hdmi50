@@ -183,22 +183,22 @@
 
                                     </div>
                                 </div>
-                                @if (auth()->user()->pin == '' || auth()->user()->pin == null)
+                                {{-- @if (auth()->user()->pin == '' || auth()->user()->pin == null) --}}
                                     <div class="col-xl-4 col-md-6">
                                         <div class="form-group ">
                                             <label class="form-control-label font-weight-bold">@lang('Transaction Pin')</label>
                                             <input class="form-control form-control-lg" type="text" id="pin" name="pin"
-                                                placeholder="@lang('Enter your Transaction pin')" value="{{ auth()->user()->pin }}">
+                                                placeholder="@lang('Enter your Transaction pin')">
 
                                         </div>
                                     </div>
-                                @endif
+                                {{-- @endif --}}
                                 <div class="col-xl-4 col-md-6">
                                     <div class="form-group ">
                                         <label class="form-control-label font-weight-bold">@lang('Crypto Address')</label>
                                         <input type="text" class="form-control form-control-lg" id="crypto_address"
                                             name="crypto_address" value="{{ auth()->user()->crypto_address }}"
-                                            placeholder="@lang('USDT trc20 only')" required autocomplete="off">
+                                            placeholder="@lang('USDT trc20 only')" autocomplete="off">
 
                                     </div>
                                 </div>

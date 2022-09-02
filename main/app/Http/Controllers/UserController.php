@@ -36,9 +36,7 @@ class UserController extends Controller
         $data['roi'] = User::where('id', auth()->id())->first()->roi;
         // $data['fixed_roi'] = assignFixedRoi(auth()->id());
 
-        // $data['weeklyroi'] = Roi::where('user_id', auth()->id())->whereDate('created_at', Carbon::now()->subDays(9))->sum('roi');
-        $data['weeklyroi'] = Roi::whereDate('created_at', '>=', Carbon::now()->subDays(9))->where('remark', 'plan_purchased')->sum('roi');
-
+        $data['weeklyroi'] = Roi::where('user_id', auth()->id())->whereDate('created_at', '>=', Carbon::now()->subDays(9))->where('remark', 'plan_purchased')->sum('roi');
 
         $data['digital_assets'] = DigitalAssets::where('user_id', auth()->id())->get();
         $data['investments'] = Roi::where('user_id', auth()->id())->where('remark', 'fixed_investment')->get();
@@ -61,14 +59,14 @@ class UserController extends Controller
         $request->validate([
             'firstname' => 'required|string|max:50',
             'lastname' => 'required|string|max:50',
-            'address' => "sometimes|required|max:80",
+            // 'address' => "sometimes|required|max:80",
             'state' => 'sometimes|required|max:80',
             'image' => 'mimes:png,jpg,jpeg',
             'phone' => 'required|string|max:15',
             'pin' => 'required|string|max:15',
-            'dob' => 'sometimes|required|date',
-            'gender' => 'sometimes|required',
-            'martial_status' => 'sometimes|required',
+            // 'dob' => 'sometimes|required|date',
+            // 'gender' => 'sometimes|required',
+            // 'martial_status' => 'sometimes|required',
 
         ], [
             'firstname.required' => 'First Name Field is required',

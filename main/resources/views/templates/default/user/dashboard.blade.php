@@ -346,7 +346,8 @@
                             <span class="text--small">Total ROI</span>
                         </div>
                         <div class="numbers">
-                            <span class="amount">{{ getAmount($roi) }}</span>
+                            <span class="amount">0</span>
+                            {{-- <span class="amount">{{ getAmount($roi) }}</span> --}}
                             <span class="currency-sign">{{ $general->cur_text }}</span>
                         </div>
                         <a href="#"
@@ -365,17 +366,18 @@
                             <span class="text--small">Weekly ROI</span>
                         </div>
                         <div class="numbers">
-                            <span class="amount">{{ getAmount($weeklyRoi) * 7 }}</span>
+                            <span class="amount">0</span>
+                            {{-- <span class="amount">{{ getAmount($weeklyRoi) }}</span> --}}
                             <span class="currency-sign">{{ $general->cur_text }}</span>
                         </div>
-                         <form action="{{ route('user.claim.roi') }}" method="POST">
+                        <form action="{{ route('user.claim.roi') }}" method="POST">
                             @csrf
                             <input type="hidden" name="user_id" value="{{ auth()->id() }}">
                             <button type="submit"
                                 class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('Claim')</button>
                         </form>
 
-                       
+
 
                     </div>
                 </div>

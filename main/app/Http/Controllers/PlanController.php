@@ -151,6 +151,8 @@ class PlanController extends Controller
         if ($request->type == "flexible") {
             // decrypt pin
             $pin = Hash::check($request->pin, $user->pin);
+            $amount = $plan->price + 25;
+
 
 
             if ($user->balance < $plan->price) {
@@ -174,7 +176,7 @@ class PlanController extends Controller
             ]);
 
 
-            $user->balance -= $plan->price;
+            $user->balance -= $amount;
             $user->total_invest += $plan->price;
             $user->save();
 
@@ -182,8 +184,8 @@ class PlanController extends Controller
             $roi = Roi::create([
                 'user_id' => $user->id,
                 'plan_id' => $plan->id,
-                // 'roi' => $plan->roi,
-                'roi' => 0.005 * $plan->pv,
+                'roi' => $plan->roi,
+                // 'roi' => 0.005 * $plan->pv,
                 'remark' => 'plan_purchased',
             ]);
             $roi->roi_last_paid = Carbon::now()->addDays(7);

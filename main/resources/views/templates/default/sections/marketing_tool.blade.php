@@ -9,11 +9,7 @@ $marketing_tools = getContent('marketing_tool.element');
                 @foreach ($marketing_tools as $marketing_tool)
                     <div class="col-xl-12">
                         <div class="feature__item">
-                            <div class="feature__item-icon">
-                                <div class="icon">
-                                    <i class="fas fa-bullhorn"></i>
-                                </div>
-                            </div>
+                          
                             <div class="feature__item-cont">
                                 <h6 class="feature__item-cont-title">{{ __(@$marketing_tool->data_values->title) }}
                                 </h6>

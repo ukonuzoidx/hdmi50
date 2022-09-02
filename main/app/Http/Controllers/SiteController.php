@@ -169,23 +169,23 @@ class SiteController extends Controller
     }
 
 
-    public function blog()
-    {
-        $data['page_title'] = "Blog";
-        $data['blogs'] = Frontend::where('data_keys', 'blog.element')->latest()->paginate(getPaginate());
-        $page = Page::where('tempname', $this->activeTemplate)->where('slug', 'blog')->firstOrFail();
-        $data['page_title'] = $page->name;
-        $data['sections'] = $page;
-        return view(activeTemplate() . 'blog', $data);
-    }
+    // public function blog()
+    // {
+    //     $data['page_title'] = "Blog";
+    //     $data['blogs'] = Frontend::where('data_keys', 'blog.element')->latest()->paginate(getPaginate());
+    //     $page = Page::where('tempname', $this->activeTemplate)->where('slug', 'blog')->firstOrFail();
+    //     $data['page_title'] = $page->name;
+    //     $data['sections'] = $page;
+    //     return view(activeTemplate() . 'blog', $data);
+    // }
 
-    public function singleBlog($slug, $id)
-    {
-        $data['blog'] = Frontend::where('data_keys', 'blog.element')->where('id', $id)->firstOrFail();
-        $data['latestBlogs'] = Frontend::where('id', '!=', $id)->where('data_keys', 'blog.element')->take(5)->get();
-        $data['page_title'] = "Details";
-        return view(activeTemplate() . 'blogDetails', $data);
-    }
+    // public function singleBlog($slug, $id)
+    // {
+    //     $data['blog'] = Frontend::where('data_keys', 'blog.element')->where('id', $id)->firstOrFail();
+    //     $data['latestBlogs'] = Frontend::where('id', '!=', $id)->where('data_keys', 'blog.element')->take(5)->get();
+    //     $data['page_title'] = "Details";
+    //     return view(activeTemplate() . 'blogDetails', $data);
+    // }
 
     // policy page
     public function policyDetails()

@@ -360,8 +360,8 @@ Route::get('/contact', 'SiteController@contact')->name('contact');
 Route::post('/contact', 'SiteController@contactSubmit')->name('contact.send');
 Route::get('/change/{lang?}', 'SiteController@changeLanguage')->name('lang');
 
-Route::get('/blog', 'SiteController@blog')->name('blog');
-Route::get('/blog/details/{slug}/{id}', 'SiteController@singleBlog')->name('singleBlog');
+// Route::get('/blog', 'SiteController@blog')->name('blog');
+// Route::get('/blog/details/{slug}/{id}', 'SiteController@singleBlog')->name('singleBlog');
 
 Route::get('/{slug}', 'SiteController@pages')->name('pages');
 
