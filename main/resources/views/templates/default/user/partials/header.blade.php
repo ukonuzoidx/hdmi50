@@ -13,7 +13,7 @@
           </div>
           <div class="main-header-center">
               <div class="responsive-logo">
-                  <a href="index.html"><img src="../../assets/img/brand/logo-theme-dark.png" class="mobile-logo"
+                  <a href="/"><img src="{{ asset('assets/images/logoIcon/darkLogo.png') }}" class="mobile-logo"
                           alt="logo"></a>
               </div>
           </div>

@@ -2,14 +2,14 @@
  <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
  <aside class="app-sidebar sidebar-scroll ">
      <div class="main-sidebar-header">
-         <a class=" desktop-logo logo-light" href="index.html"><img src="../../assets/img/brand/logo.png" class="main-logo"
+         <a class=" desktop-logo logo-light" href="/"><img src="{{ asset('assets/images/logoIcon/darkLogo.png') }}" class="main-logo"
                  alt="logo"></a>
-         <a class=" desktop-logo logo-dark" href="index.html"><img src="../../assets/img/brand/logo-white.png"
+         <a class=" desktop-logo logo-dark" href="/"><img src="{{ asset('assets/images/logoIcon/darkLogo.png') }}" width="100px" height="70px"
                  class="main-logo dark-theme" alt="logo"></a>
-         <a class="logo-icon mobile-logo icon-light" href="index.html"><img src="../../assets/img/brand/favicon.png"
+         <a class="logo-icon mobile-logo icon-light" href="/"><img src="{{ asset('assets/images/logoIcon/favicon.png') }}"
                  class="logo-icon" alt="logo"></a>
-         <a class="logo-icon mobile-logo icon-dark" href="index.html"><img
-                 src="../../assets/img/brand/favicon-white.png" class="logo-icon dark-theme" alt="logo"></a>
+         <a class="logo-icon mobile-logo icon-dark" href="/"><img
+                 src="{{ asset('assets/images/logoIcon/favicon.png') }}" class="logo-icon dark-theme" alt="logo"></a>
      </div>
      <div class="main-sidebar-body circle-animation ">
 
