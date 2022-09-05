@@ -20,6 +20,19 @@
                     <p class="text-primary mb-0 hover-cursor">&nbsp;/&nbsp;{{ $page_title }}</p>
                 </div>
             </div>
+             <div class="" style="background-color: #5965f9; padding: 10px;">
+
+
+                <h6 class="wallet-address">TFxoF9rQEs3doFNLwFU4wWz3o6dLcQTAuRs</h6>
+                <small>USDT trc20 wallet address</small>
+
+
+
+                <button class="btn btn-warning text-white btn-sm" style="margin-left: 20px;"
+                    onclick="copyToClipboard('TFxoF9rQEs3doFNLwFU4wWz3o6dLcQTAussR')">Copy</button>
+
+            </div>
+
             <div class="d-flex align-items-end flex-wrap my-auto right-content breadcrumb-right">
                 <button class="btn btn-primary mt-2 mt-xl-0">Current Rank<br>
                     <span class="badge badge-light">Member</span>

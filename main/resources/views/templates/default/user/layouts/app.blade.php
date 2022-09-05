@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
@@ -50,7 +51,7 @@
 
     <!--- Animations css-->
     <link href="{{ asset('assets/css/animate.css') }}" rel="stylesheet">
-        <link rel="stylesheet" href="{{ asset('assets/users/css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/users/css/app.css') }}">
 
     @stack('css')
 
@@ -73,7 +74,7 @@
         <div class="main-content app-content">
             <!-- Header -->
             @include($activeTemplate . 'user.partials.header')
-            
+
             @yield('content')
         </div>
         <!-- /main-content -->
@@ -165,6 +166,39 @@
 
     <!-- custom js -->
     <script src="{{ asset('assets/js/custom.js') }}"></script>
+    <script>
+        // function copyToClipboard(text) {
+        //     window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
+        // }
+        function copyToClipboard(text) {
+    if (window.clipboardData && window.clipboardData.setData) {
+
+        // Internet Explorer-specific code path to prevent textarea being shown while dialog is visible.
+        // after copying, show a toast notification to the user saying "Copied to clipboard"
+        
+        return window.clipboardData.setData("Text", text);
+
+    }
+    else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+        var textarea = document.createElement("textarea");
+        textarea.textContent = text;
+        textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in Microsoft Edge.
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+
+            return document.execCommand("copy");  // Security exception may be thrown by some browsers.
+        }
+        catch (ex) {
+            console.warn("Copy to clipboard failed.", ex);
+            return prompt("Copy to clipboard: Ctrl+C, Enter", text);
+        }
+        finally {
+            document.body.removeChild(textarea);
+        }
+    }
+}
+    </script>
 
     @stack('scripts')
 

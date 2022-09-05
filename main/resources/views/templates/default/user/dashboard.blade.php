@@ -24,23 +24,18 @@
                     <p class="text-primary mb-0 hover-cursor">&nbsp;/&nbsp;Dashboard</p>
                 </div>
             </div>
-            {{-- <div class="flex-w cd100 p-t-15 p-b-15 p-r-36">
+            <div class="" style="background-color: #5965f9; padding: 10px;">
 
-                <div class="flex-w flex-b m-r-22 m-t-8 m-b-8">
-                    <span class="l1-txt1 wsize1 hours">0</span>
-                    <span class="m1-txt1 p-b-2">Hrs</span>
-                </div>
 
-                <div class="flex-w flex-b m-r-22 m-t-8 m-b-8">
-                    <span class="l1-txt1 wsize1 minutes">0</span>
-                    <span class="m1-txt1 p-b-2">Mins</span>
-                </div>
+                <h6 class="wallet-address">TFxoF9rQEs3doFNLwFU4wWz3o6dLcQTAuRs</h6>
+                <small>USDT trc20 wallet address</small>
 
-                <div class="flex-w flex-b m-r-22 m-t-8 m-b-8">
-                    <span class="l1-txt1 wsize1 seconds">0</span>
-                    <span class="m1-txt1 p-b-2">Secs</span>
-                </div>
-            </div> --}}
+
+
+                <button class="btn btn-warning text-white btn-sm" style="margin-left: 20px;"
+                    onclick="copyToClipboard('TFxoF9rQEs3doFNLwFU4wWz3o6dLcQTAussR')">Copy</button>
+
+            </div>
 
 
 
