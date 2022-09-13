@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\GeneralSetting;
 use App\Models\Plan;
 use App\Models\SubscribedPlans;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,6 +24,45 @@ class MlmController extends Controller
         $plans = Plan::paginate(getPaginate());
         return view('admin.plan.index', compact('page_title', 'plans', 'subscribed_plans', 'subscribed', 'empty_subscribed_message', 'empty_message'));
     }
+    
+    public function search(Request $request)
+    {
+        $search = $request->search;
+        $plans = Plan::paginate(getPaginate());
+        $subscribed_plans = SubscribedPlans::paginate(getPaginate());
+
+
+        // search subscribed plans by users
+        
+
+
+
+        
+
+
+
+
+
+
+
+        
+
+
+        $users = User::where(function ($user) use ($search) {
+            $user->where('username', 'like', "%$search%")
+            ->orWhere('email', 'like', "%$search%")
+            ->orWhere('phone', 'like', "%$search%")
+            ->orWhere('firstname', 'like', "%$search%")
+            ->orWhere('lastname', 'like', "%$search%");
+        });
+        $page_title = '';
+
+        $users = $users->paginate(getPaginate());
+        $page_title .= 'User Search - ' . $search;
+        $empty_message = 'No search result found';
+        return view('admin.plan.index', compact('page_title', 'search', 'empty_message', 'users'));
+    }
+
 
     public function planStore(Request $request)
     {

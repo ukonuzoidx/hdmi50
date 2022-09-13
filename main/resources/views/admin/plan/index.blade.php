@@ -30,6 +30,17 @@
                     <p class="text-primary mb-0 hover-cursor">&nbsp;/&nbsp;{{ $page_title }}</p>
                 </div>
             </div>
+            <form
+                action="{{ route('admin.plans.search') }}"
+                method="GET" class="form-inline float-sm-right">
+                <div class="input-group has_append">
+                    <input type="text" name="search" class="form-control" placeholder="@lang('Username or email')"
+                        value="{{ $search ?? '' }}">
+                    <div class="input-group-append">
+                        <button class="btn btn--primary" type="submit"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
             <a href="javascript:void(0)" class="btn mb-4 btn--success add-plan">
                 <i class="fa fa-fw fa-plus"></i>
                 @lang('Add New')
@@ -266,7 +277,7 @@
                             </div>
                         </div>
 
-                        
+
 
                         <div class="form-row">
                             <div class="form-group col-md-12">

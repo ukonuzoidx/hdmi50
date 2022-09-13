@@ -118,6 +118,8 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
 
         // mlm plan
         Route::get('plans', 'MlmController@plan')->name('plan');
+        Route::get('plans/search', 'MlmController@search')->name('plans.search');
+
         Route::post('plan/store', 'MlmController@planStore')->name('plan.store');
 
         Route::post('plan/update', 'MlmController@planUpdate')->name('plan.update');

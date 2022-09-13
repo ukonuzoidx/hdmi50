@@ -24,27 +24,13 @@
                     <p class="text-primary mb-0 hover-cursor">&nbsp;/&nbsp;Dashboard</p>
                 </div>
             </div>
-            <div class="" style="background-color: #5965f9; padding: 10px;">
 
-
-                <h6 class="wallet-address">TFxoF9rQEs3doFNLwFU4wWz3o6dLcQTAuRs</h6>
-                <small>USDT trc20 wallet address</small>
-
-
-
-                <button class="btn btn-warning text-white btn-sm" style="margin-left: 20px;"
-                    onclick="copyToClipboard('TFxoF9rQEs3doFNLwFU4wWz3o6dLcQTAussR')">Copy</button>
-
-            </div>
-
-
-
-            <div class="d-flex align-items-end flex-wrap my-auto right-content breadcrumb-right">
+            {{-- <div class="d-flex align-items-end flex-wrap my-auto right-content breadcrumb-right">
                 <button class="btn btn-primary mt-2 mt-xl-0">Current Rank<br>
                     <span class="badge badge-light">Member</span>
-                    {{-- <span class="badge badge-light">{{ auth()->user()->rank }}</span> --}}
+                    {{-- <span class="badge badge-light">{{ auth()->user()->rank }}</span>
                 </button>
-            </div>
+            </div> --}}
         </div>
         <!-- /breadcrumb -->
         @php
@@ -65,9 +51,97 @@
             
         @endphp
 
-        {{-- ref + binary + total com + roi --}}
-        <div class="row ">
-            <div class="col-xl-3 col-lg-4 col-sm-6 mb-30">
+        <div class="d-flex justify-content-center align-items-center flex-column mb-30">
+
+            <div class="dashboard-w1 bg--9 b-radius--10 box-shadow mb-30">
+                <div class="icon">
+                    <i class="las la-money-bill"></i>
+                </div>
+                <div class="details">
+                    <div class="desciption">
+                        <span class="text--small">Total Earnings</span>
+                    </div>
+                    <div class="numbers">
+                        <span class="currency-sign">{{ $general->cur_sym }}</span>
+                        <span class="amount"> {{ getAmount($totalWithdraw) }}</span>
+                    </div>
+                    <div>
+
+                        <span class="claimed">{{ getAmount($totalWithdrawShiba) }} SHIB claimed</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-w1 bg--8 b-radius--10 box-shadow mb-30">
+                <div class="icon">
+                    <i class="las la-money-bill"></i>
+                </div>
+                <div class="details">
+                    <div class="desciption">
+                        <span class="text--small">Available Balance</span>
+                    </div>
+                    <div class="numbers">
+                        <span class="currency-sign">{{ $general->cur_sym }}</span>
+                        <span class="amount">{{ $available_balance }}</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="dashboard-w1 bg--3 b-radius--10 box-shadow mb-30">
+                <div class="icon">
+                    <i class="las la-money-bill"></i>
+                </div>
+                <div class="details">
+                    <div class="desciption">
+                        <span class="text--small">PNL</span>
+                    </div>
+                    <div class="numbers">
+                        {{-- <span class="currency-sign">{{ $general->cur_sym }}</span> --}}
+                        <span class="amount">{{ $general->pnl }}%</span>
+                    </div>
+                    <a href="{{ route('user.h_dshares') }}"
+                        class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('Claim')</a>
+
+                </div>
+            </div>
+
+            <div class="dashboard-w1 bg--10 b-radius--10 box-shadow mb-30">
+                <div class="icon">
+                    <i class="las la-money-bill"></i>
+                </div>
+                <div class="details">
+                    <div class="desciption">
+                        <span class="text--small">Current Rank</span>
+                    </div>
+                    <div class="numbers">
+                        <span class="amount">Member</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between dashboard-buttons">
+                <div>
+                    <a href="{{ route('user.balance.transfer') }}"
+                        class="btn text--small bg--10 text--white box--shadow3 mt-3">@lang('Transfer')</a>
+
+                </div>
+                <a href="{{ route('user.withdraw') }}"
+                    class="btn text--small bg--10 text--white box--shadow3 mt-3">@lang('Withdraw')</a>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+    {{-- ref + binary + total com + roi --}}
+    {{-- <div class="row "> --}}
+
+    {{-- <div class="col-xl-3 col-lg-4 col-sm-6 mb-30">
                 <div class="dashboard-w1 bg--success b-radius--10 box-shadow">
                     <div class="icon">
                         <i class="las la-money-bill"></i>
@@ -151,7 +225,7 @@
                         <div class="numbers">
                             <span
                                 class="amount">{{ auth()->user()->userExtra->pv_left + auth()->user()->userExtra->pv_right }}</span>
-                            {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
+                            {{-- <span class="currency-sign">{{$general->cur_text}}</span> -
                         </div>
                         <a href="{{ route('user.pv.log') }}?type=paidPV"
                             class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('View All')</a>
@@ -169,7 +243,6 @@
                         </div>
                         <div class="numbers">
                             <span class="amount">{{ $totalLeft }}</span>
-                            {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
                         </div>
                         <a href="{{ route('user.pv.log') }}?type=leftPV"
                             class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('View All')</a>
@@ -187,7 +260,6 @@
                         </div>
                         <div class="numbers">
                             <span class="amount">{{ $totalRight }}</span>
-                            {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
                         </div>
                         <a href="{{ route('user.pv.log') }}?type=rightPV"
                             class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('View All')</a>
@@ -205,7 +277,6 @@
                         </div>
                         <div class="numbers">
                             <span class="amount">{{ getAmount(auth()->user()->total_invest) }}</span>
-                            {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
                         </div>
                         <a href="{{ route('user.report.invest') }}"
                             class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('View All')</a>
@@ -223,7 +294,6 @@
                         </div>
                         <div class="numbers">
                             <span class="amount">{{ getAmount($totalWithdrawShiba) }} SHIB</span>
-                            {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
                         </div>
                         <a href="{{ route('user.report.transactions') }}"
                             class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('View All')</a>
@@ -242,13 +312,11 @@
                         <div class="numbers">
 
                             <span class="amount">{{ $available_shiba }} SHIB</span>
-                            {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
 
                         </div>
                         <a href="#withdrawShiba" data-toggle="modal"
                             class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('Claim Shiba')</a>
 
-                        {{-- withdrawal modal --}}
 
 
                     </div>
@@ -265,7 +333,6 @@
                         </div>
                         <div class="numbers">
                             <span class="amount">{{ $sponsor_shiba }} SHIB</span>
-                            {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
                         </div>
                         <a href="{{ route('user.report.withdraw') }}"
                             class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('View All')</a>
@@ -284,7 +351,6 @@
                         </div>
                         <div class="numbers">
                             <span class="amount">{{ $binary_shiba }} SHIB</span>
-                            {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
                         </div>
                         <a href="{{ route('user.report.withdraw') }}"
                             class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('View All')</a>
@@ -303,7 +369,6 @@
                         </div>
                         <div class="numbers">
                             <span class="amount">{{ $total_shiba_left }} SHIB</span>
-                            {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
                         </div>
                         <a href="{{ route('user.report.withdraw') }}"
                             class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('View All')</a>
@@ -322,7 +387,6 @@
                         </div>
                         <div class="numbers">
                             <span class="amount">{{ $total_shiba_right }} SHIB</span>
-                            {{-- <span class="currency-sign">{{$general->cur_text}}</span> --}}
                         </div>
                         <a href="{{ route('user.report.withdraw') }}"
                             class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('View All')</a>
@@ -342,7 +406,6 @@
                         </div>
                         <div class="numbers">
                             <span class="amount">0</span>
-                            {{-- <span class="amount">{{ getAmount($roi) }}</span> --}}
                             <span class="currency-sign">{{ $general->cur_text }}</span>
                         </div>
                         <a href="#"
@@ -362,7 +425,6 @@
                         </div>
                         <div class="numbers">
                             <span class="amount">0</span>
-                            {{-- <span class="amount">{{ getAmount($weeklyRoi) }}</span> --}}
                             <span class="currency-sign">{{ $general->cur_text }}</span>
                         </div>
                         <form action="{{ route('user.claim.roi') }}" method="POST">
@@ -376,89 +438,88 @@
 
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
 
 
-            <div class="modal fade" id="withdrawShiba" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="myModalLabel"> @lang('Confirm Withdraw ' . auth()->user()->fullname)?</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                    aria-hidden="true">×</span></button>
-                        </div>
-                        <form method="post" action="{{ route('user.withdraw.shiba.money') }}">
-                            <div class="modal-body">
-
-                                <input type="hidden" name="user_id" value="{{ auth()->user()->id }}" />
-
-                                @csrf
-                                <input type="text" name="shibainu" class="form-control mb-4"
-                                    placeholder="@lang('Enter Anount of Shiba you want to withdraw')" />
-                                <input type="text" name="pin" class="form-control"
-                                    placeholder="@lang('Enter your Transaction pin')" required />
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn--danger" data-dismiss="modal"><i
-                                        class="fa fa-times"></i> @lang('Close')</button>
-
-                                <button type="submit" name="user_id" value="{{ auth()->user()->id }}"
-                                    class="btn btn--success"><i class="lab la-telegram-plane"></i>
-                                    @lang('Claim')</button>
-                            </div>
-                        </form>
-                    </div>
+    <div class="modal fade" id="withdrawShiba" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel"> @lang('Confirm Withdraw ' . auth()->user()->fullname)?</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
                 </div>
-            </div>
+                <form method="post" action="{{ route('user.withdraw.shiba.money') }}">
+                    <div class="modal-body">
 
+                        <input type="hidden" name="user_id" value="{{ auth()->user()->id }}" />
 
-
-
-        </div>
-        <!-- /row -->
-
-        <div class="row row-sm">
-            <div class="col-xl-12">
-                <div class="card">
-                    <div class="card-header pb-0">
-                        <div class="d-flex justify-content-between">
-                            <h4 class="card-title mg-b-0">Fixed Investments</h4>
-                            <i class="mdi mdi-dots-horizontal text-gray"></i>
-                        </div>
-                        {{-- <p class="tx-12 tx-gray-500 mb-2">Example ofXino Simple Table. <a href="">Learn more</a></p> --}}
+                        @csrf
+                        <input type="text" name="shibainu" class="form-control mb-4" placeholder="@lang('Enter Anount of Shiba you want to withdraw')" />
+                        <input type="text" name="pin" class="form-control" placeholder="@lang('Enter your Transaction pin')"
+                            required />
                     </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table text-md-nowrap" id="example1">
-                                <thead>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn--danger" data-dismiss="modal"><i class="fa fa-times"></i>
+                            @lang('Close')</button>
+
+                        <button type="submit" name="user_id" value="{{ auth()->user()->id }}" class="btn btn--success"><i
+                                class="lab la-telegram-plane"></i>
+                            @lang('Claim')</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    {{-- </div> --}}
+    <!-- /row -->
+
+    <div class="row px-4">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="d-flex justify-content-between">
+                        <h4 class="card-title mg-b-0">Fixed Investments</h4>
+                        <i class="mdi mdi-dots-horizontal text-gray"></i>
+                    </div>
+                    {{-- <p class="tx-12 tx-gray-500 mb-2">Example ofXino Simple Table. <a href="">Learn more</a></p> --}}
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table text-md-nowrap" id="example1">
+                            <thead>
+                                <tr>
+                                    <th class="wd-15p border-bottom-0">Subscribed Date</th>
+                                    <th class="wd-20p border-bottom-0">Package</th>
+                                    <th class="wd-15p border-bottom-0">Plan Name</th>
+                                    {{-- <th class="wd-15p border-bottom-0">Claim Daily</th> --}}
+                                    <th class="wd-10p border-bottom-0">Claim</th>
+                                    <th class="wd-15p border-bottom-0">Date <small> (to claim) </small></th>
+                                    <th class="wd-15p border-bottom-0">Total to be Claimed <small>(After 400
+                                            days)</small> </th>
+                                    <th class="wd-10p border-bottom-0">Total Claimed</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($investments as $key=>$data)
+                                    {{-- {{ dd($data->investment) }} --}}
                                     <tr>
-                                        <th class="wd-15p border-bottom-0">Subscribed Date</th>
-                                        <th class="wd-20p border-bottom-0">Package</th>
-                                        <th class="wd-15p border-bottom-0">Plan Name</th>
-                                        {{-- <th class="wd-15p border-bottom-0">Claim Daily</th> --}}
-                                        <th class="wd-10p border-bottom-0">Claim</th>
-                                        <th class="wd-15p border-bottom-0">Date <small> (to claim) </small></th>
-                                        <th class="wd-15p border-bottom-0">Total to be Claimed <small>(After 400
-                                                days)</small> </th>
-                                        <th class="wd-10p border-bottom-0">Total Claimed</th>
+                                        <td>
+                                            {{ showDate($data->created_at) }}
+                                        </td>
+                                        <td>
+                                            Fixed Investment
+                                        </td>
 
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse ($investments as $key=>$data)
-                                        {{-- {{ dd($data->investment) }} --}}
-                                        <tr>
-                                            <td>
-                                                {{ showDate($data->created_at) }}
-                                            </td>
-                                            <td>
-                                                Fixed Investment
-                                            </td>
-
-                                            <td>{{ $data->investment->name }}</td>
-                                            {{-- <td>
+                                        <td>{{ $data->investment->name }}</td>
+                                        {{-- <td>
                                                 <form action="{{ route('user.claim.fixed.roi') }}" method="POST">
                                                     @csrf
                                                     <input type="hidden" name="user_id" value="{{ auth()->id() }}">
@@ -466,31 +527,31 @@
                                                         class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('Claim')</button>
                                                 </form>
                                             </td> --}}
-                                            <td>
-                                                <form action="{{ route('user.withdraw.fixed.roi') }}" method="POST">
-                                                    @csrf
-                                                    <input type="hidden" name="user_id" value="{{ auth()->id() }}">
-                                                    <button type="submit"
-                                                        class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('Withdraw')</button>
-                                                </form>
-                                            </td>
-                                            <td>
-                                                {{ showDate($data->roi_last_paid) }}
-                                            </td>
-                                            <td>{{ getAmount($data->roi) }}</td>
-                                            {{-- <td>{{ $data->investment->fixed_roi }}</td> --}}
-                                            {{-- countdown for date to be claimed --}}
+                                        <td>
+                                            <form action="{{ route('user.withdraw.fixed.roi') }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="user_id" value="{{ auth()->id() }}">
+                                                <button type="submit"
+                                                    class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('Withdraw')</button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            {{ showDate($data->roi_last_paid) }}
+                                        </td>
+                                        <td>{{ getAmount($data->roi) }}</td>
+                                        {{-- <td>{{ $data->investment->fixed_roi }}</td> --}}
+                                        {{-- countdown for date to be claimed --}}
 
-                                            {{-- <td>
+                                        {{-- <td>
                                                 <div id="clockdiv" class="d-flex">
                                                     <span class="days"></span>
                                                 </div>
                                                 <div id="end_time" style="display: none;">{{ $data->roi_last_paid }}
                                                 </div>
                                             </td> --}}
-                                            <td>
-                                                {{ getAmount($data->user->fixed_roi) }}
-                                            </td>
+                                        <td>
+                                            {{ getAmount($data->user->fixed_roi) }}
+                                        </td>
 
 
 
@@ -498,25 +559,25 @@
 
 
 
-                                        </tr>
+                                    </tr>
 
-                                    @empty
-                                        <tr>
-                                            <td colspan="6" class="text-center">
-                                                {{ $empty_message }}
-                                            </td>
-                                        </tr>
-                                    @endforelse
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="text-center">
+                                            {{ $empty_message }}
+                                        </td>
+                                    </tr>
+                                @endforelse
 
-                                </tbody>
-                            </table>
-                        </div>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-            <!--/div-->
         </div>
-        {{-- <div class="row row-sm">
+        <!--/div-->
+    </div>
+    {{-- <div class="row row-sm">
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-header pb-0">
