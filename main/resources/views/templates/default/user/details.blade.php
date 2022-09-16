@@ -14,14 +14,14 @@
         <!-- breadcrumb -->
         <div class="breadcrumb-header justify-content-between">
             <div class="left-content">
-                <h3 class="content-title mb-2">Welcome back, {{ Auth::user()->full_name }}</h3>
+                
                 <h5 class="mb-0">
                     <span class="text-muted font-weight-bold">ID: {{ Auth::user()->user_id }}</span>
                 </h5>
                 <h6>GIB: 100000SHIB</h6>
                 <div class="d-flex">
                     <a href="/"><i class="mdi mdi-home text-muted hover-cursor"></i></a>
-                    <p class="text-primary mb-0 hover-cursor">&nbsp;/&nbsp;Dashboard</p>
+                    <p class="text-primary mb-0 hover-cursor">&nbsp;/&nbsp;Details</p>
                 </div>
             </div>
 
@@ -52,13 +52,12 @@
         @endphp
 
 
-    </div>
 
     {{-- ref + binary + total com + roi --}}
     <div class="row ">
 
     <div class="col-xl-3 col-lg-4 col-sm-6 mb-30">
-                <div class="dashboard-w1 bg--success b-radius--10 box-shadow">
+                <div class="dashboard-w2 bg--success b-radius--10 box-shadow">
                     <div class="icon">
                         <i class="las la-money-bill"></i>
                     </div>
@@ -76,7 +75,7 @@
                 </div>
             </div>
             <div class="col-xl-3 col-lg-4 col-sm-6 mb-30">
-                <div class="dashboard-w1 bg--success b-radius--10 box-shadow">
+                <div class="dashboard-w2 bg--success b-radius--10 box-shadow">
                     <div class="icon">
                         <i class="las la-money-bill"></i>
                     </div>
@@ -94,7 +93,7 @@
                 </div>
             </div>
             <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
-                <div class="dashboard-w1 bg--5 b-radius--10 box-shadow">
+                <div class="dashboard-w2 bg--5 b-radius--10 box-shadow">
                     <div class="icon">
                         <i class="las la-cloud-upload-alt"></i>
                     </div>
@@ -112,7 +111,7 @@
                 </div>
             </div>
             <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
-                <div class="dashboard-w1 bg--3 b-radius--10 box-shadow">
+                <div class="dashboard-w2 bg--3 b-radius--10 box-shadow">
                     <div class="icon">
                         <i class="las la-cloud-upload-alt"></i>
                     </div>
@@ -130,7 +129,7 @@
                 </div>
             </div>
             <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
-                <div class="dashboard-w1 bg--2 b-radius--10 box-shadow">
+                <div class="dashboard-w2 bg--2 b-radius--10 box-shadow">
                     <div class="icon">
                         <i class="las la-hand-holding-usd"></i>
                     </div>
@@ -149,7 +148,7 @@
                 </div>
             </div>
             <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
-                <div class="dashboard-w1 bg--8 b-radius--10 box-shadow">
+                <div class="dashboard-w2 bg--8 b-radius--10 box-shadow">
                     <div class="icon">
                         <i class="las la-hand-holding-usd"></i>
                     </div>
@@ -166,7 +165,7 @@
                 </div>
             </div>
             <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
-                <div class="dashboard-w1 bg--4 b-radius--10 box-shadow">
+                <div class="dashboard-w2 bg--4 b-radius--10 box-shadow">
                     <div class="icon">
                         <i class="las la-hand-holding-usd"></i>
                     </div>
@@ -183,7 +182,7 @@
                 </div>
             </div>
             <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
-                <div class="dashboard-w1 bg--warning b-radius--10 box-shadow">
+                <div class="dashboard-w2 bg--warning b-radius--10 box-shadow">
                     <div class="icon">
                         <i class="las la-cloud-upload-alt"></i>
                     </div>
@@ -200,7 +199,7 @@
                 </div>
             </div>
             <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
-                <div class="dashboard-w1 bg--warning b-radius--10 box-shadow">
+                <div class="dashboard-w2 bg--warning b-radius--10 box-shadow">
                     <div class="icon">
                         <i class="las la-cloud-upload-alt"></i>
                     </div>
@@ -217,7 +216,7 @@
                 </div>
             </div>
             <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
-                <div class="dashboard-w1 bg--3 b-radius--10 box-shadow">
+                <div class="dashboard-w2 bg--3 b-radius--10 box-shadow">
                     <div class="icon">
                         <i class="las la-cloud-upload-alt"></i>
                     </div>
@@ -239,7 +238,7 @@
                 </div>
             </div>
             <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
-                <div class="dashboard-w1 bg--info b-radius--10 box-shadow">
+                <div class="dashboard-w2 bg--info b-radius--10 box-shadow">
                     <div class="icon">
                         <i class="las la-cloud-upload-alt"></i>
                     </div>
@@ -257,7 +256,7 @@
                 </div>
             </div>
             <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
-                <div class="dashboard-w1 bg--9 b-radius--10 box-shadow">
+                <div class="dashboard-w2 bg--9 b-radius--10 box-shadow">
                     <div class="icon">
                         <i class="las la-cloud-upload-alt"></i>
                     </div>
@@ -275,7 +274,7 @@
                 </div>
             </div>
             <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
-                <div class="dashboard-w1 bg--9 b-radius--10 box-shadow">
+                <div class="dashboard-w2 bg--9 b-radius--10 box-shadow">
                     <div class="icon">
                         <i class="las la-cloud-upload-alt"></i>
                     </div>
@@ -293,7 +292,7 @@
                 </div>
             </div>
             <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
-                <div class="dashboard-w1 bg--2 b-radius--10 box-shadow">
+                <div class="dashboard-w2 bg--2 b-radius--10 box-shadow">
                     <div class="icon">
                         <i class="las la-cloud-upload-alt"></i>
                     </div>
@@ -312,7 +311,7 @@
             </div>
 
             <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
-                <div class="dashboard-w1 bg--1 b-radius--10 box-shadow">
+                <div class="dashboard-w2 bg--1 b-radius--10 box-shadow">
                     <div class="icon">
                         <i class="las la-cloud-upload-alt"></i>
                     </div>
@@ -331,7 +330,7 @@
             </div>
 
             <div class="col-xl-3 col-lg-4 col-sm-6 mb-30 features">
-                <div class="dashboard-w1 bg--8 b-radius--10 box-shadow">
+                <div class="dashboard-w2 bg--8 b-radius--10 box-shadow">
                     <div class="icon">
                         <i class="las la-cloud-upload-alt"></i>
                     </div>
@@ -395,6 +394,7 @@
 
     </div>
     <!-- /row -->
+
 
 
   
