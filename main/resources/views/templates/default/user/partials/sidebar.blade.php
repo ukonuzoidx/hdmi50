@@ -18,6 +18,14 @@
                  <h3 class="">Dashboard</h3>
              </li>
              <li class="slide">
+                 <a class="side-menu__item" href="{{ route('user.home') }}">
+                     <i class="side-menu__icon ti-desktop"></i>
+                     <span class="side-menu__label">
+                         Dashboard
+                     </span>
+                 </a>
+             </li>
+             <li class="slide">
                  <a class="side-menu__item" href="{{ route('user.details') }}">
                      <i class="side-menu__icon ti-desktop"></i>
                      <span class="side-menu__label">
