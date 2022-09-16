@@ -46,6 +46,25 @@ class UserController extends Controller
 
         return view($this->activeTemplate . 'user.dashboard', $data);
     }
+    public function details()
+    {
+        $data['total_ref'] = User::where('ref_id', auth()->id())->count();
+        $data['totalWithdraw']   = Withdraw::where('user_id', auth()->id())->where('status', 1)->sum('amount');
+        $data['totalWithdrawShiba']   = WithdrawShiba::where('user_id', auth()->id())->where('status', 1)->sum('shibainu');
+        // $data['roi'] = assignRoi(auth()->id());
+        $data['roi'] = User::where('id', auth()->id())->first()->roi;
+        // $data['fixed_roi'] = assignFixedRoi(auth()->id());
+
+        $data['weeklyroi'] = Roi::where('user_id', auth()->id())->whereDate('created_at', '>=', Carbon::now()->subDays(9))->where('remark', 'plan_purchased')->sum('roi');
+
+        $data['digital_assets'] = DigitalAssets::where('user_id', auth()->id())->get();
+        $data['investments'] = Roi::where('user_id', auth()->id())->where('remark', 'fixed_investment')->get();
+
+        // dd($data);
+        $data['empty_message'] = 'No data found';
+
+        return view($this->activeTemplate . 'user.details', $data);
+    }
 
     public function profile()
     {

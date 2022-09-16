@@ -279,6 +279,7 @@ Route::name('user.')->prefix('user')->group(
         Route::middleware('auth')->group(
             function () {
                 Route::get('/dashboard', 'UserController@index')->name('home');
+                Route::get('/details', 'UserController@details')->name('details');
                 Route::get('/referral-log', 'UserController@referralCom')->name('referral.log');
                 Route::get('profile-setting', 'UserController@profile')->name('profile-setting');
                 Route::post('profile-setting', 'UserController@submitProfile');
