@@ -186,7 +186,7 @@
         document.body.appendChild(textarea);
         textarea.select();
         try {
-
+            alert("Copy");
             return document.execCommand("copy");  // Security exception may be thrown by some browsers.
         }
         catch (ex) {

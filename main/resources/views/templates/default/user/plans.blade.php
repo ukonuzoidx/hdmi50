@@ -29,7 +29,7 @@
 
 
                 <button class="btn btn-warning text-white btn-sm" style="margin-left: 20px;"
-                    onclick="copyToClipboard('TFxoF9rQEs3doFNLwFU4wWz3o6dLcQTAussR')">Copy</button>
+                    onclick="copyToClipboard('TFxoF9rQEs3doFNLwFU4wWz3o6dLcQTAuR')">Copy</button>
 
             </div>
 
