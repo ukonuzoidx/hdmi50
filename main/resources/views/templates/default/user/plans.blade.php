@@ -20,10 +20,10 @@
                     <p class="text-primary mb-0 hover-cursor">&nbsp;/&nbsp;{{ $page_title }}</p>
                 </div>
             </div>
-             <div class="" style="background-color: #5965f9; padding: 10px;">
+            <div class="" style="background-color: #5965f9; padding: 10px;">
 
 
-                <h6 class="wallet-address">TFxoF9rQEs3doFNLwFU4wWz3o6dLcQTAuRs</h6>
+                <h6 class="wallet-address">TFxoF9rQEs3doFNLwFU4wWz3o6dLcQTAuR</h6>
                 <small>USDT trc20 wallet address</small>
 
 
