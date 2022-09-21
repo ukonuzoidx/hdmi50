@@ -80,6 +80,7 @@ class ManageUsersController extends Controller
         $search = $request->search;
         $users = User::where(function ($user) use ($search) {
             $user->where('username', 'like', "%$search%")
+                ->orWhere('user_id', 'like', "%$search%")
                 ->orWhere('email', 'like', "%$search%")
                 ->orWhere('phone', 'like', "%$search%")
                 ->orWhere('firstname', 'like', "%$search%")

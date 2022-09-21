@@ -33,7 +33,7 @@
                 action="{{ route('admin.users.search',$scope ??str_replace('admin.users.','',request()->route()->getName())) }}"
                 method="GET" class="form-inline float-sm-right">
                 <div class="input-group has_append">
-                    <input type="text" name="search" class="form-control" placeholder="@lang('Username or email')"
+                    <input type="text" name="search" class="form-control" placeholder="@lang('Username or user id')"
                         value="{{ $search ?? '' }}">
                     <div class="input-group-append">
                         <button class="btn btn--primary" type="submit"><i class="fa fa-search"></i></button>

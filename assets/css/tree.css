@@ -155,7 +155,8 @@
         height: 0;
     }
     .user .user-name {
-        display: none;
+        /* display: none; */
+        font-size: 0.5rem;
     }
 }
 
