@@ -25,7 +25,7 @@ class HDSharesController extends Controller
         $empty_message = 'No HD Shares found';
         // get all hd shares for the current user
         $hd_shares = HDshares::where('user_id', auth()->id())->paginate(getPaginate());
-        dd($hd_shares);
+        // dd($hd_shares);
         $settings = GeneralSetting::first();
         return view($this->activeTemplate . 'user.hdshares', compact('page_title', 'hd_shares', 'settings', 'empty_message'));
     }
