@@ -85,6 +85,10 @@ class User extends Authenticatable
         return $this->hasMany(Roi::class);
     }
 
+    public function hdShares()
+    {
+        return $this->hasMany(HDshares::class);
+    }
 
 
 

@@ -93,12 +93,41 @@
                     <i class="las la-money-bill"></i>
                 </div>
                 <div class="details">
-                    <div class="desciption">
-                        <span class="text--small">PNL</span>
-                    </div>
-                    <div class="numbers">
-                        {{-- <span class="currency-sign">{{ $general->cur_sym }}</span> --}}
-                        <span class="amount">{{ $general->pnl }}%</span>
+
+                    <div class="d-flex justify-content-between" style="width: 300px">
+                        <div>
+                            <div class="desciption">
+                                <span class="text--small">Capital</span>
+                            </div>
+                            <div class="numbers">
+                                {{-- <span class="currency-sign">{{ $general->cur_sym }}</span> --}}
+                                <span class="amount">$ {{ auth()->user()->hdShares->pluck('capital')->first() }}</span>
+                            </div>
+
+                        </div>
+                        <div>
+
+
+                            <div class="desciption">
+                                <span class="text--small">PNL</span>
+                            </div>
+                            <div class="numbers">
+                                {{-- <span class="currency-sign">{{ $general->cur_sym }}</span> --}}
+                                <span class="amount">{{ $general->pnl }}%</span>
+                            </div>
+                        </div>
+                        <div>
+
+
+                            <div class="desciption">
+                                <span class="text--small">Profit</span>
+                            </div>
+                            <div class="numbers">
+                                {{-- <span class="currency-sign">{{ $general->cur_sym }}</span> --}}
+                                <span class="amount">$
+                                    {{ (auth()->user()->hdShares->pluck('capital')->first() *$general->pnl) /100 }}</span>
+                            </div>
+                        </div>
                     </div>
                     <a href="{{ route('user.h_dshares') }}"
                         class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('Claim')</a>
@@ -465,8 +494,8 @@
                         <button type="button" class="btn btn--danger" data-dismiss="modal"><i class="fa fa-times"></i>
                             @lang('Close')</button>
 
-                        <button type="submit" name="user_id" value="{{ auth()->user()->id }}" class="btn btn--success"><i
-                                class="lab la-telegram-plane"></i>
+                        <button type="submit" name="user_id" value="{{ auth()->user()->id }}"
+                            class="btn btn--success"><i class="lab la-telegram-plane"></i>
                             @lang('Claim')</button>
                     </div>
                 </form>
