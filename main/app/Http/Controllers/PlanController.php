@@ -98,9 +98,8 @@ class PlanController extends Controller
         $user->total_invest += $fixedInvestment->price;
         // $user->roi += $fixedInvestment->roi;
         // $user->balance += $fixedInvestment->roi;
+        
         $user->save();
-
-
         $roi = Roi::create([
             'user_id' => $user->id,
             'plan_id' => $fixedInvestment->id,
@@ -108,6 +107,7 @@ class PlanController extends Controller
             'remark' => 'fixed_investment',
             // 'roi_last_paid' => date('Y-m-d H:i:s'),
         ]);
+
 
         $roi->roi_last_paid = Carbon::now()->addDays(400);
         $roi->roi_last_cron = Carbon::now();

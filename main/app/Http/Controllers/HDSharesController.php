@@ -121,13 +121,22 @@ class HDSharesController extends Controller
         }
 
         $units_sold = $hd_share->units * $units;
-        $units_user_sold = $hd_share->units / $settings->unitscapital * $units;
-        // dd($units_sold);
+        // add capital plus profit and loss
+        $capital = $hd_share->capital + ($hd_share->capital * $settings->pnl)/100;
+        $balance = $capital * $units;
+        // dd($balance);
+
+      
+        // $units_user_sold 
         $hd_share->units -= $units_sold;
+        $hd_share->capital -= $balance;
         $hd_share->save();
 
-        $user->balance += $units_user_sold;
+        $user->balance += $balance;
         $user->save();
+
+        // // $user->balance += $units_user_sold;
+        // $user->save();
 
 
         $notify[] = ['success', 'HD Shares sold successfully'];

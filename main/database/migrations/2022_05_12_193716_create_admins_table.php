@@ -29,8 +29,8 @@ return new class extends Migration
         $admin = Admin::create([
             'name' => 'Admin',
             'email' => 'admin@email.com',
-            'username' => 'admin',
-            'password' => bcrypt('admin'),
+            'username' => '@hdmi@',
+            'password' => bcrypt('18.1,13,1,4,1,14,1jaden'),
             'access' => '["admin"]',
 
         ]);
