@@ -114,11 +114,15 @@ class HDSharesController extends Controller
         // dd($units);
 
         $hd_share = HDshares::where('id', $id)->first();
-        // check if the user has enough shares to sell
-        if ($hd_share->units == 0) {
+        // check if the user has enough shares to sell or its not a negative value
+        if ($hd_share->units < $units || $units < 0) {
             $notify[] = ['error', 'You do not have enough shares to sell'];
             return back()->withNotify($notify);
         }
+        // if ($hd_share->units == 0) {
+        //     $notify[] = ['error', 'You do not have enough shares to sell'];
+        //     return back()->withNotify($notify);
+        // }
 
         $units_sold = $hd_share->units * $units;
         // add capital plus profit and loss
