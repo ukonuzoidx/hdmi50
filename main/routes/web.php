@@ -101,8 +101,10 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
         Route::post('epins/store', 'ManageEpinsController@epinStore')->name('epins.store');
 
         Route::get('hdshares', 'HDSharesController@index')->name('hdshares');
-        Route::post('hdshares/lock', 'HDSharesController@lockShares')->name('hdshares.lock');
-        Route::post('hdshares/open', 'HDSharesController@openShares')->name('hdshares.open');
+        Route::post('hdshares/lock/buy', 'HDSharesController@lockBuyShares')->name('hdshares.lock.buy');
+        Route::post('hdshares/open/buy', 'HDSharesController@openBuyShares')->name('hdshares.open.buy');
+        Route::post('hdshares/lock/sell', 'HDSharesController@lockSellShares')->name('hdshares.lock.sell');
+        Route::post('hdshares/open/sell', 'HDSharesController@openSellShares')->name('hdshares.open.sell');
 
 
 

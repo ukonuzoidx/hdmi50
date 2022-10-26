@@ -21,14 +21,25 @@
             </div>
 
             @if ($settings->h_dshares == 0)
-                <a href="javascript:void(0)" class="btn mb-4 btn--danger lock-shares">
+                <a href="javascript:void(0)" class="btn mb-4 btn--danger lock-buy-shares">
 
-                    @lang('Lock')
+                    @lang('Lock Buy Shares')
                 </a>
             @else
-                <a href="javascript:void(0)" class="btn mb-4 btn--success open-shares">
+                <a href="javascript:void(0)" class="btn mb-4 btn--success open-buy-shares">
 
-                    @lang('Open')
+                    @lang('Open Buy Shares')
+                </a>
+            @endif
+            @if ($settings->h_sell_dshares == 0)
+                <a href="javascript:void(0)" class="btn mb-4 btn--danger lock-sell-shares">
+
+                    @lang('Lock Sell Shares')
+                </a>
+            @else
+                <a href="javascript:void(0)" class="btn mb-4 btn--success open-sell-shares">
+
+                    @lang('Open Sell Shares')
                 </a>
             @endif
         </div>
@@ -93,12 +104,12 @@
 
 @push('scripts')
     <script>
-        $(document).on('click', '.lock-shares', function() {
+        $(document).on('click', '.lock-buy-shares', function() {
             // var epin = $('#lock-shares').val();
             var token = "{{ csrf_token() }}";
             $.ajax({
                 type: "POST",
-                url: "{{ route('admin.hdshares.lock') }}",
+                url: "{{ route('admin.hdshares.lock.buy') }}",
                 data: {
                     // 'lco': epin,
                     '_token': token
@@ -110,12 +121,46 @@
                 }
             });
         });
-        $(document).on('click', '.open-shares', function() {
+        $(document).on('click', '.open-buy-shares', function() {
             // var epin = $('#open-shares').val();
             var token = "{{ csrf_token() }}";
             $.ajax({
                 type: "POST",
-                url: "{{ route('admin.hdshares.open') }}",
+                url: "{{ route('admin.hdshares.open.buy') }}",
+                data: {
+                    // 'lco': epin,
+                    '_token': token
+                },
+                success: function(data) {
+                    // refresh the page
+                    location.reload();
+
+                }
+            });
+        });
+        $(document).on('click', '.lock-sell-shares', function() {
+            // var epin = $('#lock-shares').val();
+            var token = "{{ csrf_token() }}";
+            $.ajax({
+                type: "POST",
+                url: "{{ route('admin.hdshares.lock.sell') }}",
+                data: {
+                    // 'lco': epin,
+                    '_token': token
+                },
+                success: function(data) {
+                    // refresh the page
+                    location.reload();
+
+                }
+            });
+        });
+        $(document).on('click', '.open-sell-shares', function() {
+            // var epin = $('#open-shares').val();
+            var token = "{{ csrf_token() }}";
+            $.ajax({
+                type: "POST",
+                url: "{{ route('admin.hdshares.open.sell') }}",
                 data: {
                     // 'lco': epin,
                     '_token': token

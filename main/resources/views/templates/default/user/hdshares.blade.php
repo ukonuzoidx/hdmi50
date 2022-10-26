@@ -50,7 +50,7 @@
                                         <th scope="col">@lang('TRANSACTION DATE')</th>
                                         <th scope="col">@lang('PNL')</th>
                                         <th scope="col">@lang('NEW CAPITAL')</th>
-                                        @if ($settings->h_dshares == 0)
+                                        @if ($settings->h_sell_dshares == 0)
                                             <th scope="col">@lang('ACTIONS')</th>
                                         @endif
                                     </tr>
@@ -68,7 +68,7 @@
                                             <td data-label="@lang('New Captial')">
                                                 ${{ $value->capital + ($value->capital * $general->pnl) / 100 }}</td>
                                             {{-- Sell hdshares --}}
-                                            @if ($settings->h_dshares == 0)
+                                            @if ($settings->h_sell_dshares == 0)
                                                 <td data-label="@lang('Actions')">
                                                     <a href="javascript:void(0)" class="btn btn-success btn-sm sell-shares"
                                                         data-id="{{ $value->id }}" data-units="{{ $value->units }}">
