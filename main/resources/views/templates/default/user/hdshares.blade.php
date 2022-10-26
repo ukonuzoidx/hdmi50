@@ -56,29 +56,36 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse($hd_shares as $key => $value)
-                                        <tr>
-                                            <td data-label="@lang('Type')">{{ $value->name }}</td>
-                                            <td data-label="@lang('Unit bought')">{{ $value->units }}</td>
-                                            <td data-label="@lang('Capital')">${{ $value->capital }}</td>
-                                            <td data-label="@lang('Transaction Date')">{{ $value->created_at }}</td>
-                                            <td data-label="@lang('PNL')">
-                                                ${{ ($value->capital * $general->pnl) / 100 }}
-                                            </td>
-                                            <td data-label="@lang('New Captial')">
-                                                ${{ $value->capital + ($value->capital * $general->pnl) / 100 }}</td>
-                                            {{-- Sell hdshares --}}
-                                            @if ($settings->h_sell_dshares == 0)
-                                                <td data-label="@lang('Actions')">
-                                                    <a href="javascript:void(0)" class="btn btn-success btn-sm sell-shares"
-                                                        data-id="{{ $value->id }}" data-units="{{ $value->units }}">
-                                                        <i class="fa fa-fw fa-plus"></i>
-                                                        @lang('Sell')
-                                                    </a>
-                                                </td>
-                                            @endif
-                                        </tr>
 
+                                    @forelse($hd_shares as $key => $value)
+                                        @if ($value->capital != 0)
+                                            <tr>
+                                                <td data-label="@lang('Type')">{{ $value->name }}</td>
+                                                <td data-label="@lang('Unit bought')">{{ $value->units }}</td>
+                                                <td data-label="@lang('Capital')">${{ $value->capital }}</td>
+                                                <td data-label="@lang('Transaction Date')">{{ $value->created_at }}</td>
+                                                <td data-label="@lang('PNL')">
+                                                    ${{ ($value->capital * $general->pnl) / 100 }}
+                                                </td>
+                                                <td data-label="@lang('New Captial')">
+                                                    ${{ $value->capital + ($value->capital * $general->pnl) / 100 }}</td>
+                                                {{-- Sell hdshares --}}
+                                                @if ($settings->h_sell_dshares == 0)
+                                                    <td data-label="@lang('Actions')">
+                                                        <a href="javascript:void(0)"
+                                                            class="btn btn-success btn-sm sell-shares"
+                                                            data-id="{{ $value->id }}" data-units="{{ $value->units }}">
+                                                            <i class="fa fa-fw fa-plus"></i>
+                                                            @lang('Sell')
+                                                        </a>
+                                                    </td>
+                                                @endif
+                                            </tr>
+                                        @else
+                                            <tr>
+                                                <td colspan="3">@lang('No data')</td>
+                                            </tr>
+                                        @endif
                                     @empty
                                         <tr>
                                             <td colspan="3">@lang('No data')</td>

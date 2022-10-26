@@ -126,14 +126,14 @@ class HDSharesController extends Controller
 
         $units_sold = $hd_share->units * $units;
         // add capital plus profit and loss
-        $capital = $hd_share->capital + ($hd_share->capital * $settings->pnl)/100;
+        $capital = $hd_share->capital + ($hd_share->capital * $settings->pnl) / 100;
         $balance = $capital * $units;
         // dd($balance);
 
-      
+
         // $units_user_sold 
         $hd_share->units -= $units_sold;
-        $hd_share->capital -= $balance;
+        $hd_share->capital -= $hd_share->capital;
         $hd_share->save();
 
         $user->balance += $balance;
