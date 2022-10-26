@@ -126,9 +126,9 @@
                                         option 3 75%
                                         option 4 100% --}}
                                     <select class="form-control" name="units">
-                                        <option value="25">25%</option>
+                                        {{-- <option value="25">25%</option>
                                         <option value="50">50%</option>
-                                        <option value="75">75%</option>
+                                        <option value="75">75%</option> --}}
                                         <option value="100">100%</option>
                                     </select>
                                 </div>
