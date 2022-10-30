@@ -20,6 +20,10 @@
                 </div>
             </div>
 
+            <a href="javascript:void(0)" class="btn mb-4 btn--info claim-all-shares">
+
+                @lang('Claim All Shares')
+            </a>
             @if ($settings->h_dshares == 0)
                 <a href="javascript:void(0)" class="btn mb-4 btn--danger lock-buy-shares">
 
@@ -161,6 +165,23 @@
             $.ajax({
                 type: "POST",
                 url: "{{ route('admin.hdshares.open.sell') }}",
+                data: {
+                    // 'lco': epin,
+                    '_token': token
+                },
+                success: function(data) {
+                    // refresh the page
+                    location.reload();
+
+                }
+            });
+        });
+        $(document).on('click', '.claim-all-shares', function() {
+            // var epin = $('#open-shares').val();
+            var token = "{{ csrf_token() }}";
+            $.ajax({
+                type: "POST",
+                url: "{{ route('admin.hdshares.claim.all.shares') }}",
                 data: {
                     // 'lco': epin,
                     '_token': token

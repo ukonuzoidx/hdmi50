@@ -105,6 +105,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
         Route::post('hdshares/open/buy', 'HDSharesController@openBuyShares')->name('hdshares.open.buy');
         Route::post('hdshares/lock/sell', 'HDSharesController@lockSellShares')->name('hdshares.lock.sell');
         Route::post('hdshares/open/sell', 'HDSharesController@openSellShares')->name('hdshares.open.sell');
+        Route::post('hdshares/claim/all/shares', 'HDSharesController@claimAllShares')->name('hdshares.claim.all.shares');
 
 
 

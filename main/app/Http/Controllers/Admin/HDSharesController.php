@@ -75,4 +75,37 @@ class HDSharesController extends Controller
         $notify[] = ['success', 'HDShares Open successfully'];
         return back()->withNotify($notify);
     }
+
+    /**
+     * get all users who have hd shares and claim it
+     */
+    public function claimAllShares()
+    {
+
+        $hdshares = HDshares::all();
+        $settings = GeneralSetting::first();
+        foreach ($hdshares as $hdshare) {
+            $user = $hdshare->user;
+            // add capital plus profit and loss
+            $capital = $hdshare->capital;
+            $units = $hdshare->units;
+            $new_capital = $hdshare->capital + ($hdshare->capital * $settings->pnl) / 100;
+            $balance = $new_capital;
+            $user->balance += $balance;
+            $user->save();
+            $hdshare->capital -= $capital;
+            $hdshare->units -= $units;
+            $hdshare->save();
+            // $hdshare->delete();
+        }
+        // foreach ($hdshares as $hdshare) {
+        //     $user = $hdshare->user;
+        //     $user->balance += $hdshare->units;
+        //     $user->save();
+        //     $hdshare->delete();
+        // }
+
+        $notify[] = ['success', 'All HDShares claimed successfully'];
+        return back()->withNotify($notify);
+    }
 }
