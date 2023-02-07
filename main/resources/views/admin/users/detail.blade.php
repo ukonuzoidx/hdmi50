@@ -93,9 +93,9 @@
                                 @lang('Paid Right User')
                                 <span class="font-weight-bold">{{ $user->userExtra->paid_right }}</span>
                             </li>
-                                <li class="list-group-item rounded-0 d-flex justify-content-between">
-                                    <span>@lang('User ID')</span> {{ $user->user_id }}
-                                </li>
+                            <li class="list-group-item rounded-0 d-flex justify-content-between">
+                                <span>@lang('User ID')</span> {{ $user->user_id }}
+                            </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 @lang('Status')
                                 @switch($user->status)
@@ -129,6 +129,11 @@
                         <a href="{{ route('admin.users.ref', $user->id) }}"
                             class="btn btn--info btn--shadow btn-block btn-lg">
                             @lang('User Referrals')
+                        </a>
+                        {{-- login user --}}
+                        <a href="{{ route('admin.users.login', $user->username) }}"
+                            class="btn btn--warning btn--shadow btn-block btn-lg" target="_blank">
+                            @lang('Login User')
                         </a>
                     </div>
                 </div>
@@ -386,37 +391,41 @@
                             <div class="row">
                                 <div class="form-group col-xl-4 col-md-6  col-sm-3 col-12">
                                     <label class="form-control-label font-weight-bold">@lang('Status') </label>
-                                    <input type="checkbox" data-width="100%" data-onstyle="-success" data-offstyle="-danger"
-                                        data-toggle="toggle" data-on="Active" data-off="Banned" data-width="100%"
-                                        name="status" @if ($user->status) checked @endif>
+                                    <input type="checkbox" data-width="100%" data-onstyle="-success"
+                                        data-offstyle="-danger" data-toggle="toggle" data-on="Active" data-off="Banned"
+                                        data-width="100%" name="status" @if ($user->status) checked @endif>
                                 </div>
 
                                 <div class="form-group  col-xl-4 col-md-6  col-sm-3 col-12">
                                     <label class="form-control-label font-weight-bold">@lang('Email Verification') </label>
-                                    <input type="checkbox" data-width="100%" data-onstyle="-success" data-offstyle="-danger"
-                                        data-toggle="toggle" data-on="Verified" data-off="Unverified" name="ev"
+                                    <input type="checkbox" data-width="100%" data-onstyle="-success"
+                                        data-offstyle="-danger" data-toggle="toggle" data-on="Verified"
+                                        data-off="Unverified" name="ev"
                                         @if ($user->ev) checked @endif>
 
                                 </div>
 
                                 <div class="form-group  col-xl-4 col-md-6  col-sm-3 col-12">
                                     <label class="form-control-label font-weight-bold">@lang('SMS Verification') </label>
-                                    <input type="checkbox" data-width="100%" data-onstyle="-success" data-offstyle="-danger"
-                                        data-toggle="toggle" data-on="Verified" data-off="Unverified" name="sv"
+                                    <input type="checkbox" data-width="100%" data-onstyle="-success"
+                                        data-offstyle="-danger" data-toggle="toggle" data-on="Verified"
+                                        data-off="Unverified" name="sv"
                                         @if ($user->sv) checked @endif>
 
                                 </div>
                                 <div class="form-group  col-md-6  col-sm-3 col-12">
                                     <label class="form-control-label font-weight-bold">@lang('2FA Status') </label>
-                                    <input type="checkbox" data-width="100%" data-onstyle="-success" data-offstyle="-danger"
-                                        data-toggle="toggle" data-on="Active" data-off="Deactive" name="ts"
+                                    <input type="checkbox" data-width="100%" data-onstyle="-success"
+                                        data-offstyle="-danger" data-toggle="toggle" data-on="Active"
+                                        data-off="Deactive" name="ts"
                                         @if ($user->ts) checked @endif>
                                 </div>
 
                                 <div class="form-group  col-md-6  col-sm-3 col-12">
                                     <label class="form-control-label font-weight-bold">@lang('2FA Verification') </label>
-                                    <input type="checkbox" data-width="100%" data-onstyle="-success" data-offstyle="-danger"
-                                        data-toggle="toggle" data-on="Verified" data-off="Unverified" name="tv"
+                                    <input type="checkbox" data-width="100%" data-onstyle="-success"
+                                        data-offstyle="-danger" data-toggle="toggle" data-on="Verified"
+                                        data-off="Unverified" name="tv"
                                         @if ($user->tv) checked @endif>
                                 </div>
                             </div>
@@ -425,7 +434,8 @@
                             <div class="row mt-4">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <button type="submit" class="btn btn--primary btn-block btn-lg">@lang('Save Changes')
+                                        <button type="submit"
+                                            class="btn btn--primary btn-block btn-lg">@lang('Save Changes')
                                         </button>
                                     </div>
                                 </div>

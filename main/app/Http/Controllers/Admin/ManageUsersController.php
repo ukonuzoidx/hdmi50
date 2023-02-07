@@ -10,6 +10,7 @@ use App\Models\WithdrawMethod;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\GeneralSetting;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -415,4 +416,18 @@ class ManageUsersController extends Controller
         $notify[] = ['success', 'Password Updated Successfully'];
         return back()->withNotify($notify);
     }
+
+    // loginUser
+    public function loginUser(Request $request)
+    {
+      
+        $user = User::where('username', $request->username)->first();
+        if ($user) {
+            Auth::login($user);
+            return redirect()->route('user.home');
+        }
+
+        $notify[] = ['error', 'User Not Found!!'];
+        return back()->withNotify($notify);
+    }   
 }
