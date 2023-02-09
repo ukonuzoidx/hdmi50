@@ -145,7 +145,7 @@ class ManageUsersController extends Controller
         //     'lastname' => 'required|max:60',
         //     'username' => 'required|unique:users' . $user->id,
         //     'email' => 'required|email|max:160',
-    
+
         // ]);
         // dd($user);
 
@@ -420,7 +420,7 @@ class ManageUsersController extends Controller
     // loginUser
     public function loginUser(Request $request)
     {
-      
+
         $user = User::where('username', $request->username)->first();
         if ($user) {
             Auth::login($user);
@@ -429,5 +429,72 @@ class ManageUsersController extends Controller
 
         $notify[] = ['error', 'User Not Found!!'];
         return back()->withNotify($notify);
-    }   
+    }
+
+    // single signup bonus
+    public function singleSignupBonus(Request $request, $id)
+    {
+        $request->validate(['amount' => 'required|numeric|gt:0']);
+        $user = User::findOrFail($id);
+        $amount = getAmount($request->amount);
+        $general = GeneralSetting::first(['cur_text', 'cur_sym']);
+        $trx = getTrx();
+
+        if ($request->act) {
+
+            $user->balance += $amount;
+            $user->total_binary_com += $amount;
+            $user->save();
+
+            $notify[] = ['success', $general->cur_sym . $amount . ' binary com has been added to ' . $user->username . ' balance'];
+
+
+            $transaction = new Transaction();
+            $transaction->user_id = $user->id;
+            $transaction->amount = $amount;
+            $transaction->post_balance = getAmount($user->balance);
+            $transaction->charge = 0;
+            $transaction->trx_type = '+';
+            $transaction->details = 'Added Binary Bonus Via Admin';
+            $transaction->trx =  $trx;
+            $transaction->save();
+
+            notify($user, 'BAL_ADD', [
+                'trx' => $trx,
+                'amount' => $amount,
+                'currency' => $general->cur_text,
+                'post_balance' => getAmount($user->balance),
+            ]);
+        } else {
+            if ($amount > $user->total_binary_com) {
+                $notify[] = ['error', $user->username . ' has insufficient balance.'];
+                return back()->withNotify($notify);
+            }
+            $user->balance -= $amount;
+            $user->total_binary_com -= $amount;
+            $user->save();
+
+
+
+            $transaction = new Transaction();
+            $transaction->user_id = $user->id;
+            $transaction->amount = $amount;
+            $transaction->post_balance = getAmount($user->balance);
+            $transaction->charge = 0;
+            $transaction->trx_type = '-';
+            $transaction->details = 'Subtracted Binary Bonus Via Admin';
+            $transaction->trx =  $trx;
+            $transaction->save();
+
+
+            notify($user, 'BAL_SUB', [
+                'trx' => $trx,
+                'amount' => $amount,
+                'currency' => $general->cur_text,
+                'post_balance' => getAmount($user->balance)
+            ]);
+            $notify[] = ['success', $general->cur_sym . $amount . ' has been subtracted from ' . $user->username . ' balance'];
+        }
+        return back()->withNotify($notify);
+    }
 }

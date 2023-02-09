@@ -126,11 +126,16 @@
                             class="btn btn--primary btn--shadow btn-block btn-lg">
                             @lang('User Tree')
                         </a>
+                        {{-- edit user bonus --}}
+                        {{-- <a href="{{ route('admin.users.single.bonus', $user->id) }}" --}}
+                        <a data-toggle="modal" href="#addSubBonusModal"  
+                            class="btn btn--success btn--shadow btn-block btn-lg">
+                            @lang('User Bonus')
+                        </a>
                         <a href="{{ route('admin.users.ref', $user->id) }}"
                             class="btn btn--info btn--shadow btn-block btn-lg">
                             @lang('User Referrals')
                         </a>
-                        {{-- login user --}}
                         <a href="{{ route('admin.users.login', $user->username) }}"
                             class="btn btn--warning btn--shadow btn-block btn-lg" target="_blank">
                             @lang('Login User')
@@ -491,6 +496,49 @@
             </div>
         </div>
     </div>
+    
+    {{-- add sub binary bonus --}}
+    <div id="addSubBonusModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@lang('Add / Subtract Binary Bonus')</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('admin.users.single.bonus', $user->id) }}" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <input type="checkbox" data-width="100%" data-height="44px" data-onstyle="-success"
+                                    data-offstyle="-danger" data-toggle="toggle" data-on="Add Binary Com"
+                                    data-off="Subtract Binary Com" name="act" checked>
+                            </div>
+
+
+                            <div class="form-group col-md-12">
+                                <label>@lang('Amount')<span class="text-danger">*</span></label>
+                                <div class="input-group has_append">
+                                    <input type="text" name="amount" class="form-control"
+                                        placeholder="Please provide positive amount">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">USD</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn--dark" data-dismiss="modal">@lang('Close')</button>
+                        <button type="submit" class="btn btn--success">@lang('Submit')</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @push('scripts')
