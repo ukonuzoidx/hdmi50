@@ -80,7 +80,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
         Route::get('user/detail/{id}', 'ManageUsersController@detail')->name('users.detail');
         Route::get('user/referral/{id}', 'ManageUsersController@userRef')->name('users.ref');
         // edit user signup bonus
-        Route::postp('user/single/signup-bonus/{id}', 'ManageUsersController@singleSignupBonus')->name('users.single.bonus');
+        Route::post('user/single/signup-bonus/{id}', 'ManageUsersController@singleSignupBonus')->name('users.single.bonus');
         Route::get('user/login/{username}', 'ManageUsersController@loginUser')->name('users.login');
         Route::post('user/update/{id}', 'ManageUsersController@update')->name('users.update');
         Route::post('user/add-sub-balance/{id}', 'ManageUsersController@addSubBalance')->name('users.addSubBalance');
