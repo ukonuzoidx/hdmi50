@@ -39,8 +39,8 @@ class GeneralSettingController extends Controller
         $request->merge(['secure_password' => isset($request->secure_password) ? 1 : 0]);
         $request->merge(['registration' => isset($request->registration) ? 1 : 0]);
         $request->merge(['agree_policy' => isset($request->agree_policy) ? 1 : 0]);
-        
-        $general_setting->update($request->only(['sitename', 'cur_text', 'email_from', 'signup_bonus', 'unitspercapital', 'pnl', 'agree_policy', 'cur_sym', 'ev', 'en', 'sv', 'sn', 'force_ssl', 'secure_password', 'registration', 'base_color', 'secondary_color']));
+
+        $general_setting->update($request->only(['sitename', 'cur_text', 'email_from', 'signup_bonus', 'unitspercapital', 'bonus_percent', 'ref_percent', 'pnl', 'agree_policy', 'cur_sym', 'ev', 'en', 'sv', 'sn', 'force_ssl', 'secure_password', 'registration', 'base_color', 'secondary_color']));
         $notify[] = ['success', 'General Setting has been updated.'];
         return back()->withNotify($notify);
     }

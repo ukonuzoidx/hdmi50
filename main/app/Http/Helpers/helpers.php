@@ -272,12 +272,13 @@ function matchingBonus($id, $pv, $refShibaCom)
                 break;
             }
             $user = User::find($posid);
-            $extra = UserExtra::where('user_id', $posid)->where('lpv', '>=', '150')->where('rpv', '>=', '150')->first();
+            $general = GeneralSetting::first();
+            $extra = UserExtra::where('user_id', $posid)->where('lpv', '>=', $general->signup_bonus)->where('rpv', '>=', $general->signup_bonus)->first();
             if ($extra) {
                 $lpv = $extra->lpv;
                 $rpv = $extra->rpv;
                 $weak = $lpv < $rpv ? $lpv : $rpv;
-                $bonus = 0.1 * $pv;
+                $bonus = $general->bonus_percent * $pv;
                 //flush out the bonus
                 $extra->lpv -= $weak;
                 $extra->rpv -= $weak;
@@ -1118,7 +1119,7 @@ function sendSmtpMail($config, $receiver_email, $receiver_name, $subject, $messa
         $mail->Subject = $subject;
         $mail->Body    = $message;
         // $mail->send();
-        
+
         $mail->send();
     } catch (Exception $e) {
         // dd($e);
@@ -1129,7 +1130,8 @@ function sendSmtpMail($config, $receiver_email, $receiver_name, $subject, $messa
 
 
 //moveable
-function osBrowser(){
+function osBrowser()
+{
     $user_agent = $_SERVER['HTTP_USER_AGENT'];
     $os_platform = "Unknown OS Platform";
     $os_array = array(

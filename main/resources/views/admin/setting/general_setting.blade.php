@@ -104,6 +104,23 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group ">
+                                        <label class="form-control-label font-weight-bold">@lang('Binary Percentage')</label>
+                                        <input class="form-control  form-control-lg" type="text" name="bonus_percent"
+                                            value="{{ $general->bonus_percent }}">
+                                        <small>Note 0.1 means 10 %</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label class="form-control-label font-weight-bold">@lang('Referral Commission Percentage')</label>
+                                        <input class="form-control  form-control-lg" type="text" name="ref_percent"
+                                            value="{{ $general->ref_percent }}">
+                                        <small>Note 0.08 means 8 %</small>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group ">
                                         <label class="form-control-label font-weight-bold">@lang('Profit & Loss (PNL)')</label>
                                         <input class="form-control  form-control-lg" type="text" name="pnl"
                                             value="{{ $general->pnl }}">
@@ -120,10 +137,10 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-control-label font-weight-bold">@lang('Terms and Condition')</label>
-                                        <input type="checkbox" data-width="100%" data-size="large" data-onstyle="-success"
-                                            data-offstyle="-danger" data-toggle="toggle" data-on="@lang('Agree')"
-                                            data-off="@lang('Disagree')" name="agree_policy"
-                                            @if ($general->agree_policy) checked @endif>
+                                        <input type="checkbox" data-width="100%" data-size="large"
+                                            data-onstyle="-success" data-offstyle="-danger" data-toggle="toggle"
+                                            data-on="@lang('Agree')" data-off="@lang('Disagree')"
+                                            name="agree_policy" @if ($general->agree_policy) checked @endif>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
