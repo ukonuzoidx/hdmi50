@@ -62,14 +62,28 @@
     "how_it_works": {
         "builder": true,
         "name": "How It's Works",
-        "content": {
-            "heading": "text",
-            "sub_heading": "text"
-        },
         "element": {
             "icon": "icon",
             "title": "text",
             "description": "textarea",
+            "modal": true
+        }
+    },
+
+    "product": {
+        "builder": true,
+        "name": "Our Product",
+        "content": {
+            "heading": "text",
+            "subheading": "text"
+        },
+        "element": {
+            "images": {
+                "image": {
+                    "size": "770x610"
+                }
+            },
+            "title": "text",
             "modal": true
         }
     },

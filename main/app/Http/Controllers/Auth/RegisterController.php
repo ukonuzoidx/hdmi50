@@ -285,7 +285,7 @@ class RegisterController extends Controller
         // calculate the referral commission
         $referralCommision = $signup_fee * $general->ref_percent;
         // $referralCommision = $signup_fee * 0.1334;
-        $refCom = $referralCommision - $general->tax_bonus;
+        $refCom = $referralCommision - ($referralCommision * 0.075);
         $refShibaCom = $assigned_shiba * 0.25;
 
         $shiba = $assigned_shiba * 0.05;
