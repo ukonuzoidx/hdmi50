@@ -82,7 +82,7 @@
                     </div>
                     <div class="numbers">
                         <span class="currency-sign">{{ $general->cur_sym }}</span>
-                        <span class="amount">{{ $available_balance }}</span>
+                        <span class="amount">{{ getAmountWhole($available_balance) }}</span>
                     </div>
 
                 </div>
@@ -101,7 +101,8 @@
                             </div>
                             <div class="numbers">
                                 {{-- <span class="currency-sign">{{ $general->cur_sym }}</span> --}}
-                                <span class="amount">$ {{ auth()->user()->hdShares->pluck('capital')->first() }}</span>
+                                <span class="amount">$
+                                    {{ getAmountWhole(auth()->user()->hdShares->pluck('capital')->first()) }}</span>
                             </div>
 
                         </div>
@@ -125,12 +126,17 @@
                             <div class="numbers">
                                 {{-- <span class="currency-sign">{{ $general->cur_sym }}</span> --}}
                                 <span class="amount">$
-                                    {{ (auth()->user()->hdShares->pluck('capital')->first() *$general->pnl) /100 }}</span>
+                                    {{ getAmountWhole((auth()->user()->hdShares->pluck('capital')->first() *$general->pnl) /100) }}</span>
                             </div>
                         </div>
                     </div>
-                    <a href="{{ route('user.h_dshares') }}"
-                        class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">@lang('Claim')</a>
+                    <form action="{{ route('user.claim.hdshares') }}" method="post">
+                        @csrf
+                        <button type="submit" class="btn btn-sm text--small bg--white text--black box--shadow3 mt-3">
+
+                            @lang('Claim')
+                        </button>
+                    </form>
 
                 </div>
             </div>

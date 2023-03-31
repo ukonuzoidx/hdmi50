@@ -126,14 +126,24 @@ class HDSharesController extends Controller
 
         $units_sold = $hd_share->units * $units;
         // add capital plus profit and loss
-        $capital = $hd_share->capital + ($hd_share->capital * $settings->pnl) / 100;
-        $balance = $capital * $units;
+        // $capital = $hd_share->capital + ($hd_share->capital * $settings->pnl) / 100;
+        // $balance = $capital * $units;
+        // // dd($balance);
+        // $profit = ($user->hdShares->pluck('capital')->first() * $settings->pnl) / 100;
+
         // dd($balance);
 
+        $profit = ($user->hdShares->pluck('capital')->first() * $settings->pnl) / 100;
 
+
+        $capital = $hd_share->capital - $profit;
+        $units_user_sold = $capital * 10;
+        $balance = $profit * $units;
+
+        // dd($profit, $units_sold, $balance, $capital, $units_user_sold);
         // $units_user_sold 
-        $hd_share->units -= $units_sold;
-        $hd_share->capital -= $hd_share->capital;
+        $hd_share->units = $units_user_sold;
+        $hd_share->capital -= $profit;
         $hd_share->save();
 
         $user->balance += $balance;
@@ -144,6 +154,34 @@ class HDSharesController extends Controller
 
 
         $notify[] = ['success', 'HD Shares sold successfully'];
+        return back()->withNotify($notify);
+    }
+
+    public function claimShares()
+    {
+        $general = GeneralSetting::first();
+        $user = Auth::user();
+        $hd_share = HDshares::where('user_id', $user->id)->first();
+        $profit = ($user->hdShares->pluck('capital')->first() * $general->pnl) / 100;
+
+
+
+        $capital = $hd_share->capital - $profit;
+        $units_user_sold = $capital * 10;
+
+        // dd($hd_share);
+        if ($hd_share) {
+            $user->balance += $profit;
+            $user->save();
+            $hd_share->capital -= $profit;
+            $hd_share->units = $units_user_sold;
+            $hd_share->save();
+        } else {
+            $notify[] = ['error', 'You do not have any shares to claim'];
+            return back()->withNotify($notify);
+        }
+
+        $notify[] = ['success', 'HD Shares claimed successfully'];
         return back()->withNotify($notify);
     }
 }

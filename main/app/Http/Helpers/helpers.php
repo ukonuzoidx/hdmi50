@@ -628,6 +628,15 @@ function getAmount($amount, $length = 0)
     return $amount + 0;
 }
 
+// get amount annd rounnd it up to a whole number
+function getAmountWhole($amount, $length = 0)
+{
+    if (0 < $length) {
+        return round($amount + 0, $length);
+    }
+    return ceil($amount + 0);
+}   
+
 function printEmail($email)
 {
     $beforeAt = strstr($email, '@', true);

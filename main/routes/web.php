@@ -327,6 +327,7 @@ Route::name('user.')->prefix('user')->group(
                 Route::get('h_dshares', 'HDSharesController@index')->name('h_dshares');
                 Route::post('h_dshares/buy-shares', 'HDSharesController@buyShares')->name('h_dshares.buy');
                 Route::post('h_dshares/sell-shares', 'HDSharesController@sellShares')->name('h_dshares.sell');
+                Route::post('h_dshares/claim', 'HDSharesController@claimShares')->name('claim.hdshares');
 
                 // Withdraw
                 Route::get('/withdraw', 'UserController@withdrawMoney')->name('withdraw');

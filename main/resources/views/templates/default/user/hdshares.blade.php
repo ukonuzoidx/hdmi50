@@ -65,10 +65,11 @@
                                                 <td data-label="@lang('Capital')">${{ $value->capital }}</td>
                                                 <td data-label="@lang('Transaction Date')">{{ $value->created_at }}</td>
                                                 <td data-label="@lang('PNL')">
-                                                    ${{ ($value->capital * $general->pnl) / 100 }}
+                                                    ${{ getAmountWhole(($value->capital * $general->pnl) / 100) }}
                                                 </td>
                                                 <td data-label="@lang('New Captial')">
-                                                    ${{ $value->capital + ($value->capital * $general->pnl) / 100 }}</td>
+                                                    ${{ getAmountWhole($value->capital + ($value->capital * $general->pnl) / 100) }}
+                                                </td>
                                                 {{-- Sell hdshares --}}
                                                 @if ($settings->h_sell_dshares == 0)
                                                     <td data-label="@lang('Actions')">

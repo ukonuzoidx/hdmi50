@@ -48,10 +48,6 @@ return new class extends Migration
             $table->string('roi_bonus_time')->nullable();
             $table->string('roi_when')->nullable();
             $table->dateTime('roi_when_time')->nullable();
-            // $table->string('matching_bonus_time')->nullable();
-            // $table->string('matching_when')->nullable();
-            // $table->dateTime('last_paid')->nullable();
-            // $table->dateTime('last_cron')->nullable();
             $table->decimal('bal_trans_per_charge', 18, 8)->default(0.000000);
             $table->decimal('bal_trans_fixed_charge', 18, 8)->default(0.000000);
             $table->timestamps();
