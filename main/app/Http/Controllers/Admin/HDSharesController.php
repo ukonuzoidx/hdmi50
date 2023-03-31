@@ -87,14 +87,27 @@ class HDSharesController extends Controller
         foreach ($hdshares as $hdshare) {
             $user = $hdshare->user;
             // add capital plus profit and loss
-            $capital = $hdshare->capital;
-            $units = $hdshare->units;
-            $new_capital = $hdshare->capital + ($hdshare->capital * $settings->pnl) / 100;
-            $balance = $new_capital;
+            // $capital = $hdshare->capital;
+            // $units = $hdshare->units;
+            // $new_capital = $hdshare->capital + ($hdshare->capital * $settings->pnl) / 100;
+            // $balance = $new_capital;
+
+            $profit = ($user->hdShares->pluck('capital')->first() * $settings->pnl) / 100;
+
+
+            $capital = $hdshare->capital - $profit;
+            $units_user_sold = $capital * 10;
+            $balance = $profit;
+
+
+
+
+
+
             $user->balance += $balance;
             $user->save();
-            $hdshare->capital -= $capital;
-            $hdshare->units -= $units;
+            $hdshare->capital -= $profit;
+            $hdshare->units -= $units_user_sold;
             $hdshare->save();
             // $hdshare->delete();
         }
